@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.Identity
 @using EMS.Data.dbo_Models
-@inject SignInManager<DboUser> SignInManager
-@inject UserManager<DboUser> UserManager
+@inject SignInManager<UserDomain> SignInManager
+@inject UserManager<UserDomain> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
