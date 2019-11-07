@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TestGmailAPI;
 
 namespace EMS.WebProject
 {
@@ -74,6 +75,9 @@ namespace EMS.WebProject
 
             // Initial seeding
             AccountSeeder.Init(context, userManager, roleManager).Wait();
+            //GoogleAPI
+            GmailAPIService.GetEmailBody("16e26aabdc04059d");
+            GmailAPIService.GmailSync();
         }
     }
 }
