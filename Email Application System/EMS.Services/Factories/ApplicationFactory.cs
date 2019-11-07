@@ -6,7 +6,7 @@ namespace EMS.Services.Factories
 {
     public class ApplicationFactory : IApplicationFactory
     {
-        public DboApplication CreateApplication(Guid emailId, string egn, string name, string phoneNumber, string userId)
+        public ApplicationDomain CreateApplication(Guid emailId, string egn, string name, string phoneNumber, string userId)
         {
             throw new NotImplementedException();
         }

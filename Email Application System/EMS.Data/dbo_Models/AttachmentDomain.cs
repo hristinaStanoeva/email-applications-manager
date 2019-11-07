@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EMS.Data.dbo_Models
 {
-    public class DboAttachment
+    public class AttachmentDomain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,6 +18,6 @@ namespace EMS.Data.dbo_Models
         [Required]
         public double SizeMb { get; set; }
 
-        public DboEmail Email { get; set; }
+        public EmailDomain Email { get; set; }
     }
 }

@@ -14,17 +14,17 @@ namespace EMS.Services
             throw new NotImplementedException();
         }
 
-        public Task<DtoApplication> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId)
+        public Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<DtoApplication>> FindAllApplicationOfUserAsync(string userId)
+        public Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DtoApplication> FindApplicationAsync(string Id)
+        public Task<ApplicationDto> FindApplicationAsync(string Id)
         {
             throw new NotImplementedException();
         }

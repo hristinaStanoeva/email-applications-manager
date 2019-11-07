@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EMS.Data.dbo_Models
 {
-    public class DboLog
+    public class LogDomain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -26,7 +26,7 @@ namespace EMS.Data.dbo_Models
         [Required]
         public EmailStatus OldStatus { get; set; }
 
-        public DboEmail Email { get; set; }
-        public DboUser User { get; set; }
+        public EmailDomain Email { get; set; }
+        public UserDomain User { get; set; }
     }
 }

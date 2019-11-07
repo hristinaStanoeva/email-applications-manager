@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.Data.Configurations
 {
-    public class LogConfiguration : IEntityTypeConfiguration<DboLog>
+    public class LogConfiguration : IEntityTypeConfiguration<LogDomain>
     {
-        public void Configure(EntityTypeBuilder<DboLog> builder)
+        public void Configure(EntityTypeBuilder<LogDomain> builder)
         {
             builder
                .HasKey(log => log.Id);
@@ -20,6 +20,8 @@ namespace EMS.Data.Configurations
                .HasOne(log => log.Email)
                .WithMany(email => email.Logs)
                .HasForeignKey(log => log.EmailId);
+
+            builder.ToTable("Logs");
         }
     }
 }

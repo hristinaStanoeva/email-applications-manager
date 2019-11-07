@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.Data.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<DboUser>
+    public class UserConfiguration : IEntityTypeConfiguration<UserDomain>
     {
-        public void Configure(EntityTypeBuilder<DboUser> builder)
+        public void Configure(EntityTypeBuilder<UserDomain> builder)
         {
             builder
                .HasKey(user => user.Id);
@@ -18,6 +18,8 @@ namespace EMS.Data.Configurations
             builder
               .HasMany(user => user.Logs)
               .WithOne(log => log.User);
+
+            builder.ToTable("Users");
         }
     }
 }

@@ -5,9 +5,9 @@ namespace EMS.Services.Mappers
 {
     public static class MapperExtensions
     {
-        public static DtoUser MapToDtoModel(this DboUser user)
+        public static UserDto MapToDtoModel(this UserDomain user)
         {
-            return new DtoUser
+            return new UserDto
             {
                 Id = user.Id,
                 Username = user.UserName,

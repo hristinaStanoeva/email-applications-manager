@@ -6,7 +6,7 @@ namespace EMS.Services.Factories
 {
     public class AttachmentFactory : IAttachmentFactory
     {
-        public DboAttachment CreateAttachment(string name, double sizeMb, Guid emailId)
+        public AttachmentDomain CreateAttachment(string name, double sizeMb, Guid emailId)
         {
             throw new NotImplementedException();
         }

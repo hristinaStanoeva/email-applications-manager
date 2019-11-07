@@ -6,7 +6,7 @@ namespace EMS.Services.Factories.Contracts
 {
     public interface IEmailFactory
     {
-        DboEmail CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<DboAttachment> attachments);
-        DboEmail CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string subject, List<DboAttachment> attachments);
+        EmailDomain CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<AttachmentDomain> attachments);
+        EmailDomain CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments);
     }
 }

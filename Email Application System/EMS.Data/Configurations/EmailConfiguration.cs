@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.Data.Configurations
 {
-    public class EmailConfiguration : IEntityTypeConfiguration<DboEmail>
+    public class EmailConfiguration : IEntityTypeConfiguration<EmailDomain>
     {
-        public void Configure(EntityTypeBuilder<DboEmail> builder)
+        public void Configure(EntityTypeBuilder<EmailDomain> builder)
         {
             builder
                 .HasKey(email => email.Id);
@@ -22,6 +22,8 @@ namespace EMS.Data.Configurations
             builder
                 .HasMany(email => email.Logs)
                 .WithOne(log => log.Email);
+
+            builder.ToTable("Emails");
         }
     }
 }

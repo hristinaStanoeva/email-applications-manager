@@ -8,7 +8,7 @@ namespace EMS.Data.Seed
 {
     public static class AccountSeeder
     {
-        public static async Task Init(SystemDataContext context, UserManager<DboUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task Init(SystemDataContext context, UserManager<UserDomain> userManager, RoleManager<IdentityRole> roleManager)
         {
             context.Database.EnsureCreated();
 
@@ -35,11 +35,11 @@ namespace EMS.Data.Seed
             }
         }
 
-        private static async Task SeedManagers(SystemDataContext context, UserManager<DboUser> userManager)
+        private static async Task SeedManagers(SystemDataContext context, UserManager<UserDomain> userManager)
         {
             if (!context.Users.Any(user => user.UserName == Constants.defaultManagerUsername))
             {
-                var newManager = new DboUser
+                var newManager = new UserDomain
                 {
                     UserName = Constants.defaultManagerUsername,
                     Email= Constants.defaultManagerUsername,
@@ -57,11 +57,11 @@ namespace EMS.Data.Seed
             }
         }
 
-        private static async Task SeedOperators(SystemDataContext context, UserManager<DboUser> userManager)
+        private static async Task SeedOperators(SystemDataContext context, UserManager<UserDomain> userManager)
         {
             if (!context.Users.Any(user => user.UserName == Constants.defaultOperator1Username))
             {
-                var newOperator = new DboUser
+                var newOperator = new UserDomain
                 {
                     UserName = Constants.defaultOperator1Username,
                     Email= Constants.defaultOperator1Username,
@@ -80,7 +80,7 @@ namespace EMS.Data.Seed
 
             if (!context.Users.Any(user => user.UserName == Constants.defaultOperator2Username))
             {
-                var newOperator = new DboUser
+                var newOperator = new UserDomain
                 {
                     UserName = Constants.defaultOperator2Username,
                     Email = Constants.defaultOperator2Username,

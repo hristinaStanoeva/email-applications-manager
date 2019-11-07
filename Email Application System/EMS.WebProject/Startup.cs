@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TestGmailAPI;
 
 namespace EMS.WebProject
 {
@@ -36,7 +35,7 @@ namespace EMS.WebProject
                 options.UseSqlServer(this.Configuration.GetConnectionString("LocalConnection")));
 
 
-            services.AddIdentity<DboUser, IdentityRole>(options =>
+            services.AddIdentity<UserDomain, IdentityRole>(options =>
                  options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
@@ -46,7 +45,7 @@ namespace EMS.WebProject
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SystemDataContext context, UserManager<DboUser> userManager, RoleManager<IdentityRole> roleManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SystemDataContext context, UserManager<UserDomain> userManager, RoleManager<IdentityRole> roleManager)
         {
             if (env.IsDevelopment())
             {
@@ -75,8 +74,6 @@ namespace EMS.WebProject
 
             // Initial seeding
             AccountSeeder.Init(context, userManager, roleManager).Wait();
-
-            GmailAPIService.GmailSync();
         }
     }
 }

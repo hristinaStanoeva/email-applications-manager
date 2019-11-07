@@ -28,22 +28,22 @@ namespace EMS.Services
             throw new NotImplementedException();
         }
 
-        public Task<DtoEmail> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<DboAttachment> attachments)
+        public Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<AttachmentDomain> attachments)
         {
             throw new NotImplementedException();
         }
 
-        public Task<DtoEmail> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string subject, List<DboAttachment> attachments)
+        public Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<DtoAttachment>> CreateAttachmentsAsync()
+        public Task<List<AttachmentDto>> CreateAttachmentsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<DtoEmail> FindEmailAsync(string id)
+        public Task<EmailDto> FindEmailAsync(string id)
         {
             throw new NotImplementedException();
         }

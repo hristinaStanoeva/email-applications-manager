@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.Data.Configurations
 {
-    public class ApplicationConfiguration : IEntityTypeConfiguration<DboApplication>
+    public class ApplicationConfiguration : IEntityTypeConfiguration<ApplicationDomain>
     {
-        public void Configure(EntityTypeBuilder<DboApplication> builder)
+        public void Configure(EntityTypeBuilder<ApplicationDomain> builder)
         {
             builder
                 .HasKey(app => app.Id);
@@ -20,7 +20,7 @@ namespace EMS.Data.Configurations
                .WithMany(user => user.Applications)
                .HasForeignKey(app => app.UserId);
 
-           // builder.ToTable("Applications");
+            builder.ToTable("Applications");
         }
     }
 }

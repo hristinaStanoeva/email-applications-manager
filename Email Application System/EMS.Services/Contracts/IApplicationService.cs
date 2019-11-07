@@ -8,9 +8,9 @@ namespace EMS.Services.Contracts
 {
     public interface IApplicationService
     {
-        Task<DtoApplication> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId);
+        Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId);
         Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus);
-        Task<DtoApplication> FindApplicationAsync(string Id);
-        Task<List<DtoApplication>> FindAllApplicationOfUserAsync(string userId);
+        Task<ApplicationDto> FindApplicationAsync(string Id);
+        Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId);
     }
 }

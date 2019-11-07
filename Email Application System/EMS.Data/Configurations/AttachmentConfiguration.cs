@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EMS.Data.Configurations
 {
-    public class AttachmentConfiguration : IEntityTypeConfiguration<DboAttachment>
+    public class AttachmentConfiguration : IEntityTypeConfiguration<AttachmentDomain>
     {
-        public void Configure(EntityTypeBuilder<DboAttachment> builder)
+        public void Configure(EntityTypeBuilder<AttachmentDomain> builder)
         {
             builder
                 .HasKey(att => att.Id);
@@ -15,6 +15,8 @@ namespace EMS.Data.Configurations
                 .HasOne(att => att.Email)
                 .WithMany(email => email.Attachments)
                 .HasForeignKey(att => att.EmailId);
+
+            builder.ToTable("Attachments");
         }
     }
 }

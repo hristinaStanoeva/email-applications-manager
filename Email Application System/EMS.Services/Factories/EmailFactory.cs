@@ -7,12 +7,12 @@ namespace EMS.Services.Factories
 {
     public class EmailFactory : IEmailFactory
     {
-        public DboEmail CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<DboAttachment> attachments)
+        public EmailDomain CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<AttachmentDomain> attachments)
         {
             throw new NotImplementedException();
         }
 
-        public DboEmail CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string subject, List<DboAttachment> attachments)
+        public EmailDomain CreateEmail(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments)
         {
             throw new NotImplementedException();
         }

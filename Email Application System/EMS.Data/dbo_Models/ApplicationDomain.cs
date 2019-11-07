@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EMS.Data.dbo_Models
 {
-    public class DboApplication
+    public class ApplicationDomain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,7 +32,7 @@ namespace EMS.Data.dbo_Models
         [Required]
         public ApplicationStatus Status { get; set; }
 
-        public DboEmail Email { get; set; }
-        public DboUser User { get; set; }
+        public EmailDomain Email { get; set; }
+        public UserDomain User { get; set; }
     }
 }

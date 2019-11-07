@@ -2,7 +2,7 @@
 
 namespace EMS.Services.dto_Models
 {
-    public class DtoUser
+    public class UserDto
     {
         public string Id { get; set; }
         public string Username { get; set; }
