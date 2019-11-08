@@ -12,3 +12,10 @@ Logging (log4net) - https://stackify.com/log4net-guide-dotnet-logging/
                   - https://www.youtube.com/watch?v=2lAdQ_QwNww
 
 
+Git Commands
+1. Create the branch on your local machine and switch in this branch :
+       $ git checkout -b [name_of_your_new_branch]
+2. Push the branch on github :
+       $ git push origin [name_of_your_new_branch]
+
+

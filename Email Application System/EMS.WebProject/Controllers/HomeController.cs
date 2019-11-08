@@ -1,13 +1,22 @@
 ﻿using EMS.WebProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using GmailAPI;
+using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IGmailAPIService _gmailService;
+
+        public HomeController(IGmailAPIService gmailService)
         {
+            _gmailService = gmailService;
+        }
+        public async Task<IActionResult> Index()
+        {
+            await _gmailService.GmailSync();
             return View();
         }
 
