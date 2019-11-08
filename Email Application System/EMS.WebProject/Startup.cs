@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TestGmailAPI;
+using GmailAPI;
 
 namespace EMS.WebProject
 {
@@ -41,6 +41,8 @@ namespace EMS.WebProject
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<IGmailAPIService, GmailAPIService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -76,8 +78,8 @@ namespace EMS.WebProject
             // Initial seeding
             AccountSeeder.Init(context, userManager, roleManager).Wait();
             //GoogleAPI
-            GmailAPIService.GetEmailBody("16e26aabdc04059d");
-            GmailAPIService.GmailSync();
+            // GmailAPIService.GetEmailBody("16e26aabdc04059d");
+            // GmailAPIService.GmailSync();
         }
     }
 }

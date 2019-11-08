@@ -4,11 +4,9 @@ namespace EMS.GmailAPI.Parsers
 {
     internal static class DataParser
     {
-        internal static DateTime ParseDate(string dateAsString)
+        internal static DateTime ParseDate(long internalDate)
         {
-            var trimedDate = dateAsString.Split(" +")[0];
-
-            return DateTime.Parse(trimedDate);
+            return DateTimeOffset.FromUnixTimeMilliseconds(internalDate).DateTime;
         }
 
         internal static string ParseSenderEmail(string senderAsString)
