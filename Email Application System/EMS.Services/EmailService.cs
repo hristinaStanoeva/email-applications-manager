@@ -24,7 +24,6 @@ namespace EMS.Services
         {
             return await _context.Emails.ToListAsync().ConfigureAwait(false);
         }
-
         public Task AddBodyAsync(string emailId, string body)
         {
             throw new NotImplementedException();

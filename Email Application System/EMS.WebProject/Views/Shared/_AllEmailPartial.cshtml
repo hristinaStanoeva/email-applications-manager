@@ -1,0 +1,52 @@
+﻿@model GenericEmailViewModel
+@using EMS.Data.Enums
+@{
+    ViewData["Title"] = "_AllEmailPartial";
+}
+
+
+@if (Model.Status == EmailStatus.Invalid.ToString())
+{
+    <tr class="alert-dark">
+        <td>@Model.Id</td>
+        <td>@Model.DateReceived</td>
+        <td>@Model.SenderEmail</td>
+        <td>@Model.SenderName</td>
+        <td>@Model.Subject</td>
+        <td>@Model.Status</td>
+        <td>@Model.HasAttachments</td>
+        <td><a class="btn btn-info">Preview</a></td>
+        <td>
+            <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-trash fa-lg icon-action"></i></a>
+            @if (User.IsInRole("manager"))
+            {
+                <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true"></i></a>
+            }
+        </td>
+    </tr>
+}
+else
+{
+    <tr>
+        <td>@Model.Id</td>
+        <td>@Model.DateReceived</td>
+        <td>@Model.SenderEmail</td>
+        <td>@Model.SenderName</td>
+        <td>@Model.Subject</td>
+        <td>@Model.Status</td>
+        <td>@Model.HasAttachments</td>
+        <td><a class="btn btn-info">Preview</a></td>
+        <td>
+            <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
+                <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark as Invalid"></i>
+            </a>
+
+            @if (User.IsInRole("manager"))
+            {
+                <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Restore Invalid"></i></a>
+            }
+        </td>
+    </tr>
+}
+
+@*onclick="location.href = '@(Url.Action("ShowFullEmail", "Email"))'"*@

@@ -4,21 +4,57 @@
 }
 
 <ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" href="#">All Emails</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">New Emails</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Open Emails</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Closed Emails</a>
-    </li>
-    @*<li class="nav-item">
-            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>*@
+    @if (Model.ActiveTab == "all")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="Index">All Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="Index">All Emails</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "new")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="NewEmails">New Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="NewEmails">New Emails</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "open")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="OpenEmails">Open Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="OpenEmails">Open Emails</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "closed")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="ClosedEmails">Closed Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="ClosedEmails">Closed Emails</a>
+        </li>
+    }
 </ul>
 
 <table class="table table-hover">
@@ -29,15 +65,52 @@
             <th scope="col">Sender Email</th>
             <th scope="col">Sender Name</th>
             <th scope="col">Subject</th>
-            <th scope="col">Status</th>
-            <th scope="col">Attachments</th>
+
+            @if (Model.ActiveTab == "all")
+            {
+                <th scope="col">Status</th>
+                <th scope="col">Attachments</th>
+                <th scope="col">Preview</th>
+                <th scope="col">Mark Invalid</th>
+            }
+
+            @if (Model.ActiveTab == "new")
+            {
+                <th scope="col">Time Since Status Change</th>
+                <th scope="col">Preview</th>                
+            }
+
+
+
+            @if (User.IsInRole("manager") && Model.ActiveTab == "Closed Emails")
+            {
+                <th scope="col">Closed by: </th>
+            }
+
+
+
 
         </tr>
     </thead>
     <tbody>
         @foreach (var email in Model.AllEmails)
         {
-        <partial name="_EmailPartial" model="email" />
+            if (Model.ActiveTab == "all")
+            {
+                <partial name="_AllEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "new")
+            {
+                <partial name="_NewEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "open")
+            {
+                <partial name="_OpenEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "closed")
+            {
+                <partial name="_ClosedEmailPartial" model="email" />
+            }
         }
     </tbody>
 </table>

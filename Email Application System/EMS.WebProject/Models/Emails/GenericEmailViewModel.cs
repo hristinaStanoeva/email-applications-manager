@@ -18,6 +18,8 @@ namespace EMS.WebProject.Models.Emails
         public string Subject { get; set; }
         public string Status { get; set; }
 
+        public int TimeSinceCurrentStatus { get; set; }
+
         public bool HasAttachments { get; set; }
     }
 }

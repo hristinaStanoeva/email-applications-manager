@@ -1,6 +1,6 @@
 ﻿@model GenericEmailViewModel
 @{
-    ViewData["Title"] = "_EmailPartial";
+    ViewData["Title"] = "_NewEmailPartial";
 }
 
 <tr>
@@ -9,7 +9,7 @@
     <td>@Model.SenderEmail</td>
     <td>@Model.SenderName</td>
     <td>@Model.Subject</td>
-    <td>@Model.Status</td>
-    <td>@Model.HasAttachments</td>
-</tr>
 
+    <td>@Model.TimeSinceCurrentStatus min.</td>   
+    <td><a class="btn btn-info">Preview</a></td>
+</tr>

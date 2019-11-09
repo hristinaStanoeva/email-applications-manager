@@ -11,6 +11,8 @@ namespace EMS.WebProject.Mappers
     {
         public static GenericEmailViewModel MapToViewModel(this EmailDomain email)
         {
+            var statusChangeMinutes = DateTime.UtcNow - email.ToCurrentStatus;
+
             return new GenericEmailViewModel
             {
                 Id = email.Id.ToString(),
@@ -19,7 +21,8 @@ namespace EMS.WebProject.Mappers
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
-                Subject = email.Subject
+                Subject = email.Subject,
+                TimeSinceCurrentStatus = statusChangeMinutes.Value.Minutes
             };
         }
     }

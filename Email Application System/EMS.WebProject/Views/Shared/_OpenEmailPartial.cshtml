@@ -1,0 +1,14 @@
+﻿@model GenericEmailViewModel
+@{
+    ViewData["Title"] = "_NewEmailPartial";
+}
+
+<tr>
+    <td>@Model.Id</td>
+    <td>@Model.DateReceived</td>
+    <td>@Model.SenderEmail</td>
+    <td>@Model.SenderName</td>
+    <td>@Model.Subject</td>
+    <td>@Model.TimeSinceCurrentStatus min.</td>
+</tr>
+
