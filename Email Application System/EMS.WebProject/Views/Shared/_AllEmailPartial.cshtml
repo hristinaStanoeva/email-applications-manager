@@ -15,7 +15,9 @@
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
         <td>@Model.HasAttachments</td>
-        <td><a class="btn btn-info">Preview</a></td>
+        <td>
+            <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
+        </td>
         <td>
             @if (User.IsInRole("manager"))
             {
@@ -35,7 +37,9 @@ else
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
         <td>@Model.HasAttachments</td>
-        <td><a class="btn btn-info">Preview</a></td>
+        <td>
+            <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
+        </td>
         <td>
             @if (Model.Status == EmailStatus.NotReviewed.ToString())
             {

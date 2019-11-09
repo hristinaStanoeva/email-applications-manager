@@ -24,6 +24,7 @@ namespace EMS.WebProject.Mappers
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
+                EmailBody = email.Body,
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email)
             };
         }

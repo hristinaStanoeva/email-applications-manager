@@ -15,6 +15,8 @@ namespace EMS.WebProject.Models.Emails
 
         public string SenderName { get; set; }
 
+        public string EmailBody { get; set; }
+
         public string Subject { get; set; }
         public string Status { get; set; }
 
