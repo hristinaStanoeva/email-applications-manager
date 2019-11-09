@@ -75,5 +75,19 @@ namespace EMS.WebProject.Controllers
 
             return View("Index", vm);
         }
+
+        public async Task<IActionResult> MakeInvalid(string id)
+        {
+            await _emailService.MakeInvalidAsync(id);
+
+            var emailsIndex = await _emailService.GetAllEmailsAsync();
+            var vm = new AllEmailsViewModel
+            {     
+                AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                ActiveTab = "all"
+            };
+
+            return View("Index", vm);
+        }
     }
 }

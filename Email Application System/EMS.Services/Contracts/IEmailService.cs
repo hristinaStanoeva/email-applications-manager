@@ -17,5 +17,6 @@ namespace EMS.Services.Contracts
         Task AddBodyAsync(string emailId, string body);
         Task<List<AttachmentDto>> CreateAttachmentsAsync();
         Task<List<EmailDomain>> GetAllEmailsAsync();
+        Task MakeInvalidAsync(string emailId);
     }
 }
