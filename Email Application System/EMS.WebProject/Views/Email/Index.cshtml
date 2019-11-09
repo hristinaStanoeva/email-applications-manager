@@ -77,19 +77,31 @@
             @if (Model.ActiveTab == "new")
             {
                 <th scope="col">Time Since Status Change</th>
-                <th scope="col">Preview</th>                
+                <th scope="col">Preview</th>
+                <th scope="col">Mark Open</th>
+
             }
 
-
-
-            @if (User.IsInRole("manager") && Model.ActiveTab == "Closed Emails")
+            @if (Model.ActiveTab == "open")
             {
-                <th scope="col">Closed by: </th>
+                <th scope="col">Time Since Status Change</th>
+                <th scope="col">Preview</th>
+                <th scope="col">Mark Closed</th>
+
             }
 
+            @if (Model.ActiveTab == "closed")
+            {
+                <th scope="col">Status</th>
+                <th scope="col">Preview</th>
 
+                @if (User.IsInRole("manager"))
+                {
+                    <th scope="col">Closed By:</th>
+                    <th scope="col">Mark "New"</th>
+                }
 
-
+            }
         </tr>
     </thead>
     <tbody>
@@ -107,9 +119,17 @@
             {
                 <partial name="_OpenEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "closed")
+            @*else if (Model.ActiveTab == "closed")
             {
                 <partial name="_ClosedEmailPartial" model="email" />
+            }*@
+        }
+
+        @if (Model.ActiveTab == "closed")
+        {
+            @foreach (var app in Model.AllApps)
+            {
+                <partial name="_ClosedEmailPartial" model="app" />
             }
         }
     </tbody>

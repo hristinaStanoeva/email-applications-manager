@@ -1,13 +1,21 @@
-﻿@model GenericEmailViewModel
+﻿@model GenericAppViewModel
 @{
     ViewData["Title"] = "_ClosedEmailPartial";
 }
 
-<tr>
-    <td>@Model.Id</td>
-    <td>@Model.DateReceived</td>
-    <td>@Model.SenderEmail</td>
-    <td>@Model.SenderName</td>
-    <td>@Model.Subject</td>
-    <td>@Model.Status</td>
-</tr>
+    <tr>
+        <td>@Model.Id</td>
+        <td>@Model.EmailDateReceived</td>
+        <td>@Model.SenderEmail</td>
+        <td>@Model.SenderName</td>
+        <td>@Model.Subject</td>
+        <td>@Model.Status</td>
+        <td><a class="btn btn-info">Preview</a></td>
+
+        @if (User.IsInRole("manager"))
+        {
+            <td>@Model.ClosedByOperator</td>
+            <td>Mark as new</td>
+        }
+
+    </tr>

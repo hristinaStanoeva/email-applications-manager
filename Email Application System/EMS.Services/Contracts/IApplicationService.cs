@@ -1,4 +1,5 @@
-﻿using EMS.Data.Enums;
+﻿using EMS.Data.dbo_Models;
+using EMS.Data.Enums;
 using EMS.Services.dto_Models;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace EMS.Services.Contracts
         Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus);
         Task<ApplicationDto> FindApplicationAsync(string Id);
         Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId);
+        List<ApplicationDomain> GetAllAppsAsync();
     }
 }

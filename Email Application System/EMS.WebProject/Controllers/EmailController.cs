@@ -6,6 +6,7 @@ using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
+using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +16,18 @@ namespace EMS.WebProject.Controllers
     [Authorize]
     public class EmailController : Controller
     {
-        private readonly IEmailService _emailService;        
+        private readonly IApplicationService _appService;
+        private readonly IEmailService _emailService;
         private static List<GenericEmailViewModel> _allEmails;
 
-        public EmailController(IEmailService emailService)
+        public EmailController(IEmailService emailService, IApplicationService appService)
         {
             _emailService = emailService;
+            _appService = appService;
         }
         public async Task<IActionResult> Index()
         {
-            var emailsIndex = await _emailService.GetAllEmailsAsync();            
+            var emailsIndex = await _emailService.GetAllEmailsAsync();
 
             var vm = new AllEmailsViewModel
             {
@@ -38,7 +41,7 @@ namespace EMS.WebProject.Controllers
         }
 
         public IActionResult NewEmails()
-        {           
+        {
             var vm = new AllEmailsViewModel
             {
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.New.ToString()).ToList(),
@@ -61,8 +64,11 @@ namespace EMS.WebProject.Controllers
 
         public IActionResult ClosedEmails()
         {
+            var apps = _appService.GetAllAppsAsync();
+
             var vm = new AllEmailsViewModel
             {
+                AllApps = apps.Select(x => x.MapToViewModel()).ToList(),
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Closed.ToString()).ToList(),
                 ActiveTab = "closed"
             };

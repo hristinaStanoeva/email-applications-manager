@@ -9,6 +9,18 @@
     <td>@Model.SenderEmail</td>
     <td>@Model.SenderName</td>
     <td>@Model.Subject</td>
-    <td>@Model.TimeSinceCurrentStatus min.</td>
+
+    <td>@Model.TimeSinceCurrentStatus</td>
+    <td><a class="btn btn-info">Preview</a></td>
+    <td>
+        <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
+            <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Closed"></i>
+        </a>
+
+        @if (User.IsInRole("manager"))
+        {
+            <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark New"></i></a>
+        }
+    </td>
 </tr>
 
