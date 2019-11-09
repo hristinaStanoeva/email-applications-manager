@@ -71,7 +71,8 @@
                 <th scope="col">Status</th>
                 <th scope="col">Attachments</th>
                 <th scope="col">Preview</th>
-                <th scope="col">Mark Invalid</th>
+                <th scope="col">Change Status</th>
+
             }
 
             @if (Model.ActiveTab == "new")
@@ -120,9 +121,9 @@
                 <partial name="_OpenEmailPartial" model="email" />
             }
             @*else if (Model.ActiveTab == "closed")
-            {
-                <partial name="_ClosedEmailPartial" model="email" />
-            }*@
+                {
+                    <partial name="_ClosedEmailPartial" model="email" />
+                }*@
         }
 
         @if (Model.ActiveTab == "closed")

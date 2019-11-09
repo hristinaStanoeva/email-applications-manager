@@ -17,14 +17,11 @@
         <td>@Model.HasAttachments</td>
         <td><a class="btn btn-info">Preview</a></td>
         <td>
-            @if (Model.Status == EmailStatus.NotReviewed.ToString())
+            @if (User.IsInRole("manager"))
             {
-                <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-trash fa-lg icon-action"></i></a>
-                @if (User.IsInRole("manager"))
-                {
-                    <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true"></i></a>
-                }
+                <a class="text-info ml-1" asp-controller="Email" asp-action="RestoreInvalid" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Change Status to Not Reviewed"></i></a>
             }
+
         </td>
     </tr>
 }
@@ -45,11 +42,6 @@ else
                 <a class="text-danger ml-1" asp-controller="Email" asp-action="MakeInvalid" asp-route-id="@Model.Id">
                     <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark as Invalid"></i>
                 </a>
-            }
-
-            @if (User.IsInRole("manager"))
-            {
-                <a class="text-info ml-1" asp-controller="Email" asp-action="MakeInvalid" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Restore Invalid"></i></a>
             }
         </td>
     </tr>

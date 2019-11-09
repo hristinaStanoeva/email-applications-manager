@@ -35,6 +35,16 @@ namespace EMS.Services
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        public async Task RestoreInvalidAsync(string emailId)
+        {
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
+                .ConfigureAwait(false);
+            email.Status = EmailStatus.NotReviewed;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         public async Task AddBodyAsync(string emailId, string body)
         {
             throw new NotImplementedException();
