@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using GmailAPI;
+using EMS.Services.Contracts;
+using EMS.Services;
 
 namespace EMS.WebProject
 {
@@ -43,6 +45,9 @@ namespace EMS.WebProject
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IGmailAPIService, GmailAPIService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IApplicationService, ApplicationService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -1,0 +1,44 @@
+﻿@model AllEmailsViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">All Emails</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">New Emails</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Open Emails</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Closed Emails</a>
+    </li>
+    @*<li class="nav-item">
+            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>*@
+</ul>
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Received</th>
+            <th scope="col">Sender Email</th>
+            <th scope="col">Sender Name</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Status</th>
+            <th scope="col">Attachments</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var email in Model.AllEmails)
+        {
+        <partial name="_EmailPartial" model="email" />
+        }
+    </tbody>
+</table>
+

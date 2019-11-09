@@ -16,5 +16,6 @@ namespace EMS.Services.Contracts
         Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments);
         Task AddBodyAsync(string emailId, string body);
         Task<List<AttachmentDto>> CreateAttachmentsAsync();
+        Task<List<EmailDomain>> GetAllEmailsAsync();
     }
 }

@@ -27,12 +27,14 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\EMS.Data\EMS.Data.csproj" />
     <ProjectReference Include="..\EMS.GmailAPI\EMS.GmailAPI.csproj" />
+    <ProjectReference Include="..\EMS.Services\EMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

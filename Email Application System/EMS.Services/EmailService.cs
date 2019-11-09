@@ -3,8 +3,10 @@ using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Services
@@ -16,6 +18,11 @@ namespace EMS.Services
         public EmailService(SystemDataContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<EmailDomain>> GetAllEmailsAsync()
+        {
+            return await _context.Emails.ToListAsync().ConfigureAwait(false);
         }
 
         public Task AddBodyAsync(string emailId, string body)

@@ -16,7 +16,7 @@ namespace EMS.WebProject.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            await _gmailService.GmailSync();
+            //await _gmailService.GmailSync();
             return View();
         }
 
