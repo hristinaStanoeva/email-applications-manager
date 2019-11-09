@@ -24,3 +24,7 @@
         <textarea class="form-control" asp-for="@Model.EmailBody" id="exampleFormControlTextarea1" rows="5"></textarea>
     </div>
 </form>
+
+<a class="btn btn-info" asp-controller="Email" asp-action="MakeOpen" asp-route-id="@Model.Id">Mark Open</a>
+<a class="btn btn-info" asp-controller="Email" asp-action="MakeInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
+

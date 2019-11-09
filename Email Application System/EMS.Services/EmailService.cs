@@ -35,12 +35,33 @@ namespace EMS.Services
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        public async Task MakeOpenAsync(string emailId)
+        {
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
+                .ConfigureAwait(false);
+            email.Status = EmailStatus.Open;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         public async Task RestoreInvalidAsync(string emailId)
         {
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
                 .ConfigureAwait(false);
             email.Status = EmailStatus.NotReviewed;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task MakeNewAsync(string emailId)
+        {
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
+                .ConfigureAwait(false);
+
+            email.Status = EmailStatus.New;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }

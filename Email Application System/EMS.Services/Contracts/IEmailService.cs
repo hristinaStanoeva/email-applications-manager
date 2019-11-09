@@ -19,5 +19,7 @@ namespace EMS.Services.Contracts
         Task<List<EmailDomain>> GetAllEmailsAsync();
         Task MakeInvalidAsync(string emailId);
         Task RestoreInvalidAsync(string emailId);
+        Task MakeNewAsync(string emailId);
+        Task MakeOpenAsync(string emailId);
     }
 }
