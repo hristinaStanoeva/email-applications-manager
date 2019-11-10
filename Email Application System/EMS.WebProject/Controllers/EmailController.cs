@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.WebProject.Controllers
 {
-    [Authorize]
+    [Authorize(Policy ="IsPasswordChanged")]
     public class EmailController : Controller
     {
         private readonly IApplicationService _appService;

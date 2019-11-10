@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using GmailAPI;
 using EMS.Services.Contracts;
 using EMS.Services;
+using EMS.WebProject.IdentityExtension;
 
 namespace EMS.WebProject
 {
@@ -42,7 +43,13 @@ namespace EMS.WebProject
                  options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddClaimsPrincipalFactory<ExtendedUserClaimsPrincipalFactory>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsPasswordChanged", policy => policy.RequireClaim("IsPasswordChanged", "True"));
+            });
 
             services.AddScoped<IGmailAPIService, GmailAPIService>();
             services.AddScoped<IEmailService, EmailService>();
