@@ -1,6 +1,9 @@
 ﻿using EMS.Data;
 using EMS.Data.dbo_Models;
 using EMS.Data.Seed;
+using EMS.Services;
+using EMS.Services.Contracts;
+using GmailAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,10 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GmailAPI;
-using EMS.Services.Contracts;
-using EMS.Services;
-using EMS.WebProject.IdentityExtension;
 
 namespace EMS.WebProject
 {
@@ -38,15 +37,12 @@ namespace EMS.WebProject
             services.AddDbContext<SystemDataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("LocalConnection")));
 
-
             services.AddIdentity<UserDomain, IdentityRole>(options =>
                  options.Stores.MaxLengthForKeys = 128)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
-                .AddDefaultTokenProviders()
-                .AddClaimsPrincipalFactory<ExtendedUserClaimsPrincipalFactory>();
-
+                .AddDefaultTokenProviders();
 
             services.AddAuthorization(options =>
             {

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EMS.Data.dbo_Models;
-using EMS.Data.Enums;
+﻿using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
-using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {

@@ -1,7 +1,9 @@
 ﻿using EMS.Data.dbo_Models;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EMS.Data.Seed
@@ -42,7 +44,7 @@ namespace EMS.Data.Seed
                 var newManager = new UserDomain
                 {
                     UserName = Constants.defaultManagerUsername,
-                    Email= Constants.defaultManagerUsername,
+                    Email = Constants.defaultManagerUsername,
                     CreatedOn = DateTime.Now,
                     IsPasswordChanged = true
                 };
@@ -53,6 +55,11 @@ namespace EMS.Data.Seed
                 {
                     await userManager.AddPasswordAsync(newManager, Constants.defaultPassword);
                     await userManager.AddToRoleAsync(newManager, Constants.roleManager);
+                    await userManager.AddClaimsAsync(newManager, new List<Claim>()
+                    {
+                        new Claim("Role", Constants.roleOperator),
+                        new Claim("IsPasswordChanged", newManager.IsPasswordChanged.ToString())
+                    });
                 }
             }
         }
@@ -64,7 +71,7 @@ namespace EMS.Data.Seed
                 var newOperator = new UserDomain
                 {
                     UserName = Constants.defaultOperator1Username,
-                    Email= Constants.defaultOperator1Username,
+                    Email = Constants.defaultOperator1Username,
                     CreatedOn = DateTime.Now,
                     IsPasswordChanged = false
                 };
@@ -75,6 +82,12 @@ namespace EMS.Data.Seed
                 {
                     await userManager.AddPasswordAsync(newOperator, Constants.defaultPassword);
                     await userManager.AddToRoleAsync(newOperator, Constants.roleOperator);
+                   
+                    await userManager.AddClaimsAsync(newOperator, new List<Claim>()
+                    {
+                        new Claim("Role", Constants.roleOperator),
+                        new Claim("IsPasswordChanged", newOperator.IsPasswordChanged.ToString())
+                    });
                 }
             }
 
@@ -94,6 +107,11 @@ namespace EMS.Data.Seed
                 {
                     await userManager.AddPasswordAsync(newOperator, Constants.defaultPassword);
                     await userManager.AddToRoleAsync(newOperator, Constants.roleOperator);
+                    await userManager.AddClaimsAsync(newOperator, new List<Claim>()
+                    {
+                        new Claim("Role", Constants.roleOperator),
+                        new Claim("IsPasswordChanged", newOperator.IsPasswordChanged.ToString())
+                    });
                 }
             }
         }
