@@ -41,10 +41,12 @@ namespace EMS.WebProject
 
             services.AddIdentity<UserDomain, IdentityRole>(options =>
                  options.Stores.MaxLengthForKeys = 128)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddClaimsPrincipalFactory<ExtendedUserClaimsPrincipalFactory>();
+
 
             services.AddAuthorization(options =>
             {
