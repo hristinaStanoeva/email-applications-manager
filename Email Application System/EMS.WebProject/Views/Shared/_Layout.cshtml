@@ -46,7 +46,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
                                 </li>
                             }
-                            if (this.User.IsInRole("Manager"))
+                            if (User.IsInRole("manager"))
                             {
                                 <li class="nav-item dropdown text-dark">
                                     <a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Create account</a>
