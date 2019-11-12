@@ -31,7 +31,7 @@ namespace GmailAPI
         }
 
 
-        public async Task GetEmailBody(string emailId)
+        public async Task<string> GetEmailBody(string emailId)
         {
             // Create Gmail API service.
             var service = await CreateGmailService();
@@ -53,7 +53,7 @@ namespace GmailAPI
                 //bodyHtmlTextEncrypted = email.Parts[0].Parts.FirstOrDefault(part => part.MimeType == "text/html").Body.Data;
             }
 
-            var plaintext = Decrypt(bodyPlainTextEncrypted);
+            return Decrypt(bodyPlainTextEncrypted);
         }
 
         public async Task GmailSync()

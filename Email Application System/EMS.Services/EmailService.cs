@@ -55,6 +55,15 @@ namespace EMS.Services
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        public async Task<string> GetGmailId(string id)
+        {
+            var mail = await _context.Emails
+                .FirstOrDefaultAsync(email => email.Id.ToString() == id)
+                .ConfigureAwait(false);
+
+            return mail.GmailMessageId;
+        }
+
         public async Task MakeNewAsync(string emailId)
         {
             var email = await _context.Emails

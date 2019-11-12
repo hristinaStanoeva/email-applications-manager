@@ -21,5 +21,6 @@ namespace EMS.Services.Contracts
         Task RestoreInvalidAsync(string emailId);
         Task MakeNewAsync(string emailId);
         Task MakeOpenAsync(string emailId);
+        Task<string> GetGmailId(string id);
     }
 }

@@ -8,6 +8,7 @@ using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
+using GmailAPI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +17,17 @@ namespace EMS.WebProject.Controllers
     [Authorize]
     public class EmailController : Controller
     {
+        private readonly IGmailAPIService _gmailService;
         private readonly IApplicationService _appService;
         private readonly IEmailService _emailService;
         private static List<GenericEmailViewModel> _allEmails;
 
-        public EmailController(IEmailService emailService, IApplicationService appService)
+
+        public EmailController(IEmailService emailService, IApplicationService appService, IGmailAPIService gmailService)
         {
             _emailService = emailService;
             _appService = appService;
+            _gmailService = gmailService;
         }
         public async Task<IActionResult> Index()
         {
@@ -39,6 +43,8 @@ namespace EMS.WebProject.Controllers
 
             return View("Index", vm);
         }
+
+
 
         public IActionResult NewEmails()
         {
@@ -121,6 +127,9 @@ namespace EMS.WebProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Preview(string id)
         {
+            var mailId = await _emailService.GetGmailId(id);
+            var body = await _gmailService.GetEmailBody(mailId);
+
             await _emailService.MakeNewAsync(id);
 
             var email = _allEmails.FirstOrDefault(x => x.Id.ToString() == id);
@@ -129,7 +138,7 @@ namespace EMS.WebProject.Controllers
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Subject = email.Subject,
-                EmailBody = email.EmailBody                
+                EmailBody = body              
             };
 
             return View(vm);

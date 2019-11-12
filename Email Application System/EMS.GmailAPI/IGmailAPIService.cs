@@ -4,7 +4,7 @@ namespace GmailAPI
 {
     public interface IGmailAPIService
     {
-        Task GetEmailBody(string emailId);
+        Task<string> GetEmailBody(string emailId);
         Task GmailSync();
     }
 }
