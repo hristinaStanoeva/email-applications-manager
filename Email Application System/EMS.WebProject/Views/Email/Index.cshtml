@@ -20,39 +20,39 @@
     @if (Model.ActiveTab == "new")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="NewEmails">New Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="NewEmails">New Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
         </li>
     }
 
     @if (Model.ActiveTab == "open")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="OpenEmails">Open Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="OpenEmails">Open Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
         </li>
     }
 
     @if (Model.ActiveTab == "closed")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="ClosedEmails">Closed Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="ClosedEmails">Closed Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
         </li>
     }
 </ul>

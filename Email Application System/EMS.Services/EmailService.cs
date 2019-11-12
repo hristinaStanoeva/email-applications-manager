@@ -25,7 +25,7 @@ namespace EMS.Services
             return await _context.Emails.ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task MakeInvalidAsync(string emailId)
+        public async Task MarkInvalidAsync(string emailId)
         {
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
@@ -34,23 +34,35 @@ namespace EMS.Services
             email.Status = EmailStatus.Invalid;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
+        }       
 
-        public async Task MakeOpenAsync(string emailId)
+        public async Task MarkNewAsync(string emailId)
         {
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
                 .ConfigureAwait(false);
+
+            email.Status = EmailStatus.New;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+        public async Task MarkOpenAsync(string emailId)
+        {
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
+                .ConfigureAwait(false);
+
             email.Status = EmailStatus.Open;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public async Task RestoreInvalidAsync(string emailId)
+        public async Task MakeNotReviewedAsync(string emailId)
         {
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
                 .ConfigureAwait(false);
+
             email.Status = EmailStatus.NotReviewed;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
@@ -65,16 +77,6 @@ namespace EMS.Services
             return mail.GmailMessageId;
         }
 
-        public async Task MakeNewAsync(string emailId)
-        {
-            var email = await _context.Emails
-                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
-                .ConfigureAwait(false);
-
-            email.Status = EmailStatus.New;
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
 
         public async Task AddBodyAsync(string emailId, string body)
         {

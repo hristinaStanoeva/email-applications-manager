@@ -45,9 +45,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-
-
-        public IActionResult NewEmails()
+        public IActionResult GetNewEmails()
         {
             var vm = new AllEmailsViewModel
             {
@@ -58,7 +56,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult OpenEmails()
+        public IActionResult GetOpenEmails()
         {
             var vm = new AllEmailsViewModel
             {
@@ -69,7 +67,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult ClosedEmails()
+        public IActionResult GetClosedEmails()
         {
             var apps = _appService.GetAllAppsAsync();
 
@@ -85,7 +83,7 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> MarkInvalid(string id)
         {
-            await _emailService.MakeInvalidAsync(id);
+            await _emailService.MarkInvalidAsync(id);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
@@ -97,9 +95,33 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
+        public async Task<IActionResult> MarkNew(string id)
+        {
+            await _emailService.MarkNewAsync(id);
+
+            var mailId = await _emailService.GetGmailId(id);
+            var body = await _gmailService.GetEmailBody(mailId);
+
+            var emailsIndex = await _emailService.GetAllEmailsAsync();
+            var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
+            var vm = new GenericEmailViewModel
+            {
+                Id = email.Id.ToString(),
+                SenderEmail = email.SenderEmail,
+                SenderName = email.SenderName,
+                Subject = email.Subject,
+                Status = email.Status.ToString(),
+                EmailBody = body
+                //AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                //ActiveTab = "all"
+            };
+
+            return View("Open", vm);
+        }
+
         public async Task<IActionResult> MarkOpen(string id)
         {
-            await _emailService.MakeOpenAsync(id);
+            await _emailService.MarkOpenAsync(id);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
@@ -113,7 +135,7 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> MarkNotReviewed(string id)
         {
-            await _emailService.RestoreInvalidAsync(id);
+            await _emailService.MakeNotReviewedAsync(id);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel

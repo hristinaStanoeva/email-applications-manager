@@ -1,29 +1,6 @@
 ﻿@model GenericEmailViewModel
-@{
-    ViewData["Title"] = "Preview";
-}
 
-<form>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Email address</label>
-        <input type="email" asp-for="@Model.SenderEmail" class="form-control" id="senderEmail" placeholder="name@example.com">
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Sender Name</label>
-        <input type="email" asp-for="@Model.SenderName" class="form-control" id="senderEmail" placeholder="name@example.com">
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Subject</label>
-        <input type="email" asp-for="@Model.Subject" class="form-control" id="senderEmail">
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Email Body</label>
-        <textarea class="form-control" asp-for="@Model.EmailBody" id="exampleFormControlTextarea1" rows="5"></textarea>
-    </div>
-</form>
+<partial name="_EmailDataPartial" />
 
 @if (User.IsInRole("manager"))
 {
@@ -42,7 +19,7 @@ else if (User.IsInRole("operator"))
 {
     if (Model.Status == EmailStatus.NotReviewed.ToString())
     {
-        <a class="btn btn-info" asp-controller="Email" asp-action="MarkOpen" asp-route-id="@Model.Id">Mark New</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Mark New</a>
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
         <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
     }
