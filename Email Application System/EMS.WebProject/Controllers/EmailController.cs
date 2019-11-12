@@ -20,6 +20,7 @@ namespace EMS.WebProject.Controllers
         private readonly IGmailAPIService _gmailService;
         private readonly IApplicationService _appService;
         private readonly IEmailService _emailService;
+
         private static List<GenericEmailViewModel> _allEmails;
 
 
@@ -82,7 +83,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public async Task<IActionResult> MakeInvalid(string id)
+        public async Task<IActionResult> MarkInvalid(string id)
         {
             await _emailService.MakeInvalidAsync(id);
 
@@ -96,7 +97,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public async Task<IActionResult> MakeOpen(string id)
+        public async Task<IActionResult> MarkOpen(string id)
         {
             await _emailService.MakeOpenAsync(id);
 
@@ -110,7 +111,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public async Task<IActionResult> RestoreInvalid(string id)
+        public async Task<IActionResult> MarkNotReviewed(string id)
         {
             await _emailService.RestoreInvalidAsync(id);
 
@@ -130,14 +131,15 @@ namespace EMS.WebProject.Controllers
             var mailId = await _emailService.GetGmailId(id);
             var body = await _gmailService.GetEmailBody(mailId);
 
-            await _emailService.MakeNewAsync(id);
-
-            var email = _allEmails.FirstOrDefault(x => x.Id.ToString() == id);
+            var emailsIndex = await _emailService.GetAllEmailsAsync();
+            var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
             var vm = new GenericEmailViewModel
             {
+                Id = email.Id.ToString(),
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Subject = email.Subject,
+                Status = email.Status.ToString(),
                 EmailBody = body              
             };
 

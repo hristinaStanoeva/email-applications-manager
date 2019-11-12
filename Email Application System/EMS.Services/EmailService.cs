@@ -30,6 +30,7 @@ namespace EMS.Services
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
                 .ConfigureAwait(false);
+
             email.Status = EmailStatus.Invalid;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);

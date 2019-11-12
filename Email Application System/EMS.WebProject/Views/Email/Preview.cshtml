@@ -25,6 +25,32 @@
     </div>
 </form>
 
-<a class="btn btn-info" asp-controller="Email" asp-action="MakeOpen" asp-route-id="@Model.Id">Mark Open</a>
-<a class="btn btn-info" asp-controller="Email" asp-action="MakeInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
+@if (User.IsInRole("manager"))
+{
+    if (Model.Status == EmailStatus.NotReviewed.ToString())
+    {
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+    }
+    else if (Model.Status == EmailStatus.Invalid.ToString())
+    {
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Mark Not Reviewed</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+    }
+}
+else if (User.IsInRole("operator"))
+{
+    if (Model.Status == EmailStatus.NotReviewed.ToString())
+    {
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkOpen" asp-route-id="@Model.Id">Mark New</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+    }
+    else if (Model.Status == EmailStatus.Invalid.ToString())
+    {
+        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+    }
+}
+
+
 

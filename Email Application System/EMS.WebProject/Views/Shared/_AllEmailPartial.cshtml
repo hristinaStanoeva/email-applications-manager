@@ -21,7 +21,7 @@
         <td>
             @if (User.IsInRole("manager"))
             {
-                <a class="text-info ml-1" asp-controller="Email" asp-action="RestoreInvalid" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Change Status to Not Reviewed"></i></a>
+                <a class="text-info ml-1" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Change Status to Not Reviewed"></i></a>
             }
 
         </td>
@@ -43,8 +43,8 @@ else
         <td>
             @if (Model.Status == EmailStatus.NotReviewed.ToString())
             {
-                <a class="text-danger ml-1" asp-controller="Email" asp-action="MakeInvalid" asp-route-id="@Model.Id">
-                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark as Invalid"></i>
+                <a class="text-danger ml-1" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">
+                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Invalid"></i>
                 </a>
             }
         </td>
