@@ -5,6 +5,9 @@ using EMS.Services.dto_Models;
 using EMS.Services.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EMS.Services
@@ -25,9 +28,36 @@ namespace EMS.Services
             throw new NotImplementedException();
         }
 
-        public Task<UserDto> CreateAsync(string username, string password)
+        public async Task CreateAsync(string username, string password, string role)
         {
-            throw new NotImplementedException();
+            if (_context.Users.Any(user => user.UserName == username))
+            {
+                // To implement properly
+                throw new ArgumentException("This user already exists");
+            }
+            else
+            {
+                var newUser = new UserDomain
+                {
+                    UserName = username,
+                    Email = username,
+                    CreatedOn = DateTime.UtcNow,
+                    IsPasswordChanged = false
+                };
+
+                var result = await _userManager.CreateAsync(newUser);
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddPasswordAsync(newUser, password);
+                    await _userManager.AddToRoleAsync(newUser, role);
+                    await _userManager.AddClaimsAsync(newUser, new List<Claim>()
+                    {
+                        new Claim("Role", role),
+                        new Claim("IsPasswordChanged", newUser.IsPasswordChanged.ToString())
+                    });
+                }
+            }
         }
 
         public async Task<UserDto> FindUserAsync(string username)

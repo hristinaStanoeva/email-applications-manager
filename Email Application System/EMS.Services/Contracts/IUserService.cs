@@ -6,7 +6,7 @@ namespace EMS.Services.Contracts
     public interface IUserService
     {
         Task<UserDto> FindUserAsync(string usermane);
-        Task<UserDto> CreateAsync(string username, string password);
+        Task CreateAsync(string username, string password, string role);
         Task ChangePasswordAsync(UserDto user, string newPassword);
     }
 }
