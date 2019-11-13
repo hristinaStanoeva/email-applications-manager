@@ -57,7 +57,7 @@ namespace EMS.Data.Seed
                     await userManager.AddToRoleAsync(newManager, Constants.roleManager);
                     await userManager.AddClaimsAsync(newManager, new List<Claim>()
                     {
-                        new Claim("Role", Constants.roleOperator),
+                        new Claim("Role", Constants.roleManager),
                         new Claim("IsPasswordChanged", newManager.IsPasswordChanged.ToString())
                     });
                 }
