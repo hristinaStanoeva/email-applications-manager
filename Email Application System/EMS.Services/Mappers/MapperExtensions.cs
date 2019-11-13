@@ -21,7 +21,6 @@ namespace EMS.Services.Mappers
         {
             return new EmailDto
             {
-
                 Id = email.Id,
                 Received = email.Received,
                 NumberOfAttachments = email.NumberOfAttachments,

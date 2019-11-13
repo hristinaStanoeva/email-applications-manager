@@ -1,40 +1,45 @@
 ﻿@model PreviewViewModel
 
-<form>
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Email address</label>
-        <input type="email" asp-for="@Model.SenderEmail" class="form-control" id="senderEmail" placeholder="name@example.com">
-    </div>
+    <form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1"><b>Sender Name:</b></label>
+            <p>@Model.GenericViewModel.SenderName</p>
+        </div>
 
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Sender Name</label>
-        <input type="email" asp-for="@Model.SenderName" class="form-control" id="senderEmail" placeholder="name@example.com">
-    </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1"><b>Sender Email:</b></label>
+            <p>@Model.GenericViewModel.SenderEmail</p>
+        </div>
 
-    <div class="form-group">
-        <label for="exampleFormControlInput1">Subject</label>
-        <input type="email" asp-for="@Model.Subject" class="form-control" id="senderEmail">
-    </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1"><b>Subject:</b></label>
+            <p>@Model.GenericViewModel.Subject</p>
+        </div>
 
-    <div>
-        @if (Model.Attachments.Count == 0)
-        {
-            <p>No attachments</p>
-        }
-        else
-        {
-            <label>Attachments</label>
-            foreach (var att in Model.Attachments)
+        <div>
+            @if (Model.Attachments.Count == 0)
             {
-                <p>@att.Name - @att.Size MB</p>
+                <p><b>No attachments</b></p>
             }
-        }
+            else
+            {
+                <label><b>Attachments:</b></label>
+                foreach (var att in Model.Attachments)
+                {
+                    <p>@att.Name - @att.Size MB</p>
+                }
+            }
 
-    </div>
+        </div>
 
-    <div class="form-group">
-        <label for="exampleFormControlTextarea1">Email Body</label>
-        <textarea class="form-control" asp-for="@Model.EmailBody" id="exampleFormControlTextarea1" rows="5"></textarea>
-    </div>
-</form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1"><b>Email Body:</b></label>
+            <p>@Model.EmailBody</p>
+        </div>
+
+        @*<div class="form-group">
+            <label for="exampleFormControlTextarea1">Email Body</label>
+            <textarea class="form-control" asp-for="@Model.EmailBody" id="exampleFormControlTextarea1" rows="5"></textarea>
+        </div>*@
+    </form>
 

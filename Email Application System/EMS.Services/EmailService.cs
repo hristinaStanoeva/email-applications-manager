@@ -34,6 +34,15 @@ namespace EMS.Services
             return emailsDto;
         }
 
+        public async Task<EmailDto> GetSingleMail(string mailId)
+        {
+            var emailDomain = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == mailId)
+                .ConfigureAwait(false);
+
+            return emailDomain.MapToDtoModel();
+        }
+
         public async Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId)
         {
             var attachmentsDomain = await _context.Attachments

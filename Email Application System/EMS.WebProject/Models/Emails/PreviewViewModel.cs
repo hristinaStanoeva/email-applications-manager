@@ -20,6 +20,8 @@ namespace EMS.WebProject.Models.Emails
         public string Subject { get; set; }
         public string Status { get; set; }
 
+        public GenericEmailViewModel GenericViewModel { get; set; }
+
         public List<AttachmentViewModel> Attachments { get; set; }
     }
 }

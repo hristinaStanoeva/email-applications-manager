@@ -23,5 +23,6 @@ namespace EMS.Services.Contracts
         Task MarkOpenAsync(string emailId);
         Task<string> GetGmailId(string id);
         Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId);
+        Task<EmailDto> GetSingleMail(string mailId);
     }
 }

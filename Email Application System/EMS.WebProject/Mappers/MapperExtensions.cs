@@ -12,10 +12,37 @@ using System.Threading.Tasks;
 namespace EMS.WebProject.Mappers
 {
     public static class MapperExtensions
-    {       
+    {
+        public static PreviewViewModel MapToViewModelPreview(this EmailDto email, string body, List<AttachmentViewModel> attachmentsVM)
+        {
+            return new PreviewViewModel
+            {
+                Id = email.Id.ToString(),
+                SenderEmail = email.SenderEmail,
+                SenderName = email.SenderName,
+                Subject = email.Subject,
+                Status = email.Status.ToString(),
+                EmailBody = body,
+                Attachments = attachmentsVM                
+            };
+        }
+
+        public static PreviewViewModel MapToViewModelPreview(this EmailDto email)
+        {
+            return new PreviewViewModel
+            {
+                Id = email.Id.ToString(),
+                SenderEmail = email.SenderEmail,
+                SenderName = email.SenderName,
+                Subject = email.Subject,
+                Status = email.Status.ToString(),
+                EmailBody = email.Body,
+                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm")
+            };
+        }
 
         public static GenericEmailViewModel MapToViewModel(this EmailDto email)
-        {            
+        {
             return new GenericEmailViewModel
             {
                 Id = email.Id.ToString(),
@@ -25,12 +52,12 @@ namespace EMS.WebProject.Mappers
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
-                EmailBody = email.Body,               
+                EmailBody = email.Body,
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email)
             };
         }
 
-       public static GenericAppViewModel MapToViewModel(this ApplicationDomain app)
+        public static GenericAppViewModel MapToViewModel(this ApplicationDomain app)
         {
             return new GenericAppViewModel
             {
