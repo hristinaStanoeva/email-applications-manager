@@ -111,7 +111,8 @@ namespace EMS.WebProject.Controllers
                 SenderName = email.SenderName,
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
-                EmailBody = body
+                EmailBody = body,
+                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm")
                 //AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
                 //ActiveTab = "all"
             };
@@ -155,17 +156,31 @@ namespace EMS.WebProject.Controllers
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
-            var vm = new GenericEmailViewModel
+
+            var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
+
+            var attachmentsVM = new List<AttachmentViewModel>();
+
+            if (attachmentsDto != null)
+            {
+                foreach (var att in attachmentsDto)
+                {
+                    attachmentsVM.Add(att.MapToViewModel());
+                }
+            }
+
+            var vm = new PreviewViewModel
             {
                 Id = email.Id.ToString(),
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
-                EmailBody = body              
+                EmailBody = body,
+                Attachments = attachmentsVM
             };
 
             return View(vm);
-        }        
+        }
     }
 }

@@ -16,11 +16,12 @@ namespace EMS.Services.Contracts
         Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments);
         Task AddBodyAsync(string emailId, string body);
         Task<List<AttachmentDto>> CreateAttachmentsAsync();
-        Task<List<EmailDomain>> GetAllEmailsAsync();
+        Task<List<EmailDto>> GetAllEmailsAsync();
         Task MarkInvalidAsync(string emailId);
         Task MakeNotReviewedAsync(string emailId);
         Task MarkNewAsync(string emailId);
         Task MarkOpenAsync(string emailId);
-        Task<string> GetGmailId(string id);               
+        Task<string> GetGmailId(string id);
+        Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId);
     }
 }

@@ -16,5 +16,31 @@ namespace EMS.Services.Mappers
                 IsPasswordChanged = user.IsPasswordChanged
             };
         }
+
+        public static EmailDto MapToDtoModel(this EmailDomain email)
+        {
+            return new EmailDto
+            {
+
+                Id = email.Id,
+                Received = email.Received,
+                NumberOfAttachments = email.NumberOfAttachments,
+                SenderEmail = email.SenderEmail,
+                SenderName = email.SenderName,
+                Status = email.Status,
+                Subject = email.Subject,
+                Body = email.Body,
+                ToCurrentStatus = email.ToCurrentStatus
+            };
+        }
+
+        public static AttachmentDto MapToDtoModel(this AttachmentDomain att)
+        {
+            return new AttachmentDto
+            {
+                Name = att.Name,
+                SizeMb = att.SizeMb
+            };
+        }
     }
 }

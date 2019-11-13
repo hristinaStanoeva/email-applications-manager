@@ -3,6 +3,7 @@ using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
+using EMS.Services.Mappers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,35 @@ namespace EMS.Services
             _context = context;
         }
 
-        public async Task<List<EmailDomain>> GetAllEmailsAsync()
+        public async Task<List<EmailDto>> GetAllEmailsAsync()
         {
-            return await _context.Emails.ToListAsync().ConfigureAwait(false);
+            var emailsDomain = await _context.Emails.ToListAsync().ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }
+
+        public async Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId)
+        {
+            var attachmentsDomain = await _context.Attachments
+                .Where(att => att.EmailId.ToString() == emailId)
+                .ToListAsync().ConfigureAwait(false);
+
+            if (attachmentsDomain.Count == 0)
+                return null;
+
+            var attachmentsDto = new List<AttachmentDto>();
+            foreach (var att in attachmentsDomain)
+            {
+                attachmentsDto.Add(att.MapToDtoModel());
+            }
+
+            return attachmentsDto;
         }
 
         public async Task MarkInvalidAsync(string emailId)

@@ -18,12 +18,12 @@ namespace EMS.Services
         public ApplicationService(SystemDataContext context)
         {
             _context = context;
-        }
+        }       
+
         public List<ApplicationDomain> GetAllAppsAsync()
         {
             return _context.Applications.ToList();
         }
-
         public Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
         {
             throw new NotImplementedException();
