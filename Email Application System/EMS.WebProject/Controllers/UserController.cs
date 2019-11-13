@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EMS.Data.dbo_Models;
+﻿using EMS.Data.dbo_Models;
 using EMS.Services.Contracts;
 using EMS.WebProject.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
-    public class RegisterController : Controller
+    public class UserController : Controller
     {
         private readonly SignInManager<UserDomain> _signInManager;
         private readonly IUserService _userService;
@@ -19,7 +17,7 @@ namespace EMS.WebProject.Controllers
         //private readonly ILogger<RegisterModel> _logger;
         //private readonly IEmailSender _emailSender;
 
-        public RegisterController(UserManager<UserDomain> userManager, SignInManager<UserDomain> signInManager, IUserService userService)
+        public UserController(UserManager<UserDomain> userManager, SignInManager<UserDomain> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -47,7 +45,7 @@ namespace EMS.WebProject.Controllers
         public RegisterUserViewModel Input { get; set; }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterUserViewModel viewModel)
+        public async Task<IActionResult> RegisterUser(RegisterUserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
