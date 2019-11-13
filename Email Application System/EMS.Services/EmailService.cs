@@ -42,7 +42,14 @@ namespace EMS.Services
 
             return emailDomain.MapToDtoModel();
         }
+        public async Task<string> GetGmailId(string id)
+        {
+            var mail = await _context.Emails
+                .FirstOrDefaultAsync(email => email.Id.ToString() == id)
+                .ConfigureAwait(false);
 
+            return mail.GmailMessageId;
+        }
         public async Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId)
         {
             var attachmentsDomain = await _context.Attachments
@@ -59,59 +66,9 @@ namespace EMS.Services
             }
 
             return attachmentsDto;
-        }
+        }        
 
-        public async Task MarkInvalidAsync(string emailId)
-        {
-            var email = await _context.Emails
-                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
-                .ConfigureAwait(false);
-
-            email.Status = EmailStatus.Invalid;
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }       
-
-        public async Task MarkNewAsync(string emailId)
-        {
-            var email = await _context.Emails
-                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
-                .ConfigureAwait(false);
-
-            email.Status = EmailStatus.New;
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
-        public async Task MarkOpenAsync(string emailId)
-        {
-            var email = await _context.Emails
-                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
-                .ConfigureAwait(false);
-
-            email.Status = EmailStatus.Open;
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task MakeNotReviewedAsync(string emailId)
-        {
-            var email = await _context.Emails
-                .FirstOrDefaultAsync(mail => mail.Id.ToString() == emailId)
-                .ConfigureAwait(false);
-
-            email.Status = EmailStatus.NotReviewed;
-
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task<string> GetGmailId(string id)
-        {
-            var mail = await _context.Emails
-                .FirstOrDefaultAsync(email => email.Id.ToString() == id)
-                .ConfigureAwait(false);
-
-            return mail.GmailMessageId;
-        }
+       
 
 
         public async Task AddBodyAsync(string emailId, string body)
@@ -119,9 +76,15 @@ namespace EMS.Services
             throw new NotImplementedException();
         }
 
-        public Task ChangeStatusAsync(string id, EmailStatus newStatus)
+        public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
-            throw new NotImplementedException();
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id.ToString() == id)
+                .ConfigureAwait(false);
+
+            email.Status = newStatus;
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<AttachmentDomain> attachments)

@@ -83,7 +83,7 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> MarkInvalid(string id)
         {
-            await _emailService.MarkInvalidAsync(id);
+            await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
@@ -97,7 +97,7 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> MarkNew(string id)
         {
-            await _emailService.MarkNewAsync(id);
+            await _emailService.ChangeStatusAsync(id, EmailStatus.New);
 
             var mailId = await _emailService.GetGmailId(id);
             var body = await _gmailService.GetEmailBody(mailId);
@@ -117,27 +117,28 @@ namespace EMS.WebProject.Controllers
 
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
             vm.GenericViewModel = email.MapToViewModel();
+            vm.InputViewModel.EmailId = id;
 
             return View("Open", vm);
         }
 
-        public async Task<IActionResult> MarkOpen(string id)
-        {
-            await _emailService.MarkOpenAsync(id);
+        //public async Task<IActionResult> MarkOpen(string id)
+        //{
+        //    await _emailService.MarkOpenAsync(id);
 
-            var emailsIndex = await _emailService.GetAllEmailsAsync();
-            var vm = new AllEmailsViewModel
-            {
-                AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
-                ActiveTab = "all"
-            };
+        //    var emailsIndex = await _emailService.GetAllEmailsAsync();
+        //    var vm = new AllEmailsViewModel
+        //    {
+        //        AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+        //        ActiveTab = "all"
+        //    };
 
-            return View("Index", vm);
-        }
+        //    return View("Index", vm);
+        //}
 
         public async Task<IActionResult> MarkNotReviewed(string id)
         {
-            await _emailService.MakeNotReviewedAsync(id);
+            await _emailService.ChangeStatusAsync(id, EmailStatus.NotReviewed);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel

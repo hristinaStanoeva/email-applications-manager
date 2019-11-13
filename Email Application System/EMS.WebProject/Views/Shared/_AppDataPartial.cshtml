@@ -19,6 +19,8 @@
         <input asp-for="@Model.Phone"/>
     </div>
 
+    <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
+
     <button type="submit" class="btn btn-info">Mark Open</button> 
     <p></p>
 </form>

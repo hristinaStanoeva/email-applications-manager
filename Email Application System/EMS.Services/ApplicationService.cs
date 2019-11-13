@@ -20,6 +20,21 @@ namespace EMS.Services
             _context = context;
         }       
 
+        public async Task MarkOpenAsync(string emailId, string userId, string EGN, string name, string phoneNum)
+        {
+            _context.Applications.Add(new ApplicationDomain
+            {
+                EmailId = Guid.Parse(emailId),
+                UserId = userId,
+                EGN = EGN,
+                Name = name,
+                PhoneNumber = phoneNum,
+                Status = ApplicationStatus.NotReviewed
+            });
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         public List<ApplicationDomain> GetAllAppsAsync()
         {
             return _context.Applications.ToList();
