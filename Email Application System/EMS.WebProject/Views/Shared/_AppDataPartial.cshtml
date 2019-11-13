@@ -1,18 +1,26 @@
-﻿@model PreviewViewModel
-<form> 
+﻿@model InputViewModel
+
+<form asp-action="MarkOpen" asp-controller="App" method="post">
+
     <div class="form-group">
-        <label for="exampleFormControlInput1"><b>Name:</b></label>
-        <input class="form-control" id="senderName" >
+        <b>Name:</b>
+        <input asp-for="@Model.Name" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label for="exampleFormControlInput1"><b>EGN:</b></label>
-        <input class="form-control" id="senderEGN">
+        <b>EGN:</b>
+        <p></p>
+        <input asp-for="@Model.EGN" />
     </div>
 
     <div class="form-group">
-        <label for="exampleFormControlInput1"><b>Phone Number:</b></label>
-        <input class="form-control" id="senderPhone">
+        <b>Phone Number:</b>
+        <p></p>
+        <input asp-for="@Model.Phone"/>
     </div>
+
+    <button type="submit" class="btn btn-info">Mark Open</button> 
+    <p></p>
 </form>
 
+<a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>

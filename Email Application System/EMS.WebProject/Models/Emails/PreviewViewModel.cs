@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EMS.WebProject.Models.Applications;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace EMS.WebProject.Models.Emails
 
         public string Subject { get; set; }
         public string Status { get; set; }
+
+        public InputViewModel InputViewModel { get; set; } = new InputViewModel();
 
         public GenericEmailViewModel GenericViewModel { get; set; }
 
