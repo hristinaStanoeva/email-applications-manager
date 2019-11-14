@@ -6,13 +6,25 @@
 {
     if (Model.Status == EmailStatus.NotReviewed.ToString())
     {
-        <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
-        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Mark New</a>
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>       
     }
     else if (Model.Status == EmailStatus.Invalid.ToString())
     {
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Mark Not Reviewed</a>        
+    }
+    else if (Model.Status == EmailStatus.New.ToString())
+    {
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Mark Not Reviewed</a>
-        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
+
+        <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Start an Application</a>
+    }
+
+    var referrer = this.Context.Request.Headers["Referer"];
+
+    @if (referrer != default(StringValues))
+    {
+        <a href="@referrer.ToString()" class="btn btn-outline-dark">Go Back</a>
     }
 }
 else if (User.IsInRole("operator"))
