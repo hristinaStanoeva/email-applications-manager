@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EMS.Data.Enums;
+using EMS.Data.Seed;
 using EMS.Services.Contracts;
 using EMS.WebProject.Models.Applications;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,8 @@ namespace EMS.WebProject.Controllers
             await _appService.CreateApplicationAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
 
             await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
+
+            TempData["message"] = Constants.SuccAppCreate;
 
             return RedirectToAction("Index", "Email");
         }

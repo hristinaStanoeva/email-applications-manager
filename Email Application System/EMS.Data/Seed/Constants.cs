@@ -9,5 +9,11 @@
         internal const string defaultOperator1Username = "operator1@ems.com";
         internal const string defaultOperator2Username = "operator2@ems.com";
         internal const string defaultPassword = "Password-123";
+
+        public const string SuccAppCreate = "You have successfully created an application";
+        public const string SuccStatusInvalid = "You have marked an email as Invalid";
+        public const string SuccStatusNotReviewed = "You have marked an email as Not Reviewed";
+        public const string SuccStatusNew = "You have marked an email as New";
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
+using EMS.Data.Seed;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
@@ -85,6 +86,8 @@ namespace EMS.WebProject.Controllers
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
+            TempData["message"] = Constants.SuccStatusInvalid;
+
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
             {
@@ -98,6 +101,8 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> MarkNew(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.New);
+
+            TempData["message"] = Constants.SuccStatusNew;
 
             var mailId = await _emailService.GetGmailId(id);
             var body = await _gmailService.GetEmailBody(mailId);
@@ -139,6 +144,8 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> MarkNotReviewed(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.NotReviewed);
+
+            TempData["message"] = Constants.SuccStatusNotReviewed;
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel

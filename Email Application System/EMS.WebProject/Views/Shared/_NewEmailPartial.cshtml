@@ -11,7 +11,11 @@
     <td>@Model.Subject</td>
 
     <td>@Model.TimeSinceCurrentStatus</td>
-    <td><a class="btn btn-info">Preview</a></td>
+
+    <td>
+        <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
+    </td>
+
     <td>
         <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
             <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
