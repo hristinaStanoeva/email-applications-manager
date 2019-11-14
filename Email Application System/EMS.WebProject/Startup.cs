@@ -3,6 +3,8 @@ using EMS.Data.dbo_Models;
 using EMS.Data.Seed;
 using EMS.Services;
 using EMS.Services.Contracts;
+using EMS.Services.Factories;
+using EMS.Services.Factories.Contracts;
 using GmailAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +55,7 @@ namespace EMS.WebProject
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<IUserFactory, UserFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

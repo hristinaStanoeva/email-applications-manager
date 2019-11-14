@@ -7,6 +7,6 @@ namespace EMS.Services.Contracts
     {
         Task<UserDto> FindUserAsync(string usermane);
         Task CreateAsync(string username, string password, string role);
-        Task ChangePasswordAsync(UserDto user, string newPassword);
+        Task ChangePasswordAsync(string username, string currentPassword, string newPassword);
     }
 }

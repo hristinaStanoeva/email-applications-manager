@@ -1,10 +1,9 @@
-﻿using EMS.Data.dbo_Models;
+﻿using System.Threading.Tasks;
 
 namespace EMS.Services.Factories.Contracts
 {
     public interface IUserFactory
     {
-        UserDomain CreateManager(string username, string email, string password);
-        UserDomain CreateOperator(string username, string email, string password);
+        Task CreateUser(string username, string password, string role);
     }
 }

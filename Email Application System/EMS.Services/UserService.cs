@@ -2,12 +2,11 @@
 using EMS.Data.dbo_Models;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
+using EMS.Services.Factories.Contracts;
 using EMS.Services.Mappers;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace EMS.Services
@@ -16,17 +15,46 @@ namespace EMS.Services
     {
         private readonly SystemDataContext _context;
         private readonly UserManager<UserDomain> _userManager;
+        private readonly IUserFactory _factory;
+        private readonly SignInManager<UserDomain> _signInManager;
 
-        public UserService(SystemDataContext context, UserManager<UserDomain> userManager)
+        public UserService(SystemDataContext context, UserManager<UserDomain> userManager, IUserFactory factory, SignInManager<UserDomain> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _factory = factory;
+            _signInManager = signInManager;
         }
 
-        public Task ChangePasswordAsync(UserDto user, string newPassword)
+        public async Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(username);
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, currentPassword);
+
+            if (!isPasswordCorrect)
+            {
+                // To implement properly
+                throw new ArgumentException("Wrong password");
+            }
+            else
+            {
+                var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+                if (!result.Succeeded)
+                {
+                    // To implement properly
+                    throw new ArgumentException("You have not entered valid password");
+                }
+                else
+                {
+                    user.IsPasswordChanged = true;
+                    var claim = _context.UserClaims.FirstOrDefault(userclaim => userclaim.ClaimType == "IsPasswordChanged" && userclaim.UserId == user.Id);
+                    claim.ClaimValue = "True";
+                    await _context.SaveChangesAsync();
+                }
+            }
         }
+
 
         public async Task CreateAsync(string username, string password, string role)
         {
@@ -37,26 +65,7 @@ namespace EMS.Services
             }
             else
             {
-                var newUser = new UserDomain
-                {
-                    UserName = username,
-                    Email = username,
-                    CreatedOn = DateTime.UtcNow,
-                    IsPasswordChanged = false
-                };
-
-                var result = await _userManager.CreateAsync(newUser);
-
-                if (result.Succeeded)
-                {
-                    await _userManager.AddPasswordAsync(newUser, password);
-                    await _userManager.AddToRoleAsync(newUser, role);
-                    await _userManager.AddClaimsAsync(newUser, new List<Claim>()
-                    {
-                        new Claim("Role", role),
-                        new Claim("IsPasswordChanged", newUser.IsPasswordChanged.ToString())
-                    });
-                }
+                var newUser = _factory.CreateUser(username, password, role);
             }
         }
 
