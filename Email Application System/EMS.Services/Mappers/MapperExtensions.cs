@@ -33,6 +33,19 @@ namespace EMS.Services.Mappers
             };
         }
 
+        public static ApplicationDto MapToDtoModel(this ApplicationDomain app)
+        {
+            return new ApplicationDto
+            {
+                Id = app.Id,
+                EmailId = app.EmailId,
+                EGN = app.EGN,
+                Name = app.Name,
+                Status = app.Status,
+                PhoneNumber = app.PhoneNumber               
+            };
+        }
+
         public static AttachmentDto MapToDtoModel(this AttachmentDomain att)
         {
             return new AttachmentDto

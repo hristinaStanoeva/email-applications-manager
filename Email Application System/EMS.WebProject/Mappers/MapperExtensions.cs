@@ -41,6 +41,17 @@ namespace EMS.WebProject.Mappers
             };
         }
 
+        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app)
+        {
+            return new AppPreviewViewModel
+            {
+                Id = app.Id.ToString(),
+                EGN = app.EGN,
+                Name = app.Name,
+                Phone = app.PhoneNumber
+            };
+        }
+
         public static GenericEmailViewModel MapToViewModel(this EmailDto email)
         {
             return new GenericEmailViewModel
@@ -67,9 +78,9 @@ namespace EMS.WebProject.Mappers
                 Subject = app.Email.Subject,
                 SenderName = app.Name,
                 Status = app.Status.ToString(),
-                ClosedByOperator = app.User.ToString()
+                ClosedByOperator = app.User.ToString()                
             };
-        }
+        }        
 
         public static AttachmentViewModel MapToViewModel(this AttachmentDto att)
         {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EMS.Data.Enums;
 using EMS.Data.Seed;
 using EMS.Services.Contracts;
+using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,6 +28,15 @@ namespace EMS.WebProject.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Preview(string id)
+        {
+            var appByEmailId = await _appService.GetAppByMailIdAsync(id);
+
+            var vm = appByEmailId.MapToViewModelPreview();
+
+            return View(vm);
         }
 
         public async Task<IActionResult> MarkOpen(InputViewModel vm)

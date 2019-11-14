@@ -33,26 +33,26 @@
     @if (Model.ActiveTab == "open")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
         </li>
     }
 
     @if (Model.ActiveTab == "closed")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
         </li>
     }
 </ul>
@@ -85,8 +85,6 @@
             {
                 <th scope="col">Time Since Status Change</th>
                 <th scope="col">Preview</th>
-                <th scope="col">Mark Closed</th>
-
             }
 
             @if (Model.ActiveTab == "closed")

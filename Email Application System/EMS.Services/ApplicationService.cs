@@ -10,6 +10,7 @@ using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
 using EMS.Services.Factories;
 using EMS.Services.Factories.Contracts;
+using EMS.Services.Mappers;
 
 namespace EMS.Services
 {
@@ -24,9 +25,19 @@ namespace EMS.Services
             _factory = factory;
         }       
 
+        public async Task<ApplicationDto> GetAppByMailIdAsync(string emailId)
+        {
+            var appDomain = await _context.Applications
+                .FirstOrDefaultAsync(ap => ap.EmailId.ToString() == emailId)
+                .ConfigureAwait(false);
+
+            return appDomain.MapToDtoModel();
+        }
         public async Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum)
         {
-            var factory = _factory.Create(emailId, userId, EGN, name, phoneNum);          
+            var factory = _factory.Create(emailId, userId, EGN, name, phoneNum);
+
+            _context.Applications.Add(factory);
          
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
