@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using GmailAPI;
 using EMS.Services.Contracts;
 using EMS.Services;
+using EMS.Services.Factories.Contracts;
+using EMS.Services.Factories;
 
 namespace EMS.WebProject
 {
@@ -48,6 +50,7 @@ namespace EMS.WebProject
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<IApplicationFactory, ApplicationFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

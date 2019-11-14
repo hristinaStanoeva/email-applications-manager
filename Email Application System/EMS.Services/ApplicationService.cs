@@ -18,7 +18,6 @@ namespace EMS.Services
         private readonly SystemDataContext _context;
         private readonly IApplicationFactory _factory;
 
-
         public ApplicationService(SystemDataContext context, IApplicationFactory factory)
         {
             _context = context;

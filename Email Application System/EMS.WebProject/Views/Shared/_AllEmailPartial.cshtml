@@ -14,7 +14,16 @@
         <td>@Model.SenderName</td>
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
-        <td>@Model.HasAttachments</td>
+
+        @if (Model.HasAttachments)
+        {
+            <td><i class="fa fa-paperclip" aria-hidden="true"></i></td>
+        }
+        else
+        {
+            <td><i class="fa fa-times" aria-hidden="true"></i></td>
+        }
+
         <td>
             <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
         </td>
@@ -29,26 +38,35 @@
 }
 else
 {
-    <tr>
-        <td>@Model.Id</td>
-        <td>@Model.DateReceived</td>
-        <td>@Model.SenderEmail</td>
-        <td>@Model.SenderName</td>
-        <td>@Model.Subject</td>
-        <td>@Model.Status</td>
-        <td>@Model.HasAttachments</td>
-        <td>
-            <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
-        </td>
-        <td>
-            @if (Model.Status == EmailStatus.NotReviewed.ToString())
-            {
-                <a class="text-danger ml-1" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">
-                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Invalid"></i>
-                </a>
-            }
-        </td>
-    </tr>
+<tr>
+    <td>@Model.Id</td>
+    <td>@Model.DateReceived</td>
+    <td>@Model.SenderEmail</td>
+    <td>@Model.SenderName</td>
+    <td>@Model.Subject</td>
+    <td>@Model.Status</td>
+
+    @if (Model.HasAttachments)
+    {
+        <td><i class="fa fa-paperclip" aria-hidden="true"></i></td>
+    }
+    else
+    {
+        <td><i class="fa fa-times" aria-hidden="true"></i></td>
+    }
+
+    <td>
+        <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">Preview</a>
+    </td>
+    <td>
+        @if (Model.Status == EmailStatus.NotReviewed.ToString())
+        {
+            <a class="text-danger ml-1" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">
+                <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Invalid"></i>
+            </a>
+        }
+    </td>
+</tr>
 }
 
 @*onclick="location.href = '@(Url.Action("ShowFullEmail", "Email"))'"*@
