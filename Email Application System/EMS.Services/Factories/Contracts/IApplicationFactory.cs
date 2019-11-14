@@ -5,6 +5,6 @@ namespace EMS.Services.Factories.Contracts
 {
     public interface IApplicationFactory
     {
-        ApplicationDomain CreateApplication(Guid emailId, string egn, string name, string phoneNumber, string userId);
+        ApplicationDomain Create(string emailId, string userId, string EGN, string name, string phoneNum);
     }
 }

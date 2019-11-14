@@ -32,7 +32,7 @@ namespace EMS.WebProject.Controllers
         {            
             var user = await _userService.FindUserAsync(User.Identity.Name);
 
-            await _appService.MarkOpenAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
+            await _appService.CreateApplicationAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
 
             await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
 

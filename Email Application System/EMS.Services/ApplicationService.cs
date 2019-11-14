@@ -8,30 +8,27 @@ using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
+using EMS.Services.Factories;
+using EMS.Services.Factories.Contracts;
 
 namespace EMS.Services
 {
     public class ApplicationService : IApplicationService
     {
         private readonly SystemDataContext _context;
+        private readonly IApplicationFactory _factory;
 
-        public ApplicationService(SystemDataContext context)
+
+        public ApplicationService(SystemDataContext context, IApplicationFactory factory)
         {
             _context = context;
+            _factory = factory;
         }       
 
-        public async Task MarkOpenAsync(string emailId, string userId, string EGN, string name, string phoneNum)
+        public async Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum)
         {
-            _context.Applications.Add(new ApplicationDomain
-            {
-                EmailId = Guid.Parse(emailId),
-                UserId = userId,
-                EGN = EGN,
-                Name = name,
-                PhoneNumber = phoneNum,
-                Status = ApplicationStatus.NotReviewed
-            });
-
+            var factory = _factory.Create(emailId, userId, EGN, name, phoneNum);          
+         
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 

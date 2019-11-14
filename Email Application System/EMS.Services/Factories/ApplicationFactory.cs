@@ -1,4 +1,5 @@
 ﻿using EMS.Data.dbo_Models;
+using EMS.Data.Enums;
 using EMS.Services.Factories.Contracts;
 using System;
 
@@ -6,9 +7,17 @@ namespace EMS.Services.Factories
 {
     public class ApplicationFactory : IApplicationFactory
     {
-        public ApplicationDomain CreateApplication(Guid emailId, string egn, string name, string phoneNumber, string userId)
+        public ApplicationDomain Create(string emailId, string userId, string EGN, string name, string phoneNum)
         {
-            throw new NotImplementedException();
+            return new ApplicationDomain
+            {
+                EmailId = Guid.Parse(emailId),
+                UserId = userId,
+                EGN = EGN,
+                Name = name,
+                PhoneNumber = phoneNum,
+                Status = ApplicationStatus.NotReviewed
+            };
         }
     }
 }

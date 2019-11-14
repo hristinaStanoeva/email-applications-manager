@@ -14,6 +14,6 @@ namespace EMS.Services.Contracts
         Task<ApplicationDto> FindApplicationAsync(string Id);
         Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId);
         List<ApplicationDomain> GetAllAppsAsync();
-        Task MarkOpenAsync(string emailId, string userId, string EGN, string name, string phoneNum);
+        Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum);
     }
 }
