@@ -44,9 +44,19 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
-                            </li>
+                            @if (User.FindFirst("IsPasswordChanged").Value == "True")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
+                                </li>
+
+                                if (User.IsInRole("manager"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Create account</a>
+                                    </li>
+                                }
+                            }
                         }
 
                     </ul>

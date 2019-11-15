@@ -1,6 +1,11 @@
 ﻿using EMS.Data;
 using EMS.Data.dbo_Models;
 using EMS.Data.Seed;
+using EMS.Services;
+using EMS.Services.Contracts;
+using EMS.Services.Factories;
+using EMS.Services.Factories.Contracts;
+using GmailAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,11 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using GmailAPI;
-using EMS.Services.Contracts;
-using EMS.Services;
-using EMS.Services.Factories.Contracts;
-using EMS.Services.Factories;
 
 namespace EMS.WebProject
 {
@@ -39,18 +39,23 @@ namespace EMS.WebProject
             services.AddDbContext<SystemDataContext>(options =>
                 options.UseSqlServer(this.Configuration.GetConnectionString("LocalConnection")));
 
-
             services.AddIdentity<UserDomain, IdentityRole>(options =>
                  options.Stores.MaxLengthForKeys = 128)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<SystemDataContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("IsPasswordChanged", policy => policy.RequireClaim("IsPasswordChanged", "True"));
+            });
 
             services.AddScoped<IGmailAPIService, GmailAPIService>();
             services.AddScoped<IEmailService, EmailService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationService, ApplicationService>();
-            services.AddScoped<IApplicationFactory, ApplicationFactory>();
+            services.AddScoped<IUserFactory, UserFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

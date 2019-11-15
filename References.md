@@ -5,15 +5,24 @@ e-mail:   `application.southwest@gmail.com`
 password: `sashohrisi1`
 
 ---
+## **GmailAPI**
+1. Gmail Api - https://developers.google.com/gmail/api/quickstart/dotnet
 
-Gmail Api - https://developers.google.com/gmail/api/quickstart/dotnet
+## **ASP.NET Core Identity**
 
-ASP.NET Identity & Seed - https://www.youtube.com/watch?v=LFGt84fZlAM
+1. ASP.NET Identity & Seed - https://www.youtube.com/watch?v=LFGt84fZlAM
 
-Table UI (NavPills) - https://getbootstrap.com/docs/4.3/components/navs/#tabs
+2. Add new Identity Claims - https://levelup.gitconnected.com/add-extra-user-claims-in-asp-net-core-web-applications-1f28c98c9ec6
 
-Logging (log4net) - https://stackify.com/log4net-guide-dotnet-logging/
+## **Front-end**
+
+1. Table UI (NavPills) - https://getbootstrap.com/docs/4.3/components/navs/#tabs
+
+## **Logging**
+
+1. Logging (log4net) - https://stackify.com/log4net-guide-dotnet-logging/
                   - https://www.youtube.com/watch?v=2lAdQ_QwNww
+
 
 ---
 Git Commands
