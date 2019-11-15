@@ -6,6 +6,7 @@ using EMS.WebProject.Models.Emails;
 using EMS.WebProject.Parsers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace EMS.WebProject.Mappers
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
                 EmailBody = email.Body,
-                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm")
+                DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
             };
         }
 
@@ -46,13 +47,12 @@ namespace EMS.WebProject.Mappers
             return new GenericEmailViewModel
             {
                 Id = email.Id.ToString(),
-                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm"),
+                DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm"),
                 HasAttachments = email.NumberOfAttachments > 0,
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
-                EmailBody = email.Body,
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email)
             };
         }
@@ -62,7 +62,7 @@ namespace EMS.WebProject.Mappers
             return new GenericAppViewModel
             {
                 Id = app.Id.ToString(),
-                EmailDateReceived = app.Email.Received.ToString("dd.MM.yyyy HH:mm"),
+                EmailDateReceived = app.Email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm"),
                 SenderEmail = app.Email.SenderEmail,
                 Subject = app.Email.Subject,
                 SenderName = app.Name,
