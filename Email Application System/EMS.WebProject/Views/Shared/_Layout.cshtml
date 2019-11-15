@@ -34,13 +34,7 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
-                            @if (User.FindFirst("IsPasswordChanged").Value == "False")
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark"asp-area="" asp-controller="User" asp-action="ChangePassword">Change your password</a>
-                                </li>
-                            }
-                            else
+                            @if (User.FindFirst("IsPasswordChanged").Value == "True")
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
