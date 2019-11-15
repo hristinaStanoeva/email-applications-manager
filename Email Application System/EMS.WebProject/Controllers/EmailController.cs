@@ -57,13 +57,24 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetOpenEmails()
+        public async Task <IActionResult> GetOpenEmails()
         {
+            var allApplications = await _appService.GetAllAppsAsync();
+
             var vm = new AllEmailsViewModel
             {
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Open.ToString()).ToList(),
-                ActiveTab = "open"
+                ActiveTab = "open"                
             };
+
+
+            foreach (var app in allApplications)
+            {
+                foreach (var mail in vm.AllEmails)
+                {
+                    mail.AppViewModel = app.MapToViewModelOpenMail();
+                }
+            }
 
             return View("Index", vm);
         }
