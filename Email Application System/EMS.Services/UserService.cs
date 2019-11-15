@@ -65,7 +65,7 @@ namespace EMS.Services
             }
             else
             {
-                var newUser = _factory.CreateUser(username, password, role);
+                await _factory.CreateUser(username, password, role);
             }
         }
 

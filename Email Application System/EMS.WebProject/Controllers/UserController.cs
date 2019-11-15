@@ -65,7 +65,7 @@ namespace EMS.WebProject.Controllers
         {
             await _userService.ChangePasswordAsync(viewModel.Username, viewModel.CurrentPassword, viewModel.Password);
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return LocalRedirect("/Identity/Account/Login");
         }
     }
 }
