@@ -25,15 +25,27 @@ namespace EMS.Services
             _factory = factory;
         }       
 
-        public async Task<ApplicationDto> GetAppByMailIdAsync(string emailId)
+        public async Task Delete(string appId)
         {
-            var appDomain = await _context.Applications                              
-                .FirstOrDefaultAsync(ap => ap.EmailId.ToString() == emailId)
+            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId)
+                .ConfigureAwait(false);
+
+            _context.Applications.Remove(application);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<ApplicationDto> GetByMailIdAsync(string emailId)
+        {
+            var appDomain = await _context.Applications 
+                .Include(app => app.Email)
+                .Include(app => app.User)
+                .FirstOrDefaultAsync(app => app.Email.Id.ToString() == emailId)
                 .ConfigureAwait(false);
 
             return appDomain.MapToDtoModel();
         }
-        public async Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum)
+        public async Task CreateAsync(string emailId, string userId, string EGN, string name, string phoneNum)
         {
             var factory = _factory.Create(emailId, userId, EGN, name, phoneNum);
 
@@ -68,20 +80,19 @@ namespace EMS.Services
 
              await _context.SaveChangesAsync();
         }
-
-        public Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ApplicationDto> FindApplicationAsync(string Id)
+        public async Task<ApplicationDto> FindAsync(string Id)
         {
-            throw new NotImplementedException();
+            var appDbo = await _context.Applications
+                .FirstOrDefaultAsync(app => app.Id.ToString() == Id)
+                .ConfigureAwait(false);
+
+            return appDbo.MapToDtoModel();
         }
     }
 }

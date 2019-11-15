@@ -16,5 +16,6 @@
         public const string SuccStatusNew = "You have marked an email as New";
         public const string SuccAppValid = "You have marked an application as Valid";
         public const string SuccAppInvalid = "You have marked an application as Invalid";
+        public const string SuccAppNew = "You have marked an appication as New";
     }
 }

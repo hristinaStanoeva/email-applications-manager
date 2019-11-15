@@ -94,7 +94,8 @@
 
                 @if (User.IsInRole("manager"))
                 {
-                    <th scope="col">Closed By:</th>                    
+                    <th scope="col">Closed By:</th>
+
                 }
 
             }
@@ -119,11 +120,14 @@
             {
                 @foreach (var app in Model.AllApps)
                 {
-                    <partial name="_ClosedEmailPartial" model="app" />
+                    if (app.Email.Id.ToString() == email.Id)
+                    {
+                        <partial name="_ClosedEmailPartial" model="app" />
+                    }
                 }
             }
         }
-        
+
     </tbody>
 </table>
 

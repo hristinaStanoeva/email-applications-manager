@@ -62,7 +62,9 @@ namespace EMS.WebProject.Mappers
                 EGN = app.EGN,
                 Name = app.Name,
                 Phone = app.PhoneNumber,
-                EmailId = emailId
+                Email = app.Email,
+                Status = app.Status,
+                OperatorName = app.User.Username
             };
         }
 

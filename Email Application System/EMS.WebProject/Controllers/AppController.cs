@@ -30,9 +30,22 @@ namespace EMS.WebProject.Controllers
             return View();
         }
 
+        public async Task<IActionResult> MarkAppNew(string id)
+        {
+            var emailId = await _appService.FindAsync(id);
+
+            await _appService.Delete(id);
+
+            await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
+
+            TempData["message"] = Constants.SuccAppNew;
+
+            return RedirectToAction("Index", "Email");
+        }
+
         public async Task<IActionResult> Preview(string id)
         {
-            var appByEmailId =  await _appService.GetAppByMailIdAsync(id);
+            var appByEmailId = await _appService.GetByMailIdAsync(id);
 
             var vm = appByEmailId.MapToViewModelPreview(id);
 
@@ -42,9 +55,17 @@ namespace EMS.WebProject.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangeAppStatus(AppPreviewViewModel vm)
         {
-            await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Approved);
+            string str = Request.Form["submitbtn"];
+            if (str == "valid")
+            {
+                await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Approved);
+            }
+            else if (str == "invalid")
+            {
+                await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Rejected);
+            }
 
-            await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Closed);
+            await _emailService.ChangeStatusAsync(vm.Email.Id.ToString(), EmailStatus.Closed);
 
             TempData["message"] = Constants.SuccAppValid;
 
@@ -55,7 +76,7 @@ namespace EMS.WebProject.Controllers
         {
             await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Rejected);
 
-            await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Closed);
+            await _emailService.ChangeStatusAsync(vm.Email.Id.ToString(), EmailStatus.Closed);
 
             TempData["message"] = Constants.SuccAppInvalid;
 
@@ -63,10 +84,10 @@ namespace EMS.WebProject.Controllers
         }
 
         public async Task<IActionResult> MarkOpen(InputViewModel vm)
-        {            
+        {
             var user = await _userService.FindUserAsync(User.Identity.Name);
 
-            await _appService.CreateApplicationAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
+            await _appService.CreateAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
 
             await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
 

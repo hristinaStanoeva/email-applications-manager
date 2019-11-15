@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace EMS.Services.Contracts
 {
     public interface IApplicationService
-    {
-        Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId);
+    {        
         Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus);
 
-        Task<ApplicationDto> FindApplicationAsync(string Id);
+        Task<ApplicationDto> FindAsync(string Id);
         Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId);
         Task<List<ApplicationDto>> GetAllAppsAsync();
-        Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum);
-        Task<ApplicationDto> GetAppByMailIdAsync(string emailId);
+        Task CreateAsync(string emailId, string userId, string EGN, string name, string phoneNum);
+        Task<ApplicationDto> GetByMailIdAsync(string emailId);
+        Task Delete(string appId);
     }
 }

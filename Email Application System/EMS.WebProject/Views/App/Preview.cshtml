@@ -17,16 +17,25 @@
         <p>@Model.Phone</p>
     </div>
 
-    <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
+    <input type="hidden" asp-for="Email.Id" value="@Model.Email.Id" />
     <input type="hidden" asp-for="Id" value="@Model.Id" />
 
-    <button type="submit" class="btn btn-info">Mark Valid</button>
-    <button type="submit" class="btn btn-info">Mark Invalid</button>
+    @if (Model.Email.Status == EmailStatus.Open && (Model.OperatorName == User.Identity.Name || User.IsInRole("manager")))
+    {
+        <button type="submit" class="btn btn-info" name="submitbtn" value="valid">Mark Valid</button>
+        <button type="submit" class="btn btn-info" name="submitbtn" value="invalid">Mark Invalid</button>
+    }
+    else if (Model.Email.Status == EmailStatus.Closed)
+    {
+        if (User.IsInRole("manager"))
+        {
+            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark as New</a>
+        }
+    }
+
+
 </form>
 
-
-@*<a class="btn btn-info" asp-controller="App" asp-action="MarkValid" asp-route-id="@Model.Id">Mark Valid</a>
-    <a class="btn btn-info" asp-controller="App" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>*@
 
 @{var referrer = this.Context.Request.Headers["Referer"]; }
 
