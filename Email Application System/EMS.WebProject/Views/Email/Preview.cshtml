@@ -33,7 +33,6 @@ else if (User.IsInRole("operator"))
     {
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Mark New</a>
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>
-        <a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
     }
     else if (Model.Status == EmailStatus.Invalid.ToString())
     {
@@ -43,6 +42,7 @@ else if (User.IsInRole("operator"))
     {
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Start an application</a>
     }
+
     var referrer = this.Context.Request.Headers["Referer"];
 
     @if (referrer != default(StringValues))

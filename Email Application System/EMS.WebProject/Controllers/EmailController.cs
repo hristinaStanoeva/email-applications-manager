@@ -68,16 +68,35 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetClosedEmails()
+        public async Task<IActionResult> GetClosedEmails()
         {
-            var apps = _appService.GetAllAppsAsync();
+            var allApplications = await _appService.GetAllAppsAsync();
 
             var vm = new AllEmailsViewModel
             {
-                AllApps = apps.Select(x => x.MapToViewModel()).ToList(),
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Closed.ToString()).ToList(),
+                AllApps = allApplications.Select(app => app.MapToViewModel()).ToList(),
                 ActiveTab = "closed"
             };
+
+            foreach (var app in allApplications)
+            {
+                foreach (var appVM in vm.AllApps)
+                {
+                    if (app.Id.ToString() == appVM.Id)
+                    {
+                        appVM.EmailViewModel = new GenericEmailViewModel
+                        {
+                            Id = app.Email.Id.ToString(),
+                            DateReceived = app.Email.Received.ToString("dd.MM.yyyy HH:mm"),
+                            SenderEmail = app.Email.SenderEmail,
+                            SenderName = app.Email.SenderName,
+                            Subject = app.Email.Subject
+                        };
+                    }
+                }
+            }
+
 
             return View("Index", vm);
         }
@@ -161,8 +180,8 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> Preview(string id)
         {
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBody(mailId);         
-            
+            var body = await _gmailService.GetEmailBody(mailId);
+
             var attachmentsVM = new List<AttachmentViewModel>();
             var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
             if (attachmentsDto != null)
@@ -174,7 +193,7 @@ namespace EMS.WebProject.Controllers
             }
 
             var email = await _emailService.GetSingleMail(id);
-            var vm = email.MapToViewModelPreview(body,attachmentsVM);
+            var vm = email.MapToViewModelPreview(body, attachmentsVM);
             vm.GenericViewModel = email.MapToViewModel();
 
             return View(vm);

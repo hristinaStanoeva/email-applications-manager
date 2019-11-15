@@ -1,7 +1,7 @@
 ﻿@model AppPreviewViewModel
 
 
-<form>
+<form asp-action="ChangeAppStatus" asp-controller="App" method="post">
     <div class="form-group">
         <label for="exampleFormControlInput1"><b>Name:</b></label>
         <p>@Model.Name</p>
@@ -16,5 +16,22 @@
         <label for="exampleFormControlInput1"><b>Phone:</b></label>
         <p>@Model.Phone</p>
     </div>
+
+    <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+
+    <button type="submit" class="btn btn-info">Mark Valid</button>
+    <button type="submit" class="btn btn-info">Mark Invalid</button>
 </form>
+
+
+@*<a class="btn btn-info" asp-controller="App" asp-action="MarkValid" asp-route-id="@Model.Id">Mark Valid</a>
+    <a class="btn btn-info" asp-controller="App" asp-action="MarkInvalid" asp-route-id="@Model.Id">Mark Invalid</a>*@
+
+@{var referrer = this.Context.Request.Headers["Referer"]; }
+
+@if (referrer != default(StringValues))
+{
+    <a href="@referrer.ToString()" class="btn btn-outline-dark">Go Back</a>
+}
 

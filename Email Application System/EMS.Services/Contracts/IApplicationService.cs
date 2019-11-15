@@ -11,9 +11,10 @@ namespace EMS.Services.Contracts
     {
         Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId);
         Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus);
+
         Task<ApplicationDto> FindApplicationAsync(string Id);
         Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId);
-        List<ApplicationDomain> GetAllAppsAsync();
+        Task<List<ApplicationDto>> GetAllAppsAsync();
         Task CreateApplicationAsync(string emailId, string userId, string EGN, string name, string phoneNum);
         Task<ApplicationDto> GetAppByMailIdAsync(string emailId);
     }

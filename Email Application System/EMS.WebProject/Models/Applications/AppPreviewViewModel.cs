@@ -9,6 +9,8 @@ namespace EMS.WebProject.Models.Applications
     {
         public string Id { get; set; }
 
+        public string EmailId { get; set; }
+
         public string EGN { get; set; }
 
         public string Name { get; set; }

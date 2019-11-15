@@ -32,11 +32,34 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> Preview(string id)
         {
-            var appByEmailId = await _appService.GetAppByMailIdAsync(id);
+            var appByEmailId =  await _appService.GetAppByMailIdAsync(id);
 
-            var vm = appByEmailId.MapToViewModelPreview();
+            var vm = appByEmailId.MapToViewModelPreview(id);
 
             return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeAppStatus(AppPreviewViewModel vm)
+        {
+            await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Approved);
+
+            await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Closed);
+
+            TempData["message"] = Constants.SuccAppValid;
+
+            return RedirectToAction("Index", "Email");
+        }
+
+        public async Task<IActionResult> MarkInvalid(AppPreviewViewModel vm)
+        {
+            await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Rejected);
+
+            await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Closed);
+
+            TempData["message"] = Constants.SuccAppInvalid;
+
+            return RedirectToAction("Index", "Email");
         }
 
         public async Task<IActionResult> MarkOpen(InputViewModel vm)

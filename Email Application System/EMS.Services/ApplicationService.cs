@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using EMS.Data;
@@ -11,6 +10,7 @@ using EMS.Services.dto_Models;
 using EMS.Services.Factories;
 using EMS.Services.Factories.Contracts;
 using EMS.Services.Mappers;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.Services
 {
@@ -27,7 +27,7 @@ namespace EMS.Services
 
         public async Task<ApplicationDto> GetAppByMailIdAsync(string emailId)
         {
-            var appDomain = await _context.Applications
+            var appDomain = await _context.Applications                              
                 .FirstOrDefaultAsync(ap => ap.EmailId.ToString() == emailId)
                 .ConfigureAwait(false);
 
@@ -40,15 +40,33 @@ namespace EMS.Services
             _context.Applications.Add(factory);
          
             await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
+        }        
 
-        public List<ApplicationDomain> GetAllAppsAsync()
+        public async Task<List<ApplicationDto>> GetAllAppsAsync()
         {
-            return _context.Applications.ToList();
+            var appsDomain = await _context.Applications
+                .Include(app => app.Email)
+                .Include(app => app.User)
+                
+                .ToListAsync().ConfigureAwait(false);
+
+            var appsDto = new List<ApplicationDto>();
+            foreach (var app in appsDomain)
+            {
+                appsDto.Add(app.MapToDtoModel());
+            }
+
+            return appsDto;
         }
-        public Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
+        public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
         {
-            throw new NotImplementedException();
+            var email = await _context.Applications
+                .FirstOrDefaultAsync(ap => ap.Id.ToString() == applictionId)
+                .ConfigureAwait(false);
+
+            email.Status = newStatus;
+
+             await _context.SaveChangesAsync();
         }
 
         public Task<ApplicationDto> CreateAsync(Guid emailId, string egn, string name, string phoneNumber, string userId)

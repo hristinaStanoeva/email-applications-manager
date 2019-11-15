@@ -37,12 +37,13 @@ namespace EMS.Services.Mappers
         {
             return new ApplicationDto
             {
-                Id = app.Id,
-                EmailId = app.EmailId,
+                Id = app.Id,               
                 EGN = app.EGN,
                 Name = app.Name,
                 Status = app.Status,
-                PhoneNumber = app.PhoneNumber               
+                PhoneNumber = app.PhoneNumber,
+                User = app.User.MapToDtoModel(),
+                Email = app.Email.MapToDtoModel()
             };
         }
 

@@ -94,8 +94,7 @@
 
                 @if (User.IsInRole("manager"))
                 {
-                    <th scope="col">Closed By:</th>
-                    <th scope="col">Mark "New"</th>
+                    <th scope="col">Closed By:</th>                    
                 }
 
             }
@@ -116,19 +115,15 @@
             {
                 <partial name="_OpenEmailPartial" model="email" />
             }
-            @*else if (Model.ActiveTab == "closed")
-                {
-                    <partial name="_ClosedEmailPartial" model="email" />
-                }*@
-        }
-
-        @if (Model.ActiveTab == "closed")
-        {
-            @foreach (var app in Model.AllApps)
+            else if (Model.ActiveTab == "closed")
             {
-                <partial name="_ClosedEmailPartial" model="app" />
+                @foreach (var app in Model.AllApps)
+                {
+                    <partial name="_ClosedEmailPartial" model="app" />
+                }
             }
         }
+        
     </tbody>
 </table>
 

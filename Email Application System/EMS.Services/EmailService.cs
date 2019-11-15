@@ -66,11 +66,8 @@ namespace EMS.Services
             }
 
             return attachmentsDto;
-        }        
-
-       
-
-
+        }             
+        
         public async Task AddBodyAsync(string emailId, string body)
         {
             throw new NotImplementedException();
