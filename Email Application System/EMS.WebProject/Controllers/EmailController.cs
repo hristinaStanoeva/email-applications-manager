@@ -64,9 +64,9 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetClosedEmails()
+        public async Task<IActionResult> GetClosedEmails()
         {
-            var apps = _appService.GetAllAppsAsync();
+            var apps = await _appService.GetAllAppsAsync();
 
             var vm = new AllEmailsViewModel
             {
