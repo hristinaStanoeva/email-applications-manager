@@ -17,5 +17,6 @@ namespace EMS.Services.Contracts
         Task CreateAsync(string emailId, string userId, string EGN, string name, string phoneNum);
         Task<ApplicationDto> GetByMailIdAsync(string emailId);
         Task Delete(string appId);
+        Task<List<ApplicationDto>> GetOpenAppsAsync();
     }
 }

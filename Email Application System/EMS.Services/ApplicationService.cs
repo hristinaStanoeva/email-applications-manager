@@ -70,6 +70,24 @@ namespace EMS.Services
 
             return appsDto;
         }
+
+        public async Task<List<ApplicationDto>> GetOpenAppsAsync()
+        {
+            var appsDomain = await _context.Applications
+                .Where(app => app.Status == ApplicationStatus.NotReviewed)
+                .Include(app => app.Email)
+                .Include(app => app.User)
+                .ToListAsync().ConfigureAwait(false);
+
+            var appsDto = new List<ApplicationDto>();
+            foreach (var app in appsDomain)
+            {
+                appsDto.Add(app.MapToDtoModel());
+            }
+
+            return appsDto;
+        }
+
         public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
         {
             var email = await _context.Applications

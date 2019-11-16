@@ -24,5 +24,10 @@
             <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Id">View Mail</a>
         </td>
     }
+
+    @if (User.IsInRole("manager"))
+    {
+        <td>@Model.AppViewModel.Operator.Username</td>
+    }
 </tr>
 

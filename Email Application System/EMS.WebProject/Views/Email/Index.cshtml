@@ -85,6 +85,11 @@
             {
                 <th scope="col">Time Since Status Change</th>
                 <th scope="col">Preview</th>
+
+                @if (User.IsInRole("manager"))
+                {
+                    <th scope="col">Closed By:</th>
+                }
             }
 
             @if (Model.ActiveTab == "closed")

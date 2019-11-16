@@ -1,6 +1,7 @@
 ﻿using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
+using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using GmailAPI;
 using Microsoft.AspNetCore.Authorization;
@@ -53,13 +54,37 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetOpenEmails()
+        public async Task<IActionResult> GetOpenEmails()
         {
+            var apps = await _appService.GetOpenAppsAsync();
+
+
+            
             var vm = new AllEmailsViewModel
             {
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Open.ToString()).ToList(),
                 ActiveTab = "open"
             };
+
+            var appVM = new List<GenericAppViewModel>();
+            foreach (var item in vm.AllEmails)
+            {                
+                foreach (var app in apps)
+                {
+                    if (app.Email.Id.ToString() == item.Id)
+                    {
+                        appVM.Add(app.MapToViewModelOpenMail());
+                    }
+                }
+            }
+
+            foreach (var item in vm.AllEmails)
+            {
+                foreach (var app in appVM)
+                {
+                    item.AppViewModel = app;
+                }
+            }
 
             return View("Index", vm);
         }
@@ -118,20 +143,6 @@ namespace EMS.WebProject.Controllers
 
             return View("Open", vm);
         }
-
-        //public async Task<IActionResult> MarkOpen(string id)
-        //{
-        //    await _emailService.MarkOpenAsync(id);
-
-        //    var emailsIndex = await _emailService.GetAllEmailsAsync();
-        //    var vm = new AllEmailsViewModel
-        //    {
-        //        AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
-        //        ActiveTab = "all"
-        //    };
-
-        //    return View("Index", vm);
-        //}
 
         public async Task<IActionResult> MarkNotReviewed(string id)
         {
