@@ -113,7 +113,7 @@ namespace EMS.WebProject.Controllers
             }
 
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
-            vm.GenericViewModel = email.MapToViewModel();
+            //vm.GenericViewModel = email.MapToViewModel();
             vm.InputViewModel.EmailId = id;
 
             return View("Open", vm);
@@ -155,6 +155,7 @@ namespace EMS.WebProject.Controllers
             
             var attachmentsVM = new List<AttachmentViewModel>();
             var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
+
             if (attachmentsDto != null)
             {
                 foreach (var att in attachmentsDto)
@@ -164,10 +165,10 @@ namespace EMS.WebProject.Controllers
             }
 
             var email = await _emailService.GetSingleMail(id);
-            var vm = email.MapToViewModelPreview(body,attachmentsVM);
-            vm.GenericViewModel = email.MapToViewModel();
+            var previewViewModel = email.MapToViewModelPreview(body,attachmentsVM);
+            //previewViewModel.GenericViewModel = email.MapToViewModel();
 
-            return View(vm);
+            return View(previewViewModel);
         }
     }
 }
