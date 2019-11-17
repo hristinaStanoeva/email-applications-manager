@@ -32,5 +32,7 @@ namespace EMS.Services.Contracts
         Task AddBodyAsync(string emailId, string body);
 
         Task<List<AttachmentDto>> CreateAttachmentsAsync();
+        Task<List<EmailDto>> GetOpenEmailsAsync();
+        Task<List<EmailDto>> GetNewEmailsAsync();
     }
 }

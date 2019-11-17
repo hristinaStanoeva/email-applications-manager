@@ -32,11 +32,11 @@ namespace EMS.WebProject.Controllers
 
         public async Task<IActionResult> MarkAppNew(string id)
         {
-            var emailId = await _appService.FindAsync(id);
+            var email = await _appService.FindAsync(id);
 
             await _appService.Delete(id);
 
-            await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
+            await _emailService.ChangeStatusAsync(email.Id.ToString(), EmailStatus.New);
 
             TempData["message"] = Constants.SuccAppNew;
 

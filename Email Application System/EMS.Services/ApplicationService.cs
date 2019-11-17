@@ -124,6 +124,8 @@ namespace EMS.Services
         public async Task<ApplicationDto> FindAsync(string Id)
         {
             var appDbo = await _context.Applications
+                .Include(app => app.User)
+                .Include(app => app.Email)
                 .FirstOrDefaultAsync(app => app.Id.ToString() == Id)
                 .ConfigureAwait(false);
 

@@ -34,6 +34,35 @@ namespace EMS.Services
             return emailsDto;
         }
 
+        public async Task<List<EmailDto>> GetOpenEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.Open)
+                .ToListAsync().ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }
+        public async Task<List<EmailDto>> GetNewEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.New)
+                .ToListAsync().ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }
+
         public async Task<EmailDto> GetSingleMail(string mailId)
         {
             var emailDomain = await _context.Emails
@@ -76,10 +105,12 @@ namespace EMS.Services
         public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
             var email = await _context.Emails
+                .Include(mail => mail.Application)                
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == id)
                 .ConfigureAwait(false);
 
             email.Status = newStatus;
+            email.ToCurrentStatus = DateTime.Now;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }

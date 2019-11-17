@@ -21,7 +21,14 @@ namespace EMS.WebProject.Parsers
             {
                 if (statusChangeHours <= 0)
                 {
-                    currStatusTemp = statusChangeMinutes.ToString() + " min.";
+                    if (statusChangeMinutes <= 0)
+                    {
+                        currStatusTemp = "0 min.";
+                    }
+                    else
+                    {
+                        currStatusTemp = statusChangeMinutes.ToString() + " min.";
+                    }
                 }
                 else
                 {

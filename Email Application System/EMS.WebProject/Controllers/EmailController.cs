@@ -30,11 +30,11 @@ namespace EMS.WebProject.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var emailsIndex = await _emailService.GetAllEmailsAsync();
+            var allEmails = await _emailService.GetAllEmailsAsync();
 
             var vm = new AllEmailsViewModel
             {
-                AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
                 ActiveTab = "all"
             };
 
@@ -43,8 +43,10 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetNewEmails()
+        public async Task<IActionResult> GetNewEmails()
         {
+            var allEmails = await _emailService.GetNewEmailsAsync();
+
             var vm = new AllEmailsViewModel
             {
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.New.ToString()).ToList(),
@@ -57,10 +59,11 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> GetOpenEmails()
         {
             var apps = await _appService.GetOpenAppsAsync();
-            
+            var allEmails = await _emailService.GetOpenEmailsAsync();
+
             var vm = new AllEmailsViewModel
             {
-                AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Open.ToString()).ToList(),
+                AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
                 ActiveTab = "open"
             };
 
