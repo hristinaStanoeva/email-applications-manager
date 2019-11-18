@@ -27,6 +27,8 @@ namespace EMS.WebProject.Controllers
             _appService = appService;
             _gmailService = gmailService;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var emailsIndex = await _emailService.GetAllEmailsAsync();
@@ -78,6 +80,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
+        [HttpGet]
         public async Task<IActionResult> MarkInvalid(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
@@ -92,12 +95,13 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
+        //[HttpGet]
         public async Task<IActionResult> MarkNew(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.New);
 
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBody(mailId);
+            var body = await _gmailService.GetEmailBodyAsync(mailId);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
@@ -113,7 +117,7 @@ namespace EMS.WebProject.Controllers
             }
 
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
-            vm.GenericViewModel = email.MapToViewModel();
+            //vm.GenericViewModel = email.MapToViewModel();
             vm.InputViewModel.EmailId = id;
 
             return View("Open", vm);
@@ -151,10 +155,11 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> Preview(string id)
         {
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBody(mailId);         
+            var body = await _gmailService.GetEmailBodyAsync(mailId);         
             
             var attachmentsVM = new List<AttachmentViewModel>();
             var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
+
             if (attachmentsDto != null)
             {
                 foreach (var att in attachmentsDto)
@@ -164,10 +169,18 @@ namespace EMS.WebProject.Controllers
             }
 
             var email = await _emailService.GetSingleMail(id);
-            var vm = email.MapToViewModelPreview(body,attachmentsVM);
-            vm.GenericViewModel = email.MapToViewModel();
+            var previewViewModel = email.MapToViewModelPreview(body,attachmentsVM);
+            //previewViewModel.GenericViewModel = email.MapToViewModel();
 
-            return View(vm);
+            return View(previewViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EmailBody(string id)
+        {
+            var body = await _emailService.GetBodyAsync(id);
+
+            return Json(body);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EMS.Data.dbo_Models;
 using EMS.Services.dto_Models;
+using System.Linq;
 
 namespace EMS.Services.Mappers
 {
@@ -29,7 +30,9 @@ namespace EMS.Services.Mappers
                 Status = email.Status,
                 Subject = email.Subject,
                 Body = email.Body,
-                ToCurrentStatus = email.ToCurrentStatus
+                ToCurrentStatus = email.ToCurrentStatus,
+                GmailMessageId = email.GmailMessageId,
+                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()
             };
         }
 

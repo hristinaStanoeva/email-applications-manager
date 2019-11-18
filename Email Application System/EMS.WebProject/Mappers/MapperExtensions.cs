@@ -6,6 +6,7 @@ using EMS.WebProject.Models.Emails;
 using EMS.WebProject.Parsers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace EMS.WebProject.Mappers
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
                 EmailBody = body,
-                Attachments = attachmentsVM                
+                Attachments = attachmentsVM
             };
         }
 
@@ -37,7 +38,7 @@ namespace EMS.WebProject.Mappers
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
                 EmailBody = email.Body,
-                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm")
+                DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
             };
         }
         public static GenericAppViewModel MapToViewModel(this ApplicationDto app)
@@ -86,18 +87,17 @@ namespace EMS.WebProject.Mappers
             return new GenericEmailViewModel
             {
                 Id = email.Id.ToString(),
-                DateReceived = email.Received.ToString("dd.MM.yyyy HH:mm"),
+                DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm"),
                 HasAttachments = email.NumberOfAttachments > 0,
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
-                EmailBody = email.Body,
-                TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email)
+                TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
+                MessageId = email.GmailMessageId,
+                Attachments = email.Attachments.Select(e => e.MapToViewModel()).ToList()
             };
         }
-
-          
 
         public static AttachmentViewModel MapToViewModel(this AttachmentDto att)
         {

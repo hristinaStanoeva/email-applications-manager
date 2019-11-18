@@ -4,6 +4,7 @@ using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
 using EMS.Services.Mappers;
+using GmailAPI;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,22 @@ namespace EMS.Services
     public class EmailService : IEmailService
     {
         private readonly SystemDataContext _context;
+        private readonly IGmailAPIService _gmailService;
 
-        public EmailService(SystemDataContext context)
+        public EmailService(SystemDataContext context, IGmailAPIService gmailService)
         {
             _context = context;
+            _gmailService = gmailService;
         }
 
         public async Task<List<EmailDto>> GetAllEmailsAsync()
         {
-            var emailsDomain = await _context.Emails.ToListAsync().ConfigureAwait(false);
+            var emailsDomain = await _context.Emails
+                .Include(email=>email.Attachments)
+                .ToListAsync().ConfigureAwait(false);
 
             var emailsDto = new List<EmailDto>();
+
             foreach (var email in emailsDomain)
             {
                 emailsDto.Add(email.MapToDtoModel());
@@ -104,9 +110,9 @@ namespace EMS.Services
             throw new NotImplementedException();
         }
 
-        public Task<string> GetBodyAsync(string emailId)
+        public async Task<string> GetBodyAsync(string messageId)
         {
-            throw new NotImplementedException();
+            return await _gmailService.GetEmailBodyAsync(messageId);
         }
     }
 }
