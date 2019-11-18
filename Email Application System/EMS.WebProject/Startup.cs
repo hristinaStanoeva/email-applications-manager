@@ -56,6 +56,7 @@ namespace EMS.WebProject
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<IUserFactory, UserFactory>();
+            services.AddScoped<IApplicationFactory, ApplicationFactory>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
