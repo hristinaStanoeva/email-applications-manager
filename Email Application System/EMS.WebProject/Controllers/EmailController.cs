@@ -27,6 +27,8 @@ namespace EMS.WebProject.Controllers
             _appService = appService;
             _gmailService = gmailService;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var emailsIndex = await _emailService.GetAllEmailsAsync();
@@ -78,6 +80,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
+        [HttpGet]
         public async Task<IActionResult> MarkInvalid(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
@@ -92,6 +95,7 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
+        //[HttpGet]
         public async Task<IActionResult> MarkNew(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.New);

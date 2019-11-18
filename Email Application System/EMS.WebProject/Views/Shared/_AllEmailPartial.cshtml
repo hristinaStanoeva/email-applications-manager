@@ -129,15 +129,61 @@ else
             </div>
 
             <div class="modal-footer" style="background-color: white; border-top: 1px solid #B0B0B0;">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
-                    Cancel
-                </button>
-                <button type="button" class="btn btn-dark">
-                    Mark invalid
-                </button>
-                <button type="button" class="btn" style="background-color: #EC7424; color: white">
-                    Mark new
-                </button>
+
+                @if (Model.Status == "NotReviewed")
+                {
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                        Cancel
+                    </button>
+                    <a type="button" class="btn btn-dark" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">
+                        Mark invalid
+                    </a>
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">
+                        Mark new
+                    </a>
+                }
+                else if (Model.Status == "Invalid")
+                {
+                    @if (User.IsInRole("manager"))
+                    {
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                            Cancel
+                        </button>
+                        <a type="button" class="btn btn-dark" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">
+                            Mark not reviewed
+                        </a>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                            Close
+                        </button>
+                    }
+                }
+                else if (Model.Status == "New")
+                {
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                        Cancel
+                    </button>
+                    @if (User.IsInRole("manager"))
+                    {
+                        <a type="button" class="btn btn-dark" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">
+                            Mark not reviewed
+                        </a>
+                    }
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="MarkOpen" asp-route-id="@Model.Id">
+                        Mark open
+                    </a>
+                }
+                else if (Model.Status == "Open" || Model.Status == "Closed")
+                {
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                        Close
+                    </button>
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="ApplicationPreview" asp-route-id="@Model.Id">
+                        See application
+                    </a>
+                }
             </div>
         </div>
     </div>

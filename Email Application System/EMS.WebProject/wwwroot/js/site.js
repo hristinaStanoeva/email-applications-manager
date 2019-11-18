@@ -8,7 +8,7 @@
         </div>
 `);
 
-    $.get('email/emailbody?id=' + id, function (data) {
+    $.get('/email/emailbody?id=' + id, function (data) {
         $('#modal-body-' + id).html(data);
     });
 });
