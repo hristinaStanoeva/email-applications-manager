@@ -22,5 +22,9 @@ namespace EMS.WebProject.Models.Emails
         public string TimeSinceCurrentStatus { get; set; }
 
         public bool HasAttachments { get; set; }
+
+        public string MessageId { get; set; }
+
+        public List<AttachmentViewModel> Attachments { get; set; }
     }
 }

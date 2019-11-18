@@ -24,7 +24,7 @@ namespace EMS.WebProject.Mappers
                 Subject = email.Subject,
                 Status = email.Status.ToString(),
                 EmailBody = body,
-                Attachments = attachmentsVM                
+                Attachments = attachmentsVM
             };
         }
 
@@ -53,7 +53,9 @@ namespace EMS.WebProject.Mappers
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
-                TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email)
+                TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
+                MessageId = email.GmailMessageId,
+                Attachments = email.Attachments.Select(e => e.MapToViewModel()).ToList()
             };
         }
 

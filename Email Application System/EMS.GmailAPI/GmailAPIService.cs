@@ -31,37 +31,45 @@ namespace GmailAPI
         }
 
 
-        public async Task<string> GetEmailBody(string emailId)
+        public async Task<string> GetEmailBodyAsync(string emailId)
         {
             // Create Gmail API service.
-            var service = await CreateGmailService();
+            var service = await CreateGmailServiceAsync();
 
-            var email1 = await GetEmailInfo(service, emailId);
+            var email1 = await GetEmailInfoAsync(service, emailId);
             var email = email1.Payload;
 
-            string bodyPlainTextEncrypted = string.Empty;
-            // string bodyHtmlTextEncrypted = string.Empty;
+            // string bodyPlainTextEncrypted = string.Empty;
+            string bodyHtmlTextEncrypted = string.Empty;
 
-            if (email.Parts[0].MimeType == "text/plain")
-            {
-                bodyPlainTextEncrypted = email.Parts.FirstOrDefault(part => part.MimeType == "text/plain").Body.Data;
-                // bodyHtmlTextEncrypted = email.Parts.FirstOrDefault(part => part.MimeType == "text/html").Body.Data;
-            }
-            else
-            {
-                bodyPlainTextEncrypted = email.Parts[0].Parts.FirstOrDefault(part => part.MimeType == "text/plain").Body.Data;
-                //bodyHtmlTextEncrypted = email.Parts[0].Parts.FirstOrDefault(part => part.MimeType == "text/html").Body.Data;
-            }
+            var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
 
-            return Decrypt(bodyPlainTextEncrypted);
+            if (htmlPart is null)
+            {
+                var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
+               
+                htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+
+                if (htmlPart is null)
+                {
+                    htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
+                }
+            }
+            if (htmlPart != null)
+            {
+                bodyHtmlTextEncrypted = htmlPart.Body.Data;
+            }
+            else return "No body";
+
+            return Decrypt(bodyHtmlTextEncrypted);
         }
 
         public async Task GmailSync()
         {
             // Create Gmail API service.
-            var service = await CreateGmailService();
+            var service = await CreateGmailServiceAsync();
             // Get all emails
-            var emails = await GetEmails(service);
+            var emails = await GetEmailsAsync(service);
 
             if (emails is null)
             {
@@ -75,7 +83,7 @@ namespace GmailAPI
             {
                 var emailId = email.Id;
 
-                var emailInfo = await GetEmailInfo(service, emailId);
+                var emailInfo = await GetEmailInfoAsync(service, emailId);
 
                 var parsedEmail = CreateEmail(emailInfo.Payload, emailInfo.InternalDate ?? throw new ArgumentNullException());
                 parsedEmail.GmailMessageId = emailId;
@@ -111,7 +119,7 @@ namespace GmailAPI
         }
 
 
-        private async Task<GmailService> CreateGmailService()
+        private async Task<GmailService> CreateGmailServiceAsync()
         {
             UserCredential credential;
 
@@ -134,7 +142,7 @@ namespace GmailAPI
                 ApplicationName = ApplicationName,
             });
         }
-        private async Task<IList<Message>> GetEmails(GmailService service)
+        private async Task<IList<Message>> GetEmailsAsync(GmailService service)
         {
             var emailsListRequest = service.Users.Messages.List(EmailAddress);
 
@@ -146,7 +154,7 @@ namespace GmailAPI
             var emailsListResponse = emailsListRequest.ExecuteAsync().Result;
             return emailsListResponse.Messages;
         }
-        private async Task<Message> GetEmailInfo(GmailService service, string emailId)
+        private async Task<Message> GetEmailInfoAsync(GmailService service, string emailId)
         {
             var emailInfoRequest = service.Users.Messages.Get(EmailAddress, emailId);
             var emailInfoResponse = await emailInfoRequest.ExecuteAsync();

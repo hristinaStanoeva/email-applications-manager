@@ -97,7 +97,7 @@ namespace EMS.WebProject.Controllers
             await _emailService.ChangeStatusAsync(id, EmailStatus.New);
 
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBody(mailId);
+            var body = await _gmailService.GetEmailBodyAsync(mailId);
 
             var emailsIndex = await _emailService.GetAllEmailsAsync();
             var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
@@ -151,7 +151,7 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> Preview(string id)
         {
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBody(mailId);         
+            var body = await _gmailService.GetEmailBodyAsync(mailId);         
             
             var attachmentsVM = new List<AttachmentViewModel>();
             var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
@@ -169,6 +169,14 @@ namespace EMS.WebProject.Controllers
             //previewViewModel.GenericViewModel = email.MapToViewModel();
 
             return View(previewViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EmailBody(string id)
+        {
+            var body = await _emailService.GetBodyAsync(id);
+
+            return Json(body);
         }
     }
 }
