@@ -1,7 +1,4 @@
 ﻿@model GenericEmailViewModel
-@{
-    ViewData["Title"] = "_NewEmailPartial";
-}
 
 <tr>
     <td>@Model.Id</td>
@@ -11,17 +8,22 @@
     <td>@Model.Subject</td>
 
     <td>@Model.TimeSinceCurrentStatus</td>
-    <td><a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview</a></td>
-    <td>
-        <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
-            <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Closed"></i>
-        </a>
 
-        @if (User.IsInRole("manager"))
-        {
-            <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark New"></i></a>
-        }
-    </td>
+    @if (User.IsInRole("manager") || Model.AppViewModel.Operator.Username == User.Identity.Name)
+    {
+        <td>
+            <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
+
+            <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
+        </td>
+
+    }
+    else
+    {
+        <td>
+            <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
+        </td>
+    }
 </tr>
 
 @*Preview Email Modal*@

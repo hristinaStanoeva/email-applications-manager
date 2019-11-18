@@ -11,6 +11,7 @@
     <td>@Model.Subject</td>
 
     <td>@Model.TimeSinceCurrentStatus</td>
+
     <td><a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview</a></td>
     <td>
         <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
@@ -22,6 +23,7 @@
             <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
         }
     </td>
+
 </tr>
 
 @*Preview Email Modal*@

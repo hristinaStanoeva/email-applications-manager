@@ -41,6 +41,46 @@ namespace EMS.WebProject.Mappers
                 DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
             };
         }
+        public static GenericAppViewModel MapToViewModel(this ApplicationDto app)
+        {
+            return new GenericAppViewModel
+            {
+                Id = app.Id.ToString(),                
+                Operator = app.User,
+                Email = app.Email,
+                EGN = app.EGN,
+                Name = app.Name,
+                Phone = app.PhoneNumber,
+                Status = app.Status.ToString()
+            };
+        }
+        public static GenericAppViewModel MapToViewModelOpenMail(this ApplicationDto app)
+        {
+            return new GenericAppViewModel
+            {
+                Id = app.Id.ToString(),
+                Operator = app.User,
+                Email = app.Email,
+                EGN = app.EGN,
+                Name = app.Name,
+                Phone = app.PhoneNumber,
+                Status = app.Status.ToString()
+            };
+        }
+
+        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app, string emailId)
+        {
+            return new AppPreviewViewModel
+            {
+                Id = app.Id.ToString(),
+                EGN = app.EGN,
+                Name = app.Name,
+                Phone = app.PhoneNumber,
+                Email = app.Email,
+                Status = app.Status,
+                OperatorName = app.User.Username
+            };
+        }
 
         public static GenericEmailViewModel MapToViewModel(this EmailDto email)
         {
@@ -56,20 +96,6 @@ namespace EMS.WebProject.Mappers
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
                 MessageId = email.GmailMessageId,
                 Attachments = email.Attachments.Select(e => e.MapToViewModel()).ToList()
-            };
-        }
-
-        public static GenericAppViewModel MapToViewModel(this ApplicationDomain app)
-        {
-            return new GenericAppViewModel
-            {
-                Id = app.Id.ToString(),
-                EmailDateReceived = app.Email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm"),
-                SenderEmail = app.Email.SenderEmail,
-                Subject = app.Email.Subject,
-                SenderName = app.Name,
-                Status = app.Status.ToString(),
-                ClosedByOperator = app.User.ToString()
             };
         }
 

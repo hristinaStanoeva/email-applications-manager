@@ -3,19 +3,30 @@
     ViewData["Title"] = "_ClosedEmailPartial";
 }
 
+@if (Model.Operator.Username == User.Identity.Name || User.IsInRole("manager"))
+{
+
     <tr>
-        <td>@Model.Id</td>
-        <td>@Model.EmailDateReceived</td>
-        <td>@Model.SenderEmail</td>
-        <td>@Model.SenderName</td>
-        <td>@Model.Subject</td>
+        <td>@Model.EmailViewModel.Id</td>
+        <td>@Model.EmailViewModel.DateReceived</td>
+        <td>@Model.EmailViewModel.SenderEmail</td>
+        <td>@Model.EmailViewModel.SenderName</td>
+        <td>@Model.EmailViewModel.Subject</td>
         <td>@Model.Status</td>
-        <td><a class="btn btn-info">Preview</a></td>
+
+        <td>
+            <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Email.Id">View Mail</a>
+
+            @if (Model.Operator.Username == User.Identity.Name || User.IsInRole("manager"))
+            {
+                <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Email.Id">View Application</a>
+            }
+        </td>
 
         @if (User.IsInRole("manager"))
         {
-            <td>@Model.ClosedByOperator</td>
-            <td>Mark as new</td>
+            <td>@Model.Operator.Username</td>
         }
 
     </tr>
+}

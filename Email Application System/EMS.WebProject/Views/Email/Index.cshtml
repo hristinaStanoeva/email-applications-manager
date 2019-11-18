@@ -33,26 +33,26 @@
     @if (Model.ActiveTab == "open")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
         </li>
     }
 
     @if (Model.ActiveTab == "closed")
     {
         <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
         </li>
     }
 </ul>
@@ -79,16 +79,12 @@
             {
                 <th scope="col">Time Since Status Change</th>
                 <th scope="col">Preview</th>
-                <th scope="col">Mark Open</th>
-
             }
 
             @if (Model.ActiveTab == "open")
             {
                 <th scope="col">Time Since Status Change</th>
                 <th scope="col">Preview</th>
-                <th scope="col">Mark Closed</th>
-
             }
 
             @if (Model.ActiveTab == "closed")
@@ -99,7 +95,6 @@
                 @if (User.IsInRole("manager"))
                 {
                     <th scope="col">Closed By:</th>
-                    <th scope="col">Mark "New"</th>
                 }
 
             }
@@ -120,19 +115,18 @@
             {
                 <partial name="_OpenEmailPartial" model="email" />
             }
-            @*else if (Model.ActiveTab == "closed")
-                {
-                    <partial name="_ClosedEmailPartial" model="email" />
-                }*@
-        }
-
-        @if (Model.ActiveTab == "closed")
-        {
-            @foreach (var app in Model.AllApps)
+            else if (Model.ActiveTab == "closed")
             {
-                <partial name="_ClosedEmailPartial" model="app" />
+                @foreach (var app in Model.AllApps)
+                {
+                    if (app.Email.Id.ToString() == email.Id)
+                    {
+                        <partial name="_ClosedEmailPartial" model="app" />
+                    }
+                }
             }
         }
+
     </tbody>
 </table>
 
