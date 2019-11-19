@@ -36,33 +36,41 @@ namespace GmailAPI
             // Create Gmail API service.
             var service = await CreateGmailServiceAsync();
 
-            var email1 = await GetEmailInfoAsync(service, emailId);
-            var email = email1.Payload;
+            var emailFull = await GetEmailInfoAsync(service, emailId);
+            var email = emailFull.Payload;
 
             // string bodyPlainTextEncrypted = string.Empty;
             string bodyHtmlTextEncrypted = string.Empty;
 
-            var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
-
-            if (htmlPart is null)
+            if (email.Parts != null)
             {
-                var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
-               
-                htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+                var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
 
                 if (htmlPart is null)
                 {
-                    htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
-                }
-            }
-            if (htmlPart != null)
-            {
-                bodyHtmlTextEncrypted = htmlPart.Body.Data;
-            }
-            else return "No body";
+                    var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
 
-            return Decrypt(bodyHtmlTextEncrypted);
+                    htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+
+                    if (htmlPart is null)
+                    {
+                        htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
+                    }
+                }
+                if (htmlPart != null)
+                {
+                    bodyHtmlTextEncrypted = htmlPart.Body.Data;
+                }
+                else return "No body";
+
+                return Decrypt(bodyHtmlTextEncrypted);
+            }
+            else
+            {
+                return Decrypt(email.Body.Data);
+            }
         }
+
 
         public async Task GmailSync()
         {
@@ -173,41 +181,49 @@ namespace GmailAPI
             var dateReceived = DataParser.ParseDate(internalDate);
             var attachmentsList = new List<AttachmentGmail>();
 
-            if (emailInfo.Parts[0].MimeType != "text/plain")
+            if (emailInfo.Parts != null)
             {
-                var attachmentsInfoReceived = emailInfo.Parts.Skip(1);
-
-                foreach (var attachment in attachmentsInfoReceived)
+                if (emailInfo.Parts[0].MimeType != "text/plain")
                 {
-                    var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
+                    var attachmentsInfoReceived = emailInfo.Parts.Skip(1);
 
-                    var newAttachment = new AttachmentGmail
+                    foreach (var attachment in attachmentsInfoReceived)
                     {
-                        Name = attachment.Filename,
-                        SizeMb = sizeMb
-                    };
+                        var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
 
-                    attachmentsList.Add(newAttachment);
+                        var newAttachment = new AttachmentGmail
+                        {
+                            Name = attachment.Filename,
+                            SizeMb = sizeMb
+                        };
+
+                        attachmentsList.Add(newAttachment);
+                    }
+                }
+
+                else if (emailInfo.Parts[1].MimeType == "multipart/related")
+                {
+                    var attachmentsInfoReceived = emailInfo.Parts[1].Parts.Skip(1);
+
+                    foreach (var attachment in attachmentsInfoReceived)
+                    {
+                        var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
+
+                        var newAttachment = new AttachmentGmail
+                        {
+                            Name = attachment.Filename,
+                            SizeMb = sizeMb
+                        };
+
+                        attachmentsList.Add(newAttachment);
+                    }
                 }
             }
-
-            if (emailInfo.Parts[1].MimeType == "multipart/related")
+            else
             {
-                var attachmentsInfoReceived = emailInfo.Parts[1].Parts.Skip(1);
 
-                foreach (var attachment in attachmentsInfoReceived)
-                {
-                    var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
-
-                    var newAttachment = new AttachmentGmail
-                    {
-                        Name = attachment.Filename,
-                        SizeMb = sizeMb
-                    };
-
-                    attachmentsList.Add(newAttachment);
-                }
             }
+
 
             return new EmailGmail
             {
