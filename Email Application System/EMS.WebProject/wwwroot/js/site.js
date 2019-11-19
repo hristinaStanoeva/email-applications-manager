@@ -1,4 +1,14 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$('.preview-btn').click(function (event) {
+    const id = $(event.target).attr('data-model-id');
+    $('#preview-all-email-modal-' + id).modal('show');
 
-// Write your JavaScript code.
+    $('#modal-body-' + id).html(`
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border mt-3 mb-3" style="color: #EC7424;"></div>
+        </div>
+`);
+
+    $.get('/email/emailbody?id=' + id, function (data) {
+        $('#modal-body-' + id).html(data);
+    });
+});
