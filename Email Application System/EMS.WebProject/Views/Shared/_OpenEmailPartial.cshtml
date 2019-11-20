@@ -9,25 +9,19 @@
 
     <td>@Model.TimeSinceCurrentStatus</td>
 
-    @if (User.IsInRole("manager") || Model.AppViewModel.Operator.Username == User.Identity.Name)
-    {
-        <td>
-            <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
 
+    <td>
+        <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
+
+        @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
+        {
             <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
-        </td>
-
-    }
-    else
-    {
-        <td>
-            <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
-        </td>
-    }
+        }
+    </td>
 
     @if (User.IsInRole("manager"))
     {
-        <td>@Model.AppViewModel.Operator.Username</td>
+        <td>@Model.OperatorUsername</td>
     }
 </tr>
 
@@ -112,9 +106,12 @@
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
                     Cancel
                 </button>
-                <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="ApplicationPreview" asp-route-id="@Model.Id">
-                    See application
-                </a>
+                @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
+                {
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="ApplicationPreview" asp-route-id="@Model.Id">
+                        See application
+                    </a>
+                }
             </div>
         </div>
     </div>

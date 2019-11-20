@@ -1,8 +1,5 @@
 ﻿using EMS.WebProject.Models.Applications;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EMS.WebProject.Models.Emails
 {

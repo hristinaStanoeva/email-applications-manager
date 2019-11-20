@@ -73,6 +73,12 @@ namespace EMS.Services
         {
             var user = await _userManager.FindByNameAsync(username);
             return user.MapToDtoModel();
-        }        
+        }
+
+        public async Task<string> GetUserIdAsync(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user.Id;
+        }
     }
 }

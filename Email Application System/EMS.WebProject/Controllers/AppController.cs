@@ -83,11 +83,10 @@ namespace EMS.WebProject.Controllers
             return RedirectToAction("Index", "Email");
         }
 
-        public async Task<IActionResult> MarkOpen(InputViewModel vm)
+        [HttpPost]
+        public async Task<IActionResult> CreateApplication(InputViewModel vm)
         {
-            var user = await _userService.FindUserAsync(User.Identity.Name);
-
-            await _appService.CreateAsync(vm.EmailId, user.Id, vm.EGN, vm.Name, vm.Phone);
+            await _appService.CreateAsync(vm.EmailId, User.Identity.Name, vm.EGN, vm.Name, vm.Phone);
 
             await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
 

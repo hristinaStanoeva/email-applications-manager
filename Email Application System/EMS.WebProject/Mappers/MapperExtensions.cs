@@ -94,6 +94,7 @@ namespace EMS.WebProject.Mappers
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
+                ToCurrentStatus = email.ToCurrentStatus,
                 MessageId = email.GmailMessageId,
                 Attachments = email.Attachments.Select(e => e.MapToViewModel()).ToList()
             };

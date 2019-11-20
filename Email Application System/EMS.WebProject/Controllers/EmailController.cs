@@ -69,25 +69,30 @@ namespace EMS.WebProject.Controllers
                 ActiveTab = "open"
             };
 
-            var appVM = new List<GenericAppViewModel>();
-            foreach (var item in vm.AllEmails)
+            foreach (var emailVM in vm.AllEmails)
             {
-                foreach (var app in apps)
-                {
-                    if (app.Email.Id.ToString() == item.Id)
-                    {
-                        appVM.Add(app.MapToViewModelOpenMail());
-                    }
-                }
+                emailVM.OperatorUsername = await _appService.GetOperatorUsernameAsync(emailVM.Id);
             }
 
-            foreach (var item in vm.AllEmails)
-            {
-                foreach (var app in appVM)
-                {
-                    item.AppViewModel = app;
-                }
-            }
+            //var appVM = new List<GenericAppViewModel>();
+            //foreach (var item in vm.AllEmails)
+            //{
+            //    foreach (var app in apps)
+            //    {
+            //        if (app.Email.Id.ToString() == item.Id)
+            //        {
+            //            appVM.Add(app.MapToViewModelOpenMail());
+            //        }
+            //    }
+            //}
+
+            //foreach (var item in vm.AllEmails)
+            //{
+            //    foreach (var app in appVM)
+            //    {
+            //        item.AppViewModel = app;
+            //    }
+            //}
 
             return View("Index", vm);
         }
@@ -132,57 +137,66 @@ namespace EMS.WebProject.Controllers
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
-            var emailsIndex = await _emailService.GetAllEmailsAsync();
+            var allEmails = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
             {
-                AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
                 ActiveTab = "all"
             };
 
             return View("Index", vm);
         }
 
-        //[HttpGet]
-        public async Task<IActionResult> MarkNew(string id)
+
+        [HttpGet]
+        public async Task<IActionResult> MarkOpen(string id)
         {
-            await _emailService.ChangeStatusAsync(id, EmailStatus.New);
-
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBodyAsync(mailId);
+            var body = await _emailService.GetBodyAsync(mailId);
 
-            var emailsIndex = await _emailService.GetAllEmailsAsync();
-            var email = emailsIndex.FirstOrDefault(x => x.Id.ToString() == id);
+            var email = await _emailService.GetSingleEmailAsync(id);
 
             var attachmentsVM = new List<AttachmentViewModel>();
-            var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
-            if (attachmentsDto != null)
+
+            if (email.Attachments.Count != 0)
             {
-                foreach (var att in attachmentsDto)
+                foreach (var att in email.Attachments)
                 {
                     attachmentsVM.Add(att.MapToViewModel());
                 }
             }
 
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
-            //vm.GenericViewModel = email.MapToViewModel();
             vm.InputViewModel.EmailId = id;
 
             return View("Open", vm);
         }
 
-        //public async Task<IActionResult> MarkOpen(string id)
-        //{
-        //    await _emailService.MarkOpenAsync(id);
+        [HttpGet]
+        public async Task<IActionResult> MarkNew(string id)
+        {
+            await _emailService.ChangeStatusAsync(id, EmailStatus.New);
 
-        //    var emailsIndex = await _emailService.GetAllEmailsAsync();
-        //    var vm = new AllEmailsViewModel
-        //    {
-        //        AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
-        //        ActiveTab = "all"
-        //    };
+            var mailId = await _emailService.GetGmailId(id);
+            var body = await _emailService.GetBodyAsync(mailId);
 
-        //    return View("Index", vm);
-        //}
+            var email = await _emailService.GetSingleEmailAsync(id);
+
+            var attachmentsVM = new List<AttachmentViewModel>();
+
+            if (email.Attachments.Count != 0)
+            {
+                foreach (var att in email.Attachments)
+                {
+                    attachmentsVM.Add(att.MapToViewModel());
+                }
+            }
+
+            var vm = email.MapToViewModelPreview(body, attachmentsVM);
+            vm.InputViewModel.EmailId = id;
+
+            return View("Open", vm);
+        }
 
         public async Task<IActionResult> MarkNotReviewed(string id)
         {
@@ -215,7 +229,7 @@ namespace EMS.WebProject.Controllers
                 }
             }
 
-            var email = await _emailService.GetSingleMail(id);
+            var email = await _emailService.GetSingleEmailAsync(id);
             var previewViewModel = email.MapToViewModelPreview(body, attachmentsVM);
             //previewViewModel.GenericViewModel = email.MapToViewModel();
 

@@ -21,8 +21,6 @@ namespace EMS.WebProject.Models.Emails
 
         public InputViewModel InputViewModel { get; set; } = new InputViewModel();
 
-       // public GenericEmailViewModel GenericViewModel { get; set; }
-
         public List<AttachmentViewModel> Attachments { get; set; }
     }
 }

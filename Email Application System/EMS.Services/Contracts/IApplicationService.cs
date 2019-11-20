@@ -19,5 +19,6 @@ namespace EMS.Services.Contracts
         Task Delete(string appId);
         Task<List<ApplicationDto>> GetOpenAppsAsync();
         Task<List<ApplicationDto>> GetClosedAppsAsync();
+        Task<string> GetOperatorUsernameAsync(string emailId);
     }
 }
