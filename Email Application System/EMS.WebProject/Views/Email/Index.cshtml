@@ -1,10 +1,7 @@
 ﻿@model AllEmailsViewModel
-@{
-    ViewData["Title"] = "Index";
-}
 
 <ul class="nav nav-tabs">
-    @if (Model.ActiveTab == "all")
+    @if (Model.ActiveTab == Constants.TabAll)
     {
         <li class="nav-item">
             <a class="nav-link active" asp-controller="Email" asp-action="Index">All Emails</a>
@@ -17,7 +14,7 @@
         </li>
     }
 
-    @if (Model.ActiveTab == "new")
+    @if (Model.ActiveTab == Constants.TabNew)
     {
         <li class="nav-item">
             <a class="nav-link active" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
@@ -30,7 +27,7 @@
         </li>
     }
 
-    @if (Model.ActiveTab == "open")
+    @if (Model.ActiveTab == Constants.TabOpen)
     {
         <li class="nav-item">
             <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
@@ -43,7 +40,7 @@
         </li>
     }
 
-    @if (Model.ActiveTab == "closed")
+    @if (Model.ActiveTab == Constants.TabClosed)
     {
         <li class="nav-item">
             <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
@@ -66,7 +63,7 @@
             <th scope="col">Name</th>
             <th scope="col">Subject</th>
 
-            @if (Model.ActiveTab == "all")
+            @if (Model.ActiveTab == Constants.TabAll)
             {
                 <th scope="col">Status</th>
                 <th scope="col">Attachments</th>
@@ -75,26 +72,26 @@
 
             }
 
-            @if (Model.ActiveTab == "new")
+            @if (Model.ActiveTab == Constants.TabNew)
             {
                 <th scope="col">New since</th>
                 <th scope="col">Preview</th>
             }
 
-            @if (Model.ActiveTab == "open")
+            @if (Model.ActiveTab == Constants.TabOpen)
             {
                 <th scope="col">Open since</th>
-                @if (User.IsInRole("manager"))
+                @if (User.IsInRole(Constants.Manager))
                 {
                     <th scope="col">Open by</th>
                 }
                 <th scope="col">Preview</th>
             }
 
-            @if (Model.ActiveTab == "closed")
+            @if (Model.ActiveTab == Constants.TabClosed)
             {
                 <th scope="col">Status</th>
-                @if (User.IsInRole("manager"))
+                @if (User.IsInRole(Constants.Manager))
                 {
                     <th scope="col">Closed by</th>
                 }
@@ -105,19 +102,19 @@
     <tbody>
         @foreach (var email in Model.AllEmails)
         {
-            if (Model.ActiveTab == "all")
+            if (Model.ActiveTab == Constants.TabAll)
             {
                 <partial name="_AllEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "new")
+            else if (Model.ActiveTab == Constants.TabNew)
             {
                 <partial name="_NewEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "open")
+            else if (Model.ActiveTab == Constants.TabOpen)
             {
                 <partial name="_OpenEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "closed")
+            else if (Model.ActiveTab == Constants.TabClosed)
             {
                 <partial name="_ClosedEmailPartial" model="email" />
             }

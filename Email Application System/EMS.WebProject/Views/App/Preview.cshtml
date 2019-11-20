@@ -16,18 +16,18 @@
 </div>
 
 
-@if ((Model.OperatorName == User.Identity.Name || User.IsInRole("manager")) && Model.Status == ApplicationStatus.NotReviewed)
+@if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.InRoleManager)) && Model.Status == ApplicationStatus.NotReviewed)
 {
     <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
     <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
 }
-else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole("manager"))
+else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.InRoleManager))
 {
     <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
 }
 
 
-@{var referrer = this.Context.Request.Headers["Referer"]; }
+@{var referrer = this.Context.Request.Headers[Constants.HeaderReferer]; }
 
 @if (referrer != default(StringValues))
 {

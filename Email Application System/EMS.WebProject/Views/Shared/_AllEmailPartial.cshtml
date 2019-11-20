@@ -1,9 +1,4 @@
 ﻿@model GenericEmailViewModel
-@using EMS.Data.Enums
-@{
-    ViewData["Title"] = "_AllEmailPartial";
-}
-
 
 @if (Model.Status == EmailStatus.Invalid.ToString())
 {
@@ -28,7 +23,7 @@
             <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview</a>
         </td>
         <td>
-            @if (User.IsInRole("manager"))
+            @if (User.IsInRole(Constants.Manager))
             {
                 <a class="text-info ml-1" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Change Status to Not Reviewed"></i></a>
             }

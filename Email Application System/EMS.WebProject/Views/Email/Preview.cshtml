@@ -2,7 +2,7 @@
 
 <partial name="_EmailDataPartial" />
 
-@if (User.IsInRole("manager"))
+@if (User.IsInRole(Constants.Manager))
 {
     if (Model.Status == EmailStatus.NotReviewed.ToString())
     {
@@ -20,14 +20,14 @@
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Start an Application</a>
     }
 
-    var referrer = this.Context.Request.Headers["Referer"];
+    var referrer = this.Context.Request.Headers[Constants.HeaderReferer];
 
     @if (referrer != default(StringValues))
     {
         <a href="@referrer.ToString()" class="btn btn-outline-dark">Go Back</a>
     }
 }
-else if (User.IsInRole("operator"))
+else if (User.IsInRole(Constants.Operator))
 {
     if (Model.Status == EmailStatus.NotReviewed.ToString())
     {
@@ -43,7 +43,7 @@ else if (User.IsInRole("operator"))
         <a class="btn btn-info" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Start an application</a>
     }
 
-    var referrer = this.Context.Request.Headers["Referer"];
+    var referrer = this.Context.Request.Headers[Constants.HeaderReferer];
 
     @if (referrer != default(StringValues))
     {
