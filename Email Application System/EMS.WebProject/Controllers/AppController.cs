@@ -1,5 +1,5 @@
-﻿using EMS.Data.Enums;
-using EMS.Data.Seed;
+﻿using EMS.Data;
+using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
@@ -33,9 +33,9 @@ namespace EMS.WebProject.Controllers
             await _appService.Delete(id);
             await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
 
-            TempData["message"] = Constants.SuccAppNew;
+            TempData[Constants.TempDataMsg] = Constants.SuccAppNew;
 
-            return RedirectToAction("Index", "Email");
+            return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
         }
 
         [HttpGet]
@@ -56,9 +56,9 @@ namespace EMS.WebProject.Controllers
             var emailId = await _appService.GetEmailId(id);
             await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
 
-            TempData["message"] = Constants.SuccAppInvalid;
+            TempData[Constants.TempDataMsg] = Constants.SuccAppInvalid;
 
-            return RedirectToAction("Index", "Email");
+            return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
         }
 
         [HttpGet]
@@ -68,9 +68,9 @@ namespace EMS.WebProject.Controllers
             var emailId = await _appService.GetEmailId(id);
             await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
 
-            TempData["message"] = Constants.SuccAppInvalid;
+            TempData[Constants.TempDataMsg] = Constants.SuccAppInvalid;
 
-            return RedirectToAction("Index", "Email");
+            return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
         }
 
         [HttpPost]
@@ -80,9 +80,9 @@ namespace EMS.WebProject.Controllers
 
             await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
 
-            TempData["message"] = Constants.SuccAppCreate;
+            TempData[Constants.TempDataMsg] = Constants.SuccAppCreate;
 
-            return RedirectToAction("Index", "Email");
+            return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using EMS.Data.dbo_Models;
+﻿using EMS.Data;
+using EMS.Data.dbo_Models;
 using EMS.Services.Contracts;
 using EMS.WebProject.Models.Users;
 using Microsoft.AspNetCore.Identity;
@@ -24,8 +25,8 @@ namespace EMS.WebProject.Controllers
         public IActionResult Register()
         {
             var listRoles = new List<SelectListItem> {
-                new SelectListItem { Text = "Manager", Value = "manager" },
-                new SelectListItem { Text = "Operator", Value = "operator" }
+                new SelectListItem { Text = Constants.SelListTextManager, Value = Constants.SelListValueManager },
+                new SelectListItem { Text = Constants.SelListTextOperator, Value = Constants.SelListValueOperator }
             };
 
             var viewModel = new RegisterUserViewModel
@@ -47,7 +48,7 @@ namespace EMS.WebProject.Controllers
                 await _userService.CreateAsync(viewModel.Email, viewModel.Password, viewModel.Role);
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(Constants.PageIndex, Constants.PageHome);
         }
 
         [HttpGet]
@@ -61,7 +62,7 @@ namespace EMS.WebProject.Controllers
         {
             await _userService.ChangePasswordAsync(viewModel.Username, viewModel.CurrentPassword, viewModel.Password);
             await _signInManager.SignOutAsync();
-            return LocalRedirect("/Identity/Account/Login");
+            return LocalRedirect(Constants.ChangePassRedirect);
         }
     }
 }

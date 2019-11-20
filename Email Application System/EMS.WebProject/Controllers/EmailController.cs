@@ -1,4 +1,5 @@
-﻿using EMS.Data.Enums;
+﻿using EMS.Data;
+using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Emails;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
-    [Authorize(Policy = "IsPasswordChanged")]
+    [Authorize(Policy = Constants.AuthPolicy)]
     public class EmailController : Controller
     {
         private readonly IApplicationService _appService;
@@ -30,10 +31,10 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
-                ActiveTab = "all"
+                ActiveTab = Constants.TabAll
             };
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
@@ -44,10 +45,10 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
-                ActiveTab = "new"
+                ActiveTab = Constants.TabNew
             };
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
@@ -59,7 +60,7 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
-                ActiveTab = "open"
+                ActiveTab = Constants.PageOpen
             };
 
             foreach (var emailVM in vm.AllEmails)
@@ -67,7 +68,7 @@ namespace EMS.WebProject.Controllers
                 emailVM.OperatorUsername = await _appService.GetOperatorUsernameAsync(emailVM.Id);
             }
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
@@ -78,7 +79,7 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = emails.Select(mail => mail.MapToViewModel()).ToList(),
-                ActiveTab = "closed"
+                ActiveTab = Constants.TabClosed
             };
 
             foreach (var email in vm.AllEmails)
@@ -87,7 +88,7 @@ namespace EMS.WebProject.Controllers
                 email.ApplicationStatus = await _appService.GetAppStatus(email.Id);
             }
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
@@ -99,10 +100,10 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
-                ActiveTab = "all"
+                ActiveTab = Constants.TabAll
             };
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
@@ -126,7 +127,7 @@ namespace EMS.WebProject.Controllers
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
             vm.InputViewModel.EmailId = id;
 
-            return View("Open", vm);
+            return View(Constants.PageOpen, vm);
         }
 
         [HttpGet]
@@ -152,7 +153,7 @@ namespace EMS.WebProject.Controllers
             var vm = email.MapToViewModelPreview(body, attachmentsVM);
             vm.InputViewModel.EmailId = id;
 
-            return View("Open", vm);
+            return View(Constants.PageOpen, vm);
         }
 
         [HttpGet]
@@ -164,10 +165,10 @@ namespace EMS.WebProject.Controllers
             var vm = new AllEmailsViewModel
             {
                 AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
-                ActiveTab = "all"
+                ActiveTab = Constants.TabAll
             };
 
-            return View("Index", vm);
+            return View(Constants.PageIndex, vm);
         }
 
         [HttpGet]
