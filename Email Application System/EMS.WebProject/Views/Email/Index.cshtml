@@ -1,0 +1,128 @@
+﻿@model AllEmailsViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<ul class="nav nav-tabs">
+    @if (Model.ActiveTab == "all")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="Index">All Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="Index">All Emails</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "new")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "open")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
+        </li>
+    }
+
+    @if (Model.ActiveTab == "closed")
+    {
+        <li class="nav-item">
+            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
+        </li>
+    }
+</ul>
+
+<table class="table table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Received</th>
+            <th scope="col">Email</th>
+            <th scope="col">Name</th>
+            <th scope="col">Subject</th>
+
+            @if (Model.ActiveTab == "all")
+            {
+                <th scope="col">Status</th>
+                <th scope="col">Attachments</th>
+                <th scope="col">Preview</th>
+                <th scope="col">Change Status</th>
+
+            }
+
+            @if (Model.ActiveTab == "new")
+            {
+                <th scope="col">New since</th>
+                <th scope="col">Preview</th>
+            }
+
+            @if (Model.ActiveTab == "open")
+            {
+                <th scope="col">Open since</th>
+                @if (User.IsInRole("manager"))
+                {
+                    <th scope="col">Open by</th>
+                }
+                <th scope="col">Preview</th>
+            }
+
+            @if (Model.ActiveTab == "closed")
+            {
+                <th scope="col">Status</th>
+                @if (User.IsInRole("manager"))
+                {
+                    <th scope="col">Closed by</th>
+                }
+                <th scope="col">Preview</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var email in Model.AllEmails)
+        {
+            if (Model.ActiveTab == "all")
+            {
+                <partial name="_AllEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "new")
+            {
+                <partial name="_NewEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "open")
+            {
+                <partial name="_OpenEmailPartial" model="email" />
+            }
+            else if (Model.ActiveTab == "closed")
+            {
+                <partial name="_ClosedEmailPartial" model="email" />
+            }
+        }
+
+    </tbody>
+</table>
+

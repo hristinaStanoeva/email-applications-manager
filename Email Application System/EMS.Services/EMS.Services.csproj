@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EMS.Data\EMS.Data.csproj" />
+    <ProjectReference Include="..\EMS.GmailAPI\EMS.GmailAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,31 +1,140 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using EMS.Data;
+using EMS.GmailAPI.gmail_Models;
+using EMS.GmailAPI.Mappers;
+using EMS.GmailAPI.Parsers;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace TestGmailAPI
+namespace GmailAPI
 {
-    public static class GmailAPIService
+    public class GmailAPIService : IGmailAPIService
     {
-        // If modifying these scopes, delete your previously saved credentials
-        // at ~/.credentials/gmail-dotnet-quickstart.json
-        static string[] Scopes = { GmailService.Scope.GmailReadonly };
-        static string ApplicationName = "Gmail API .NET Quickstart";
+        // If modifying these scopes, delete your previously saved credentials at ~/.credentials/gmail-dotnet-quickstart.json
+        static string[] Scopes = { GmailService.Scope.GmailModify };
+        static string ApplicationName = "Gmail API";
+        static string EmailAddress = "application.southwest@gmail.com";
+        private readonly SystemDataContext _context;
 
-        public static void GmailSync()
+        public GmailAPIService(SystemDataContext context)
+        {
+            _context = context;
+        }
+
+
+        public async Task<string> GetEmailBodyAsync(string emailId)
+        {
+            // Create Gmail API service.
+            var service = await CreateGmailServiceAsync();
+
+            var emailFull = await GetEmailInfoAsync(service, emailId);
+            var email = emailFull.Payload;
+
+            // string bodyPlainTextEncrypted = string.Empty;
+            string bodyHtmlTextEncrypted = string.Empty;
+
+            if (email.Parts != null)
+            {
+                var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
+
+                if (htmlPart is null)
+                {
+                    var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
+
+                    htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+
+                    if (htmlPart is null)
+                    {
+                        htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
+                    }
+                }
+                if (htmlPart != null)
+                {
+                    bodyHtmlTextEncrypted = htmlPart.Body.Data;
+                }
+                else return "No body";
+
+                return Decrypt(bodyHtmlTextEncrypted);
+            }
+            else
+            {
+                return Decrypt(email.Body.Data);
+            }
+        }
+
+
+        public async Task GmailSync()
+        {
+            // Create Gmail API service.
+            var service = await CreateGmailServiceAsync();
+            // Get all emails
+            var emails = await GetEmailsAsync(service);
+
+            if (emails is null)
+            {
+                return;
+            }
+
+            var parsedEmails = new List<EmailGmail>();
+
+            // Loop through each email
+            foreach (var email in emails)
+            {
+                var emailId = email.Id;
+
+                var emailInfo = await GetEmailInfoAsync(service, emailId);
+
+                var parsedEmail = CreateEmail(emailInfo.Payload, emailInfo.InternalDate ?? throw new ArgumentNullException());
+                parsedEmail.GmailMessageId = emailId;
+
+                parsedEmails.Add(parsedEmail);
+            }
+
+            await AddToContext(parsedEmails).ConfigureAwait(false);
+        }
+
+        private async Task AddToContext(List<EmailGmail> gmailEmails)
+        {
+            foreach (var email in gmailEmails)
+            {
+                var newDomainEmail = email.MapToDomainModel();
+
+                var domainEmail = _context.Emails.Add(newDomainEmail);
+
+                if (email.Attachments.Count != 0)
+                {
+                    foreach (var attachment in email.Attachments)
+                    {
+                        var newDomainAttachment = attachment.MapToDomainModel();
+                        newDomainAttachment.EmailId = domainEmail.Entity.Id;
+
+                        _context.Attachments.Add(newDomainAttachment);
+                    }
+                }
+
+            }
+
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+
+        private async Task<GmailService> CreateGmailServiceAsync()
         {
             UserCredential credential;
 
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
+                // The file token.json stores the user's access and refresh tokens, and is created automatically when the authorization flow completes for the first time.
                 string credPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -35,76 +144,102 @@ namespace TestGmailAPI
                     new FileDataStore(credPath, true)).Result;
             }
 
-            // Create Gmail API service.
-            var service = new GmailService(new BaseClientService.Initializer()
+            return new GmailService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
                 ApplicationName = ApplicationName,
             });
-
-            var emailsListRequest = service.Users.Messages.List("application.southwest@gmail.com");
+        }
+        private async Task<IList<Message>> GetEmailsAsync(GmailService service)
+        {
+            var emailsListRequest = service.Users.Messages.List(EmailAddress);
 
             emailsListRequest.LabelIds = "INBOX";
             emailsListRequest.IncludeSpamTrash = false;
+            // Unread emails
+            emailsListRequest.Q = "is:unread";
 
-            // This was added because I only wanted unread emails...
-            //emailsListRequest.Q = "is:unread"; 
-
-            // Get our emails
             var emailsListResponse = emailsListRequest.ExecuteAsync().Result;
+            return emailsListResponse.Messages;
+        }
+        private async Task<Message> GetEmailInfoAsync(GmailService service, string emailId)
+        {
+            var emailInfoRequest = service.Users.Messages.Get(EmailAddress, emailId);
+            var emailInfoResponse = await emailInfoRequest.ExecuteAsync();
 
-            // Loop through each email and get what fields you want...
-            foreach (var email in emailsListResponse.Messages)
+            var markAsReadRequest = new ModifyMessageRequest { RemoveLabelIds = new List<string> { "UNREAD" } };
+
+            await service.Users.Messages.Modify(markAsReadRequest, "me", emailInfoResponse.Id).ExecuteAsync();
+
+            return emailInfoResponse;
+        }
+        private EmailGmail CreateEmail(MessagePart emailInfo, long internalDate)
+        {
+            var senderEmail = DataParser.ParseSenderEmail(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
+            var senderName = DataParser.ParseSenderName(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
+            var subject = emailInfo.Headers.FirstOrDefault(header => header.Name == "Subject").Value;
+            var dateReceived = DataParser.ParseDate(internalDate);
+            var attachmentsList = new List<AttachmentGmail>();
+
+            if (emailInfo.Parts != null)
             {
-                var emailInfoRequest = service.Users.Messages.Get("application.southwest@gmail.com", email.Id);
-                // Make another request for that email id...
-                var emailInfoResponse = emailInfoRequest.ExecuteAsync().Result;
-
-                var sentBy = emailInfoResponse.Payload.Headers.FirstOrDefault(header => header.Name == "From").Value;
-                var subject = emailInfoResponse.Payload.Headers.FirstOrDefault(header => header.Name == "Subject").Value;
-                var sentReceived = emailInfoResponse.Payload.Headers.FirstOrDefault(header => header.Name == "Date").Value;
-                var emailId = emailInfoResponse.Payload.Headers.FirstOrDefault(header => header.Name == "Message-ID").Value;
-
-                if (emailInfoResponse.Payload.Parts[0].MimeType=="text/plain")
+                if (emailInfo.Parts[0].MimeType != "text/plain")
                 {
-                    var bodyPlainTextEncrypted = emailInfoResponse.Payload.Parts.FirstOrDefault(part => part.MimeType == "text/plain").Body.Data;
-                    var bodyHtmlTextEncrypted = emailInfoResponse.Payload.Parts.FirstOrDefault(part => part.MimeType == "text/html").Body.Data;
+                    var attachmentsInfoReceived = emailInfo.Parts.Skip(1);
 
-                    String plainTextEncrypted = bodyPlainTextEncrypted.Replace("-", "+");
-                    plainTextEncrypted = plainTextEncrypted.Replace("_", "/");
-                    byte[] dataPlainText = Convert.FromBase64String(plainTextEncrypted);
-                    var plainText = Encoding.UTF8.GetString(dataPlainText);
-
-                    String htmlTextEncrypted = bodyHtmlTextEncrypted.Replace("-", "+");
-                    htmlTextEncrypted = htmlTextEncrypted.Replace("_", "/");
-                    byte[] dataHtmlText = Convert.FromBase64String(htmlTextEncrypted);
-                    var htmlText = Encoding.UTF8.GetString(dataHtmlText);
-                }
-                else
-                {
-                    var bodyPlainTextEncrypted = emailInfoResponse.Payload.Parts[0].Parts.FirstOrDefault(part => part.MimeType == "text/plain").Body.Data;
-                    var bodyHtmlTextEncrypted = emailInfoResponse.Payload.Parts[0].Parts.FirstOrDefault(part => part.MimeType == "text/html").Body.Data;
-
-                    String plainTextEncrypted = bodyPlainTextEncrypted.Replace("-", "+");
-                    plainTextEncrypted = plainTextEncrypted.Replace("_", "/");
-                    byte[] dataPlainText = Convert.FromBase64String(plainTextEncrypted);
-                    var plainText = Encoding.UTF8.GetString(dataPlainText);
-
-                    String htmlTextEncrypted = bodyHtmlTextEncrypted.Replace("-", "+");
-                    htmlTextEncrypted = htmlTextEncrypted.Replace("_", "/");
-                    byte[] dataHtmlText = Convert.FromBase64String(htmlTextEncrypted);
-                    var htmlText = Encoding.UTF8.GetString(dataHtmlText);
-
-                    var attachmentsInfoReceived = emailInfoResponse.Payload.Parts.Skip(1);
-                    
                     foreach (var attachment in attachmentsInfoReceived)
                     {
-                        var attachmentName = attachment.Filename;
-                        var attachmentSizeBytes = attachment.Body.Size;
+                        var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
+
+                        var newAttachment = new AttachmentGmail
+                        {
+                            Name = attachment.Filename,
+                            SizeMb = sizeMb
+                        };
+
+                        attachmentsList.Add(newAttachment);
                     }
                 }
 
+                else if (emailInfo.Parts[1].MimeType == "multipart/related")
+                {
+                    var attachmentsInfoReceived = emailInfo.Parts[1].Parts.Skip(1);
+
+                    foreach (var attachment in attachmentsInfoReceived)
+                    {
+                        var sizeMb = (double)attachment.Body.Size / (1024 * 1024);
+
+                        var newAttachment = new AttachmentGmail
+                        {
+                            Name = attachment.Filename,
+                            SizeMb = sizeMb
+                        };
+
+                        attachmentsList.Add(newAttachment);
+                    }
+                }
             }
+            else
+            {
+
+            }
+
+
+            return new EmailGmail
+            {
+                Received = dateReceived,
+                SenderEmail = senderEmail,
+                SenderName = senderName,
+                Subject = subject,
+                Attachments = attachmentsList
+            };
+        }
+        private string Decrypt(string encryptedText)
+        {
+            var tempText = encryptedText.Replace("-", "+");
+            tempText = tempText.Replace("_", "/");
+            byte[] dataText = Convert.FromBase64String(tempText);
+            return Encoding.UTF8.GetString(dataText);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EMS.Data.dbo_Models;
 using EMS.Services.dto_Models;
+using System.Linq;
 
 namespace EMS.Services.Mappers
 {
@@ -14,6 +15,46 @@ namespace EMS.Services.Mappers
                 Email = user.Email,
                 CreatedOn = user.CreatedOn,
                 IsPasswordChanged = user.IsPasswordChanged
+            };
+        }
+
+        public static EmailDto MapToDtoModel(this EmailDomain email)
+        {
+            return new EmailDto
+            {
+                Id = email.Id,
+                Received = email.Received,
+                NumberOfAttachments = email.NumberOfAttachments,
+                SenderEmail = email.SenderEmail,
+                SenderName = email.SenderName,
+                Status = email.Status,
+                Subject = email.Subject,
+                Body = email.Body,
+                ToCurrentStatus = email.ToCurrentStatus,
+                GmailMessageId = email.GmailMessageId,
+                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()
+            };
+        }
+
+        public static ApplicationDto MapToDtoModel(this ApplicationDomain app)
+        {
+            return new ApplicationDto
+            {
+                Id = app.Id,               
+                EGN = app.EGN,
+                Name = app.Name,
+                Status = app.Status,
+                PhoneNumber = app.PhoneNumber,
+                UserId = app.UserId
+            };
+        }
+
+        public static AttachmentDto MapToDtoModel(this AttachmentDomain att)
+        {
+            return new AttachmentDto
+            {
+                Name = att.Name,
+                SizeMb = att.SizeMb
             };
         }
     }

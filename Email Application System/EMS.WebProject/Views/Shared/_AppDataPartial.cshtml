@@ -1,0 +1,28 @@
+﻿@model InputViewModel
+
+<form asp-action="CreateApplication" asp-controller="App" method="post">
+
+    <div class="form-group">
+        <b>Name:</b>
+        <input asp-for="@Model.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <b>EGN:</b>
+        <p></p>
+        <input asp-for="@Model.EGN" />
+    </div>
+
+    <div class="form-group">
+        <b>Phone Number:</b>
+        <p></p>
+        <input asp-for="@Model.Phone"/>
+    </div>
+
+    <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
+
+    <button type="submit" class="btn btn-info">Create application</button> 
+    <p></p>
+</form>
+
+<a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>
