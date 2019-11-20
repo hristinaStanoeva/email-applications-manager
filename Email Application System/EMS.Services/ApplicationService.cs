@@ -31,16 +31,13 @@ namespace EMS.Services
                 .ConfigureAwait(false);
 
             _context.Applications.Remove(application);
-
             await _context.SaveChangesAsync();
         }
 
         public async Task<ApplicationDto> GetByMailIdAsync(string emailId)
         {
             var appDomain = await _context.Applications
-                .Include(app => app.Email)
-                .Include(app => app.User)
-                .FirstOrDefaultAsync(app => app.Email.Id.ToString() == emailId)
+                .FirstOrDefaultAsync(app => app.EmailId.ToString() == emailId)
                 .ConfigureAwait(false);
 
             return appDomain.MapToDtoModel();
@@ -110,11 +107,11 @@ namespace EMS.Services
 
         public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
         {
-            var email = await _context.Applications
+            var application = await _context.Applications
                 .FirstOrDefaultAsync(ap => ap.Id.ToString() == applictionId)
                 .ConfigureAwait(false);
 
-            email.Status = newStatus;
+            application.Status = newStatus;
 
             await _context.SaveChangesAsync();
         }
@@ -147,6 +144,18 @@ namespace EMS.Services
                 return application.User.UserName;
             }
             else return null;
+        }
+
+        public async Task<string> GetEmailId(string appId)
+        {
+            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId).ConfigureAwait(false);
+            return application.EmailId.ToString();
+        }
+
+        public async Task<string> GetAppStatus(string mailId)
+        {
+            var application = await _context.Applications.FirstOrDefaultAsync(app => app.EmailId.ToString() == mailId).ConfigureAwait(false);
+            return application.Status.ToString();
         }
     }
 }

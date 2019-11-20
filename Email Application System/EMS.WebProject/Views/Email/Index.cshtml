@@ -84,24 +84,21 @@
             @if (Model.ActiveTab == "open")
             {
                 <th scope="col">Open since</th>
-                <th scope="col">Preview</th>
-
                 @if (User.IsInRole("manager"))
                 {
                     <th scope="col">Open by</th>
                 }
+                <th scope="col">Preview</th>
             }
 
             @if (Model.ActiveTab == "closed")
             {
                 <th scope="col">Status</th>
-                <th scope="col">Preview</th>
-
                 @if (User.IsInRole("manager"))
                 {
                     <th scope="col">Closed by</th>
                 }
-
+                <th scope="col">Preview</th>
             }
         </tr>
     </thead>
@@ -122,13 +119,7 @@
             }
             else if (Model.ActiveTab == "closed")
             {
-                @foreach (var app in Model.AllApps)
-                {
-                    if (app.Email.Id.ToString() == email.Id)
-                    {
-                        <partial name="_ClosedEmailPartial" model="app" />
-                    }
-                }
+                <partial name="_ClosedEmailPartial" model="email" />
             }
         }
 

@@ -54,21 +54,8 @@ namespace EMS.WebProject.Mappers
                 Status = app.Status.ToString()
             };
         }
-        public static GenericAppViewModel MapToViewModelOpenMail(this ApplicationDto app)
-        {
-            return new GenericAppViewModel
-            {
-                Id = app.Id.ToString(),
-                Operator = app.User,
-                Email = app.Email,
-                EGN = app.EGN,
-                Name = app.Name,
-                Phone = app.PhoneNumber,
-                Status = app.Status.ToString()
-            };
-        }
 
-        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app, string emailId)
+        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app)
         {
             return new AppPreviewViewModel
             {
@@ -76,9 +63,7 @@ namespace EMS.WebProject.Mappers
                 EGN = app.EGN,
                 Name = app.Name,
                 Phone = app.PhoneNumber,
-                Email = app.Email,
-                Status = app.Status,
-                OperatorName = app.User.Username
+                Status = app.Status
             };
         }
 

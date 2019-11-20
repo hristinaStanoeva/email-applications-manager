@@ -74,60 +74,24 @@ namespace EMS.WebProject.Controllers
                 emailVM.OperatorUsername = await _appService.GetOperatorUsernameAsync(emailVM.Id);
             }
 
-            //var appVM = new List<GenericAppViewModel>();
-            //foreach (var item in vm.AllEmails)
-            //{
-            //    foreach (var app in apps)
-            //    {
-            //        if (app.Email.Id.ToString() == item.Id)
-            //        {
-            //            appVM.Add(app.MapToViewModelOpenMail());
-            //        }
-            //    }
-            //}
-
-            //foreach (var item in vm.AllEmails)
-            //{
-            //    foreach (var app in appVM)
-            //    {
-            //        item.AppViewModel = app;
-            //    }
-            //}
-
             return View("Index", vm);
         }
 
         public async Task<IActionResult> GetClosedEmails()
         {
-            var apps = await _appService.GetClosedAppsAsync();
+            var emails = await _emailService.GetClosedEmailsAsync();
 
             var vm = new AllEmailsViewModel
             {
-                AllApps = apps.Select(x => x.MapToViewModel()).ToList(),
-                AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Closed.ToString()).ToList(),
+                AllEmails = emails.Select(mail => mail.MapToViewModel()).ToList(),
                 ActiveTab = "closed"
             };
 
-            var mailVM = new List<GenericEmailViewModel>();
-            foreach (var item in vm.AllApps)
+            foreach (var email in vm.AllEmails)
             {
-                foreach (var mail in vm.AllEmails)
-                {
-                    if (mail.Id == item.Email.Id.ToString())
-                    {
-                        mailVM.Add(mail);
-                    }
-                }
+                email.OperatorUsername = await _appService.GetOperatorUsernameAsync(email.Id);
+                email.ApplicationStatus = await _appService.GetAppStatus(email.Id);
             }
-
-            foreach (var item in vm.AllApps)
-            {
-                foreach (var app in mailVM)
-                {
-                    item.EmailViewModel = app;
-                }
-            }
-
 
             return View("Index", vm);
         }

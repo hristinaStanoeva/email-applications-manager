@@ -1,46 +1,36 @@
 ﻿@model AppPreviewViewModel
 
+<div class="form-group">
+    <label for="exampleFormControlInput1"><b>Name:</b></label>
+    <p>@Model.Name</p>
+</div>
 
-<form asp-action="ChangeAppStatus" asp-controller="App" method="post">
-    <div class="form-group">
-        <label for="exampleFormControlInput1"><b>Name:</b></label>
-        <p>@Model.Name</p>
-    </div>
+<div class="form-group">
+    <label for="exampleFormControlInput1"><b>EGN:</b></label>
+    <p>@Model.EGN</p>
+</div>
 
-    <div class="form-group">
-        <label for="exampleFormControlInput1"><b>EGN:</b></label>
-        <p>@Model.EGN</p>
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlInput1"><b>Phone:</b></label>
-        <p>@Model.Phone</p>
-    </div>
-
-    <input type="hidden" asp-for="Email.Id" value="@Model.Email.Id" />
-    <input type="hidden" asp-for="Id" value="@Model.Id" />
-
-    @if (Model.Email.Status == EmailStatus.Open && (Model.OperatorName == User.Identity.Name || User.IsInRole("manager")))
-    {
-        <button type="submit" class="btn btn-info" name="submitbtn" value="valid">Mark Valid</button>
-        <button type="submit" class="btn btn-info" name="submitbtn" value="invalid">Mark Invalid</button>
-    }
-    else if (Model.Email.Status == EmailStatus.Closed)
-    {
-        if (User.IsInRole("manager"))
-        {
-            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark as New</a>
-        }
-    }
+<div class="form-group">
+    <label for="exampleFormControlInput1"><b>Phone:</b></label>
+    <p>@Model.Phone</p>
+</div>
 
 
-</form>
+@if ((Model.OperatorName == User.Identity.Name || User.IsInRole("manager")) && Model.Status == ApplicationStatus.NotReviewed)
+{
+    <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+    <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
+}
+else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole("manager"))
+{
+    <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
+}
 
 
 @{var referrer = this.Context.Request.Headers["Referer"]; }
 
 @if (referrer != default(StringValues))
 {
-    <a href="@referrer.ToString()" class="btn btn-outline-dark">Go Back</a>
+    <a href="@referrer.ToString()" class="btn btn-outline-dark">Back</a>
 }
 

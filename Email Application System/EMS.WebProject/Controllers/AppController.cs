@@ -30,53 +30,48 @@ namespace EMS.WebProject.Controllers
             return View();
         }
 
+        [HttpGet]
         public async Task<IActionResult> MarkAppNew(string id)
         {
-            var email = await _appService.FindAsync(id);
+            var emailId = await _appService.GetEmailId(id);
 
             await _appService.Delete(id);
-
-            await _emailService.ChangeStatusAsync(email.Id.ToString(), EmailStatus.New);
+            await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
 
             TempData["message"] = Constants.SuccAppNew;
 
             return RedirectToAction("Index", "Email");
         }
 
+        [HttpGet]
         public async Task<IActionResult> Preview(string id)
         {
-            var appByEmailId = await _appService.GetByMailIdAsync(id);
+            var application = await _appService.GetByMailIdAsync(id);
 
-            var vm = appByEmailId.MapToViewModelPreview(id);
+            var vm = application.MapToViewModelPreview();
+            vm.OperatorName = await _appService.GetOperatorUsernameAsync(id);
 
             return View(vm);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> ChangeAppStatus(AppPreviewViewModel vm)
+        [HttpGet]
+        public async Task<IActionResult> Approve(string id)
         {
-            string str = Request.Form["submitbtn"];
-            if (str == "valid")
-            {
-                await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Approved);
-            }
-            else if (str == "invalid")
-            {
-                await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Rejected);
-            }
+            await _appService.ChangeStatusAsync(id, ApplicationStatus.Approved);
+            var emailId = await _appService.GetEmailId(id);
+            await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
 
-            await _emailService.ChangeStatusAsync(vm.Email.Id.ToString(), EmailStatus.Closed);
-
-            TempData["message"] = Constants.SuccAppValid;
+            TempData["message"] = Constants.SuccAppInvalid;
 
             return RedirectToAction("Index", "Email");
         }
 
-        public async Task<IActionResult> MarkInvalid(AppPreviewViewModel vm)
+        [HttpGet]
+        public async Task<IActionResult> Reject(string id)
         {
-            await _appService.ChangeStatusAsync(vm.Id, ApplicationStatus.Rejected);
-
-            await _emailService.ChangeStatusAsync(vm.Email.Id.ToString(), EmailStatus.Closed);
+            await _appService.ChangeStatusAsync(id, ApplicationStatus.Rejected);
+            var emailId = await _appService.GetEmailId(id);
+            await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
 
             TempData["message"] = Constants.SuccAppInvalid;
 

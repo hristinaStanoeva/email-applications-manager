@@ -1,32 +1,119 @@
-﻿@model GenericAppViewModel
+﻿@model GenericEmailViewModel
 @{
     ViewData["Title"] = "_ClosedEmailPartial";
 }
 
-@if (Model.Operator.Username == User.Identity.Name || User.IsInRole("manager"))
-{
+<tr>
+    <td>@Model.Id</td>
+    <td>@Model.DateReceived</td>
+    <td>@Model.SenderEmail</td>
+    <td>@Model.SenderName</td>
+    <td>@Model.Subject</td>
+    <td>@Model.ApplicationStatus</td>
+    @if (User.IsInRole("manager"))
+    {
+        <td>@Model.OperatorUsername</td>
+    }
 
-    <tr>
-        <td>@Model.EmailViewModel.Id</td>
-        <td>@Model.EmailViewModel.DateReceived</td>
-        <td>@Model.EmailViewModel.SenderEmail</td>
-        <td>@Model.EmailViewModel.SenderName</td>
-        <td>@Model.EmailViewModel.Subject</td>
-        <td>@Model.Status</td>
+    <td>
+        <a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview mail</a>
 
-        <td>
-            <a class="btn btn-info" asp-controller="Email" asp-action="Preview" asp-route-id="@Model.Email.Id">View Mail</a>
-
-            @if (Model.Operator.Username == User.Identity.Name || User.IsInRole("manager"))
-            {
-                <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Email.Id">View Application</a>
-            }
-        </td>
-
-        @if (User.IsInRole("manager"))
+        @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
         {
-            <td>@Model.Operator.Username</td>
+            <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
         }
+    </td>
+</tr>
 
-    </tr>
-}
+@*Preview Email Modal*@
+<div class="modal fade" id="preview-all-email-modal-@Model.MessageId" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #343A40; color: white;">
+                <h5 class="modal-title" id="exampleModalLabel">Email Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pl-5 pr-5 pt-4 pb-4" style="background-color: #E3E3E3; border-top: 1px solid lightgrey; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);">
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
+                    <div class="row">
+                        <div class="font-weight-bolder col-2" style="color: #525252">
+                            Email ID
+                        </div>
+                        <div class="col-8" style="color: #525252">
+                            @Model.Id
+                        </div>
+                    </div>
+                    <hr style="color: #939393" />
+                    <div class="row">
+                        <div class="font-weight-bolder col-2" style="color: #525252">
+                            Status
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            @Model.Status
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-4 mr-4 mt-4">
+                    <div class="row">
+                        <div class="col-2 text-right" style="color: #525252">
+                            From:
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            <span class="font-weight-bolder">@Model.SenderName</span>
+                            <span class="font-italic">&lt;@Model.SenderEmail&gt;</span>
+                            <p>@Model.DateReceived</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-right" style="color: #525252">
+                            Subject:
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            <span class="font-weight-bolder">@Model.Subject</span>
+                            @if (!Model.HasAttachments)
+                            {
+                                <p class="font-italic">No attachments</p>
+                            }
+                        </div>
+                    </div>
+                    @if (Model.HasAttachments)
+                    {
+                        <div class="row pt-2">
+                            <div class="col-2 text-right pl-0" style="color: #525252">
+                                Attachments:
+                            </div>
+                            <div class="col-8 pb-3" style="color: #525252;">
+                                @foreach (var att in Model.Attachments)
+                                {
+                                    <div>
+                                        <span class="font-weight-normal btn-link">@att.Name</span>
+                                        <span class="font-italic font-weight-lighter"> @att.Size MB</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.MessageId">
+                </div>
+            </div>
+
+            <div class="modal-footer" style="background-color: white; border-top: 1px solid #B0B0B0;">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
+                    Cancel
+                </button>
+                @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
+                {
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="ApplicationPreview" asp-route-id="@Model.Id">
+                        See application
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
