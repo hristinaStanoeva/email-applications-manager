@@ -16,14 +16,12 @@ namespace EMS.Services
         private readonly SystemDataContext _context;
         private readonly UserManager<UserDomain> _userManager;
         private readonly IUserFactory _factory;
-        private readonly SignInManager<UserDomain> _signInManager;
 
-        public UserService(SystemDataContext context, UserManager<UserDomain> userManager, IUserFactory factory, SignInManager<UserDomain> signInManager)
+        public UserService(SystemDataContext context, UserManager<UserDomain> userManager, IUserFactory factory)
         {
             _context = context;
             _userManager = userManager;
             _factory = factory;
-            _signInManager = signInManager;
         }
 
         public async Task ChangePasswordAsync(string username, string currentPassword, string newPassword)
@@ -54,7 +52,6 @@ namespace EMS.Services
                 }
             }
         }
-
 
         public async Task CreateAsync(string username, string password, string role)
         {

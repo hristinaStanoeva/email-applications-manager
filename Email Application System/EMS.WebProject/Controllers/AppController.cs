@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EMS.Data.Enums;
+﻿using EMS.Data.Enums;
 using EMS.Data.Seed;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
     public class AppController : Controller
     {
         private readonly IApplicationService _appService;
-        private readonly IUserService _userService;
         private readonly IEmailService _emailService;
 
 
-        public AppController(IApplicationService appService, IUserService userService, IEmailService emailService)
+        public AppController(IApplicationService appService, IEmailService emailService)
         {
             _appService = appService;
-            _userService = userService;
             _emailService = emailService;
         }
 

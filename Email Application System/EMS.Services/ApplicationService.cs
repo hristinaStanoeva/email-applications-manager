@@ -42,6 +42,7 @@ namespace EMS.Services
 
             return appDomain.MapToDtoModel();
         }
+
         public async Task CreateAsync(string emailId, string username, string EGN, string name, string phoneNum)
         {
             var userId = await _userService.GetUserIdAsync(username);
@@ -52,47 +53,11 @@ namespace EMS.Services
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<ApplicationDto>> GetAllAppsAsync()
-        {
-            var appsDomain = await _context.Applications
-                .Include(app => app.Email)
-                    .ThenInclude(mail => mail.Attachments)
-                .Include(app => app.User)
-
-                .ToListAsync().ConfigureAwait(false);
-
-            var appsDto = new List<ApplicationDto>();
-            foreach (var app in appsDomain)
-            {
-                appsDto.Add(app.MapToDtoModel());
-            }
-
-            return appsDto;
-        }
-
         public async Task<List<ApplicationDto>> GetOpenAppsAsync()
         {
             var appsDomain = await _context.Applications
                 .Where(app => app.Status == ApplicationStatus.NotReviewed)
                 .Include(app => app.Email)
-                .Include(app => app.User)
-                .ToListAsync().ConfigureAwait(false);
-
-            var appsDto = new List<ApplicationDto>();
-            foreach (var app in appsDomain)
-            {
-                appsDto.Add(app.MapToDtoModel());
-            }
-
-            return appsDto;
-        }
-
-        public async Task<List<ApplicationDto>> GetClosedAppsAsync()
-        {
-            var appsDomain = await _context.Applications
-                .Where(app => app.Status != ApplicationStatus.NotReviewed)
-                .Include(app => app.Email)
-                    .ThenInclude(mail => mail.Attachments)
                 .Include(app => app.User)
                 .ToListAsync().ConfigureAwait(false);
 
@@ -114,22 +79,6 @@ namespace EMS.Services
             application.Status = newStatus;
 
             await _context.SaveChangesAsync();
-        }
-
-        public Task<List<ApplicationDto>> FindAllApplicationOfUserAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ApplicationDto> FindAsync(string Id)
-        {
-            var appDbo = await _context.Applications
-                .Include(app => app.User)
-                .Include(app => app.Email)
-                .FirstOrDefaultAsync(app => app.Id.ToString() == Id)
-                .ConfigureAwait(false);
-
-            return appDbo.MapToDtoModel();
         }
 
         public async Task<string> GetOperatorUsernameAsync(string emailId)

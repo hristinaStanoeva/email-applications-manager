@@ -94,9 +94,6 @@ namespace EMS.WebProject
 
             // Initial seeding
             AccountSeeder.Init(context, userManager, roleManager).Wait();
-            //GoogleAPI
-            // GmailAPIService.GetEmailBody("16e26aabdc04059d");
-            // GmailAPIService.GmailSync();
         }
     }
 }

@@ -70,7 +70,6 @@ namespace EMS.Services
 
             return emailsDto;
         }
-
         public async Task<List<EmailDto>> GetClosedEmailsAsync()
         {
             var emailsDomain = await _context.Emails
@@ -86,7 +85,6 @@ namespace EMS.Services
 
             return emailsDto;
         }
-
         public async Task<EmailDto> GetSingleEmailAsync(string mailId)
         {
             var emailDomain = await _context.Emails
@@ -104,29 +102,10 @@ namespace EMS.Services
 
             return mail.GmailMessageId;
         }
-        public async Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId)
-        {
-            var attachmentsDomain = await _context.Attachments
-                .Where(att => att.EmailId.ToString() == emailId)
-                .ToListAsync().ConfigureAwait(false);
-
-            if (attachmentsDomain.Count == 0)
-                return null;
-
-            var attachmentsDto = new List<AttachmentDto>();
-            foreach (var att in attachmentsDomain)
-            {
-                attachmentsDto.Add(att.MapToDtoModel());
-            }
-
-            return attachmentsDto;
-        }
-
         public async Task AddBodyAsync(string emailId, string body)
         {
             throw new NotImplementedException();
         }
-
         public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
             var email = await _context.Emails
@@ -147,7 +126,6 @@ namespace EMS.Services
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-
         public async Task<string> GetBodyAsync(string messageId)
         {
             return await _gmailService.GetEmailBodyAsync(messageId);
