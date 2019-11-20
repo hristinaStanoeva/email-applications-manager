@@ -44,6 +44,7 @@ namespace EMS.Services
         {
             var emailsDomain = await _context.Emails
                 .Where(mail => mail.Status == EmailStatus.Open)
+                .Include(mail => mail.Attachments)
                 .ToListAsync().ConfigureAwait(false);
 
             var emailsDto = new List<EmailDto>();
@@ -58,6 +59,7 @@ namespace EMS.Services
         {
             var emailsDomain = await _context.Emails
                 .Where(mail => mail.Status == EmailStatus.New)
+                .Include(mail => mail.Attachments)
                 .ToListAsync().ConfigureAwait(false);
 
             var emailsDto = new List<EmailDto>();

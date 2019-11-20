@@ -1,6 +1,7 @@
 ﻿using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
+using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using GmailAPI;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
-    [Authorize(Policy ="IsPasswordChanged")]
+    [Authorize(Policy = "IsPasswordChanged")]
     public class EmailController : Controller
     {
         private readonly IGmailAPIService _gmailService;
@@ -44,30 +45,55 @@ namespace EMS.WebProject.Controllers
             return View("Index", vm);
         }
 
-        public IActionResult GetNewEmails()
+        public async Task<IActionResult> GetNewEmails()
         {
+            var allEmails = await _emailService.GetNewEmailsAsync();
+
             var vm = new AllEmailsViewModel
             {
-                AllEmails = _allEmails.Where(x => x.Status == EmailStatus.New.ToString()).ToList(),
+                AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
                 ActiveTab = "new"
             };
 
             return View("Index", vm);
         }
 
-        public IActionResult GetOpenEmails()
+        public async Task<IActionResult> GetOpenEmails()
         {
+            var allEmails = await _emailService.GetOpenEmailsAsync();
+            var apps = await _appService.GetOpenAppsAsync();
+
             var vm = new AllEmailsViewModel
             {
-                AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Open.ToString()).ToList(),
+                AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
                 ActiveTab = "open"
             };
+
+            var appVM = new List<GenericAppViewModel>();
+            foreach (var item in vm.AllEmails)
+            {
+                foreach (var app in apps)
+                {
+                    if (app.Email.Id.ToString() == item.Id)
+                    {
+                        appVM.Add(app.MapToViewModelOpenMail());
+                    }
+                }
+            }
+
+            foreach (var item in vm.AllEmails)
+            {
+                foreach (var app in appVM)
+                {
+                    item.AppViewModel = app;
+                }
+            }
 
             return View("Index", vm);
         }
 
         public async Task<IActionResult> GetClosedEmails()
-        {            
+        {
             var apps = await _appService.GetClosedAppsAsync();
 
             var vm = new AllEmailsViewModel
@@ -176,8 +202,8 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> Preview(string id)
         {
             var mailId = await _emailService.GetGmailId(id);
-            var body = await _gmailService.GetEmailBodyAsync(mailId);         
-            
+            var body = await _gmailService.GetEmailBodyAsync(mailId);
+
             var attachmentsVM = new List<AttachmentViewModel>();
             var attachmentsDto = await _emailService.GetAttachmentsAsync(id);
 
@@ -190,7 +216,7 @@ namespace EMS.WebProject.Controllers
             }
 
             var email = await _emailService.GetSingleMail(id);
-            var previewViewModel = email.MapToViewModelPreview(body,attachmentsVM);
+            var previewViewModel = email.MapToViewModelPreview(body, attachmentsVM);
             //previewViewModel.GenericViewModel = email.MapToViewModel();
 
             return View(previewViewModel);
