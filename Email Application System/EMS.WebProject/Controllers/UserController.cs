@@ -1,10 +1,8 @@
 ﻿using EMS.Data.dbo_Models;
 using EMS.Services.Contracts;
-using EMS.WebProject.Areas.Identity.Pages.Account;
 using EMS.WebProject.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,11 +13,9 @@ namespace EMS.WebProject.Controllers
     {
         private readonly IUserService _userService;
         private readonly SignInManager<UserDomain> _signInManager;
-        private readonly UserManager<UserDomain> _userManager;
 
-        public UserController(UserManager<UserDomain> userManager, IUserService userService, SignInManager<UserDomain> signInManager)
+        public UserController(IUserService userService, SignInManager<UserDomain> signInManager)
         {
-            _userManager = userManager;
             _userService = userService;
             _signInManager = signInManager;
         }

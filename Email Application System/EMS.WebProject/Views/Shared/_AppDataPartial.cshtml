@@ -1,6 +1,6 @@
 ﻿@model InputViewModel
 
-<form asp-action="MarkOpen" asp-controller="App" method="post">
+<form asp-action="CreateApplication" asp-controller="App" method="post">
 
     <div class="form-group">
         <b>Name:</b>
@@ -21,7 +21,7 @@
 
     <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
 
-    <button type="submit" class="btn btn-info">Mark Open</button> 
+    <button type="submit" class="btn btn-info">Create application</button> 
     <p></p>
 </form>
 

@@ -1,5 +1,4 @@
 ﻿using EMS.Data;
-using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
@@ -27,7 +26,7 @@ namespace EMS.Services
         public async Task<List<EmailDto>> GetAllEmailsAsync()
         {
             var emailsDomain = await _context.Emails
-                .Include(email=>email.Attachments)
+                .Include(email => email.Attachments)
                 .ToListAsync().ConfigureAwait(false);
 
             var emailsDto = new List<EmailDto>();
@@ -39,12 +38,13 @@ namespace EMS.Services
 
             return emailsDto;
         }
-
         public async Task<List<EmailDto>> GetOpenEmailsAsync()
         {
             var emailsDomain = await _context.Emails
                 .Where(mail => mail.Status == EmailStatus.Open)
                 .Include(mail => mail.Attachments)
+                .Include(mail => mail.Application)
+                    .ThenInclude(app => app.User)
                 .ToListAsync().ConfigureAwait(false);
 
             var emailsDto = new List<EmailDto>();
@@ -70,10 +70,25 @@ namespace EMS.Services
 
             return emailsDto;
         }
+        public async Task<List<EmailDto>> GetClosedEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.Closed)
+                .Include(mail => mail.Attachments)
+                .ToListAsync().ConfigureAwait(false);
 
-        public async Task<EmailDto> GetSingleMail(string mailId)
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }
+        public async Task<EmailDto> GetSingleEmailAsync(string mailId)
         {
             var emailDomain = await _context.Emails
+                .Include(email => email.Attachments)
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == mailId)
                 .ConfigureAwait(false);
 
@@ -87,62 +102,30 @@ namespace EMS.Services
 
             return mail.GmailMessageId;
         }
-        public async Task<List<AttachmentDto>> GetAttachmentsAsync(string emailId)
-        {
-            var attachmentsDomain = await _context.Attachments
-                .Where(att => att.EmailId.ToString() == emailId)
-                .ToListAsync().ConfigureAwait(false);
-
-            if (attachmentsDomain.Count == 0)
-                return null;
-
-            var attachmentsDto = new List<AttachmentDto>();
-            foreach (var att in attachmentsDomain)
-            {
-                attachmentsDto.Add(att.MapToDtoModel());
-            }
-
-            return attachmentsDto;
-        }             
-        
         public async Task AddBodyAsync(string emailId, string body)
         {
             throw new NotImplementedException();
         }
-
         public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
             var email = await _context.Emails
-                .Include(mail => mail.Application)                
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == id)
                 .ConfigureAwait(false);
 
             email.Status = newStatus;
-            email.ToCurrentStatus = DateTime.Now;
+
+            if (newStatus == EmailStatus.New)
+            {
+                email.ToNewStatus = DateTime.UtcNow;
+            }
+            if (newStatus == EmailStatus.Closed)
+            {
+                email.ToTerminalStatus = DateTime.UtcNow;
+            }
+            email.ToCurrentStatus = DateTime.UtcNow;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-
-        public Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string senderName, string subject, List<AttachmentDomain> attachments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EmailDto> CreateAsync(DateTime received, string gmailMessageId, string senderEmail, string subject, List<AttachmentDomain> attachments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<AttachmentDto>> CreateAttachmentsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<EmailDto> FindEmailAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<string> GetBodyAsync(string messageId)
         {
             return await _gmailService.GetEmailBodyAsync(messageId);

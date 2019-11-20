@@ -45,8 +45,7 @@ namespace EMS.Services.Mappers
                 Name = app.Name,
                 Status = app.Status,
                 PhoneNumber = app.PhoneNumber,
-                User = app.User.MapToDtoModel(),
-                Email = app.Email.MapToDtoModel()
+                UserId = app.UserId
             };
         }
 

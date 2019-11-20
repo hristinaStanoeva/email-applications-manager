@@ -1,14 +1,10 @@
-﻿using EMS.Data.dbo_Models;
-using EMS.Services.dto_Models;
-using EMS.WebProject.Models;
+﻿using EMS.Services.dto_Models;
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using EMS.WebProject.Parsers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EMS.WebProject.Mappers
 {
@@ -28,47 +24,7 @@ namespace EMS.WebProject.Mappers
             };
         }
 
-        public static PreviewViewModel MapToViewModelPreview(this EmailDto email)
-        {
-            return new PreviewViewModel
-            {
-                Id = email.Id.ToString(),
-                SenderEmail = email.SenderEmail,
-                SenderName = email.SenderName,
-                Subject = email.Subject,
-                Status = email.Status.ToString(),
-                EmailBody = email.Body,
-                DateReceived = email.Received.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
-            };
-        }
-        public static GenericAppViewModel MapToViewModel(this ApplicationDto app)
-        {
-            return new GenericAppViewModel
-            {
-                Id = app.Id.ToString(),                
-                Operator = app.User,
-                Email = app.Email,
-                EGN = app.EGN,
-                Name = app.Name,
-                Phone = app.PhoneNumber,
-                Status = app.Status.ToString()
-            };
-        }
-        public static GenericAppViewModel MapToViewModelOpenMail(this ApplicationDto app)
-        {
-            return new GenericAppViewModel
-            {
-                Id = app.Id.ToString(),
-                Operator = app.User,
-                Email = app.Email,
-                EGN = app.EGN,
-                Name = app.Name,
-                Phone = app.PhoneNumber,
-                Status = app.Status.ToString()
-            };
-        }
-
-        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app, string emailId)
+        public static AppPreviewViewModel MapToViewModelPreview(this ApplicationDto app)
         {
             return new AppPreviewViewModel
             {
@@ -76,9 +32,7 @@ namespace EMS.WebProject.Mappers
                 EGN = app.EGN,
                 Name = app.Name,
                 Phone = app.PhoneNumber,
-                Email = app.Email,
-                Status = app.Status,
-                OperatorName = app.User.Username
+                Status = app.Status
             };
         }
 
@@ -94,6 +48,7 @@ namespace EMS.WebProject.Mappers
                 Status = email.Status.ToString(),
                 Subject = email.Subject,
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
+                ToCurrentStatus = email.ToCurrentStatus,
                 MessageId = email.GmailMessageId,
                 Attachments = email.Attachments.Select(e => e.MapToViewModel()).ToList()
             };

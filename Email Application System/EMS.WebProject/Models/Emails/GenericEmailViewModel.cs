@@ -1,15 +1,10 @@
-﻿using EMS.WebProject.Models.Applications;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EMS.WebProject.Models.Emails
 {
     public class GenericEmailViewModel
     {
-        public GenericAppViewModel AppViewModel { get; set; }
-
         public string Id { get; set; }
 
         public string DateReceived { get; set; }
@@ -24,10 +19,16 @@ namespace EMS.WebProject.Models.Emails
 
         public string TimeSinceCurrentStatus { get; set; }
 
-        public bool HasAttachments { get; set; }        
+        public DateTime? ToCurrentStatus { get; set; }
+
+        public bool HasAttachments { get; set; }
 
         public string MessageId { get; set; }
 
         public List<AttachmentViewModel> Attachments { get; set; }
+
+        public string OperatorUsername { get; set; }
+
+        public string ApplicationStatus { get; set; }
     }
 }

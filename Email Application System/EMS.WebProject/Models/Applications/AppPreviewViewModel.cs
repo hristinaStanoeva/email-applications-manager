@@ -1,9 +1,5 @@
 ﻿using EMS.Data.Enums;
 using EMS.Services.dto_Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EMS.WebProject.Models.Applications
 {
@@ -22,6 +18,5 @@ namespace EMS.WebProject.Models.Applications
         public ApplicationStatus Status { get; set; }
 
         public string OperatorName { get; set; }
-
     }
 }
