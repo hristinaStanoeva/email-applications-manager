@@ -67,8 +67,8 @@ namespace EMS.WebProject.Controllers
         }
 
         public async Task<IActionResult> GetClosedEmails()
-        {
-            var apps = await _appService.GetAllAppsAsync();
+        {            
+            var apps = await _appService.GetClosedAppsAsync();
 
             var vm = new AllEmailsViewModel
             {
@@ -76,6 +76,27 @@ namespace EMS.WebProject.Controllers
                 AllEmails = _allEmails.Where(x => x.Status == EmailStatus.Closed.ToString()).ToList(),
                 ActiveTab = "closed"
             };
+
+            var mailVM = new List<GenericEmailViewModel>();
+            foreach (var item in vm.AllApps)
+            {
+                foreach (var mail in vm.AllEmails)
+                {
+                    if (mail.Id == item.Email.Id.ToString())
+                    {
+                        mailVM.Add(mail);
+                    }
+                }
+            }
+
+            foreach (var item in vm.AllApps)
+            {
+                foreach (var app in mailVM)
+                {
+                    item.EmailViewModel = app;
+                }
+            }
+
 
             return View("Index", vm);
         }

@@ -58,6 +58,7 @@ namespace EMS.Services
         {
             var appsDomain = await _context.Applications
                 .Include(app => app.Email)
+                    .ThenInclude(mail => mail.Attachments)
                 .Include(app => app.User)
                 
                 .ToListAsync().ConfigureAwait(false);
@@ -93,6 +94,7 @@ namespace EMS.Services
             var appsDomain = await _context.Applications
                 .Where(app => app.Status != ApplicationStatus.NotReviewed)
                 .Include(app => app.Email)
+                    .ThenInclude(mail => mail.Attachments)
                 .Include(app => app.User)
                 .ToListAsync().ConfigureAwait(false);
 
