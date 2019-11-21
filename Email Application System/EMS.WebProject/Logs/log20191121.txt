@@ -5,3 +5,5 @@
 2019-11-21 12:56:16.781 +02:00 [INF] manager@ems.com has marked email 870b1d21-3bb9-49c6-27cc-08d764f23ab3 as invalid
 2019-11-21 12:56:41.639 +02:00 [INF] manager@ems.com has marked email 347b4644-d4b0-4b9f-27cd-08d764f23ab3 as invalid
 2019-11-21 13:03:38.258 +02:00 [INF] Starting web host
+2019-11-21 13:19:57.879 +02:00 [INF] Starting web host
+2019-11-21 13:20:07.402 +02:00 [INF] manager@ems.com has marked email 0206a14d-7a7c-4d0b-27ce-08d764f23ab3 as invalid

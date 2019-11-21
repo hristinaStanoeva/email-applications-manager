@@ -96,63 +96,75 @@ namespace EMS.WebProject.Controllers
             return View(Constants.PageIndex, vm);
         }
 
-        [HttpGet]
         public async Task<IActionResult> MarkInvalid(string id)
         {
             try
             {
                 await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
-                _logger.LogInformation(string.Format(Constants.LogEmailInvalid,User.Identity.Name,id));               
+                _logger.LogInformation(string.Format(Constants.LogEmailInvalid, User.Identity.Name, id));
                 TempData[Constants.TempDataMsg] = Constants.SuccEmailInvalid;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-            }
 
-            var allEmails = new List<EmailDto>();
-            try
-            {
+                var allEmails = new List<EmailDto>();
                 allEmails = await _emailService.GetAllEmailsAsync();
+                var vm = new AllEmailsViewModel
+                {
+                    AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
+                    ActiveTab = Constants.TabAll
+                };
+
+                return View(Constants.PageIndex, vm);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
+
+                TempData[Constants.TempDataMsg] = Constants.ErrEmail;
+
+                return View(Constants.PageIndex);
             }
-
-             
-            var vm = new AllEmailsViewModel
-            {
-                AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
-                ActiveTab = Constants.TabAll
-            };
-
-            return View(Constants.PageIndex, vm);
+            
         }
 
         [HttpGet]
         public async Task<IActionResult> MarkOpen(string id)
         {
-            var mailId = await _emailService.GetGmailId(id);
-            var body = await _emailService.GetBodyAsync(mailId);
-
-            var email = await _emailService.GetSingleEmailAsync(id);
-
-            var attachmentsVM = new List<AttachmentViewModel>();
-
-            if (email.Attachments.Count != 0)
+            try
             {
-                foreach (var att in email.Attachments)
+                // TODO: Change status Hrisi
+                //_logger.LogInformation(string.Format(Constants.LogEmailOpen, User.Identity.Name, id));
+                //TempData[Constants.TempDataMsg] = Constants.SuccEmailOpen;
+
+                var mailId = await _emailService.GetGmailId(id);
+                var body = await _emailService.GetBodyAsync(mailId);
+
+                var email = await _emailService.GetSingleEmailAsync(id);
+
+                var attachmentsVM = new List<AttachmentViewModel>();
+
+                if (email.Attachments.Count != 0)
                 {
-                    attachmentsVM.Add(att.MapToViewModel());
+                    foreach (var att in email.Attachments)
+                    {
+                        attachmentsVM.Add(att.MapToViewModel());
+                    }
                 }
+
+                var vm = email.MapToViewModelPreview(body, attachmentsVM);
+                vm.InputViewModel.EmailId = id;
+
+                return View(Constants.PageOpen, vm);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+
+                TempData[Constants.TempDataMsg] = Constants.ErrEmail;
+
+                return View(Constants.PageIndex);
             }
 
-            var vm = email.MapToViewModelPreview(body, attachmentsVM);
-            vm.InputViewModel.EmailId = id;
-
-            return View(Constants.PageOpen, vm);
+            
         }
 
         [HttpGet]

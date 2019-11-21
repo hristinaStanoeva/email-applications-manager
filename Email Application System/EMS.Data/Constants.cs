@@ -16,8 +16,11 @@
         public const string SuccAppInvalid = "You have rejected the application";
         public const string SuccAppNew = "You have marked an appication as New";
 
-        public const string SuccEmailInvalid = "You have marked an email as Invalid";
+        public const string SuccEmailInvalid = "You have marked an email as Invalid";        
         public const string SuccEmailNew = "You have marked an email as New";
+        public const string SuccEmailOpen = "You have marked an email as Open";
+
+        public const string ErrEmail = "Something went wrong";
 
 
         public const string PassValidErrMsg = "The {0} must be at least {2} and at max {1} characters long.";
@@ -65,6 +68,6 @@
         // Logger
         public const string LogEmailInvalid = "{0} has marked email {1} as invalid";
         public const string LogEmailNew = "{0} has marked email {1} as new";
-
+        public const string LogEmailOpen = "{0} has marked email {1} as open";
     }
 }
