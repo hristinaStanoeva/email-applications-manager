@@ -57,15 +57,15 @@ namespace EMS.Services.Tests.EmailServiceTests
         }
 
         [TestMethod]
-        public async Task MapCorrectly_EmailId()
+        public async Task MapsCorrectly_EmailId()
         {
             //Prepare database
-            TestUtils.GetContextWithEmails(nameof(MapCorrectly_EmailId));
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_EmailId));
 
             //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
-            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapCorrectly_EmailId))))
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_EmailId))))
             {
                 var sut = new EmailService(assertContext, gmailServiceMock.Object);
 
@@ -82,15 +82,140 @@ namespace EMS.Services.Tests.EmailServiceTests
         }
 
         [TestMethod]
-        public async Task MapCorrectly_EmailSubject()
+        public async Task MapsCorrectly_SenderName()
         {
             //Prepare database
-            TestUtils.GetContextWithEmails(nameof(MapCorrectly_EmailSubject));
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_SenderName));
 
             //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
-            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapCorrectly_EmailSubject))))
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_SenderName))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderName == TestUtils.Emails[0].SenderName));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderName == TestUtils.Emails[1].SenderName));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderName == TestUtils.Emails[2].SenderName));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_SenderEmail()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_SenderEmail));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_SenderEmail))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderEmail == TestUtils.Emails[0].SenderEmail));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderEmail == TestUtils.Emails[1].SenderEmail));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.SenderEmail == TestUtils.Emails[2].SenderEmail));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_DateReceived()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_DateReceived));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_DateReceived))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Received == TestUtils.Emails[0].Received));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Received == TestUtils.Emails[1].Received));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Received == TestUtils.Emails[2].Received));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_NumberOfAttachments()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_NumberOfAttachments));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_NumberOfAttachments))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.NumberOfAttachments == TestUtils.Emails[0].NumberOfAttachments));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.NumberOfAttachments == TestUtils.Emails[1].NumberOfAttachments));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.NumberOfAttachments == TestUtils.Emails[2].NumberOfAttachments));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_Status()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_Status));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_Status))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Status == TestUtils.Emails[0].Status));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Status == TestUtils.Emails[1].Status));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.Status == TestUtils.Emails[2].Status));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_Subject()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_Subject));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_Subject))))
             {
                 var sut = new EmailService(assertContext, gmailServiceMock.Object);
 
@@ -107,15 +232,15 @@ namespace EMS.Services.Tests.EmailServiceTests
         }
 
         [TestMethod]
-        public async Task MapCorrectly_SenderEmail()
+        public async Task MapsCorrectly_Body()
         {
             //Prepare database
-            TestUtils.GetContextWithEmails(nameof(MapCorrectly_SenderEmail));
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_Body));
 
             //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
-            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapCorrectly_SenderEmail))))
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_Body))))
             {
                 var sut = new EmailService(assertContext, gmailServiceMock.Object);
 
@@ -123,11 +248,61 @@ namespace EMS.Services.Tests.EmailServiceTests
                 var expectedEmails = TestUtils.Emails;
 
                 Assert.IsTrue(allEmails.Any(email =>
-                email.SenderEmail == TestUtils.Emails[0].SenderEmail));
+                email.Body == TestUtils.Emails[0].Body));
                 Assert.IsTrue(allEmails.Any(email =>
-                email.SenderEmail == TestUtils.Emails[1].SenderEmail));
+                email.Body == TestUtils.Emails[1].Body));
                 Assert.IsTrue(allEmails.Any(email =>
-                email.SenderEmail == TestUtils.Emails[2].SenderEmail));
+                email.Body == TestUtils.Emails[2].Body));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_ToCurrentStatus()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_ToCurrentStatus));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_ToCurrentStatus))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.ToCurrentStatus == TestUtils.Emails[0].ToCurrentStatus));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.ToCurrentStatus == TestUtils.Emails[1].ToCurrentStatus));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.ToCurrentStatus == TestUtils.Emails[2].ToCurrentStatus));
+            }
+        }
+
+        [TestMethod]
+        public async Task MapsCorrectly_gmailId()
+        {
+            //Prepare database
+            TestUtils.GetContextWithEmails(nameof(MapsCorrectly_gmailId));
+
+            //Prepare dependencies
+            var gmailServiceMock = new Mock<IGmailAPIService>();
+
+            using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_gmailId))))
+            {
+                var sut = new EmailService(assertContext, gmailServiceMock.Object);
+
+                var allEmails = await sut.GetAllEmailsAsync();
+                var expectedEmails = TestUtils.Emails;
+
+                Assert.IsTrue(allEmails.Any(email =>
+                email.GmailMessageId == TestUtils.Emails[0].GmailMessageId));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.GmailMessageId == TestUtils.Emails[1].GmailMessageId));
+                Assert.IsTrue(allEmails.Any(email =>
+                email.GmailMessageId == TestUtils.Emails[2].GmailMessageId));
             }
         }
     }

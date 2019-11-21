@@ -1,5 +1,6 @@
 using EMS.Data;
 using EMS.Data.dbo_Models;
+using EMS.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,14 @@ namespace EMS.Services.Tests
             {
                 Id = Guid.NewGuid(),
                 Received = DateTime.UtcNow,
+                NumberOfAttachments = 2,
                 GmailMessageId = "GmailMessageId_1",
                 SenderEmail = "email1@ems.com",
                 SenderName = "TestName_1",
                 Subject = "TestSubject_1",
+                Status = EmailStatus.New,
+                ToCurrentStatus = DateTime.UtcNow.AddDays(1),
+                Body = null,
                 Attachments = new List<AttachmentDomain>
                 {
                     new AttachmentDomain()
@@ -38,20 +43,28 @@ namespace EMS.Services.Tests
             {
                 Id = Guid.NewGuid(),
                 Received = DateTime.UtcNow,
+                NumberOfAttachments = 0,
                 GmailMessageId = "GmailMessageId_2",
                 SenderEmail = "email2@ems.com",
                 SenderName = "TestName_2",
                 Subject = "TestSubject_2",
+                Status = EmailStatus.Open,
+                ToCurrentStatus = DateTime.UtcNow.AddDays(2),
+                Body = "Body_2",
                 Attachments = new List<AttachmentDomain>()
             },
             new EmailDomain()
             {
                 Id = Guid.NewGuid(),
                 Received = DateTime.UtcNow,
+                NumberOfAttachments = 3,
                 GmailMessageId = "GmailMessageId_3",
                 SenderEmail = "email3@ems.com",
                 SenderName = "TestName_3",
                 Subject = "TestSubject_3",
+                Status = EmailStatus.Closed,
+                ToCurrentStatus = DateTime.UtcNow.AddDays(3),
+                Body = "Body_3",
                 Attachments = new List<AttachmentDomain>
                 {
                     new AttachmentDomain()
