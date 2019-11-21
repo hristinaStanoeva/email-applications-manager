@@ -83,6 +83,7 @@
         public const string LogEmailClosed = "{0} has marked email {1} as closed";
 
         public const string LogEmailDelete = "{0} has deleted email {1}";
+        public const string LogAppDelete = "{0} has deleted application {1}";
 
         public const string LogAppCreate = "{0} has created application for email {1}";
         public const string LogAppApproved = "{0} has approved application {1}";
