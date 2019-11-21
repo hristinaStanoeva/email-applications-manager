@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
-    [Authorize(Roles = "manager, operator")]
+    [Authorize(Policy = Constants.AuthPolicy)]
+    [Authorize(Roles = "manager, operator")]    
     public class AppController : Controller
     {
         private readonly IApplicationService _appService;
@@ -34,10 +35,10 @@ namespace EMS.WebProject.Controllers
                 var emailId = await _appService.GetEmailId(id);
 
                 await _appService.Delete(id);
-                _logger.LogInformation(string.Format(Constants.LogEmailDelete, User.Identity.Name, id));
+                _logger.LogInformation(string.Format(Constants.LogAppDelete, User.Identity.Name, id));
 
                 await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
-                _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, id));
+                _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, emailId));
 
                 TempData[Constants.TempDataMsg] = Constants.AppNewSucc;
 

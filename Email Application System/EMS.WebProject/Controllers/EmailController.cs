@@ -16,6 +16,7 @@ namespace EMS.WebProject.Controllers
 {
     [Authorize(Policy = Constants.AuthPolicy)]
     [Authorize(Roles = "manager, operator")]
+    
     public class EmailController : Controller
     {
         private readonly IApplicationService _appService;

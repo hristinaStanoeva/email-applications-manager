@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
-{
-    [Authorize(Roles = "manager, operator")]
+{    
+    [Authorize(Roles = "manager, operator")]    
     public class UserController : Controller
     {
         private readonly IUserService _userService;
