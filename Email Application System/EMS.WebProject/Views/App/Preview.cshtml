@@ -16,12 +16,12 @@
 </div>
 
 
-@if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.InRoleManager)) && Model.Status == ApplicationStatus.NotReviewed)
+@if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Status == ApplicationStatus.NotReviewed)
 {
     <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
     <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
 }
-else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.InRoleManager))
+else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
 {
     <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
 }
