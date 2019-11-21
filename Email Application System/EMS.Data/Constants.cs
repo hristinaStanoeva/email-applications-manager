@@ -16,7 +16,8 @@
         public const string SuccAppInvalid = "You have rejected the application";
         public const string SuccAppNew = "You have marked an appication as New";
 
-        public const string SuccEmailInvalid = "You have marked an email as Invalid";        
+        public const string SuccEmailInvalid = "You have marked an email as Invalid";
+        public const string SuccEmailNotReviewed = "You have marked an email as Not Reviewed";
         public const string SuccEmailNew = "You have marked an email as New";
         public const string SuccEmailOpen = "You have marked an email as Open";
 
@@ -67,7 +68,15 @@
 
         // Logger
         public const string LogEmailInvalid = "{0} has marked email {1} as invalid";
+        public const string LogEmailNotReviewd = "{0} has marked email {1} as not reviewed";
         public const string LogEmailNew = "{0} has marked email {1} as new";
         public const string LogEmailOpen = "{0} has marked email {1} as open";
+        public const string LogEmailClosed = "{0} has marked email {1} as closed";
+
+        public const string LogEmailDelete = "{0} has deleted email {1}";
+
+        public const string LogAppCreate = "{0} has created application for email {1}";
+        public const string LogAppApproved = "{0} has approved application {1}";
+        public const string LogAppReject = "{0} has rejected application {1}";
     }
 }
