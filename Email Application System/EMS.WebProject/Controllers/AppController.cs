@@ -39,7 +39,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(emailId.ToString(), EmailStatus.New);
                 _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, id));
 
-                TempData[Constants.TempDataMsg] = Constants.SuccAppNew;
+                TempData[Constants.TempDataMsg] = Constants.AppNewSucc;
 
                 return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
             }
@@ -79,7 +79,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
                 _logger.LogInformation(string.Format(Constants.LogEmailClosed, User.Identity.Name, emailId));
 
-                TempData[Constants.TempDataMsg] = Constants.SuccAppValid;
+                TempData[Constants.TempDataMsg] = Constants.AppValidSucc;
 
                 return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
             }
@@ -101,7 +101,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(emailId, EmailStatus.Closed);
                 _logger.LogInformation(string.Format(Constants.LogEmailClosed, User.Identity.Name, emailId));
 
-                TempData[Constants.TempDataMsg] = Constants.SuccAppInvalid;
+                TempData[Constants.TempDataMsg] = Constants.AppInvalidSucc;
 
                 return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
             }
@@ -122,7 +122,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(vm.EmailId, EmailStatus.Open);
                 _logger.LogInformation(string.Format(Constants.LogEmailOpen, User.Identity.Name, vm.EmailId));
 
-                TempData[Constants.TempDataMsg] = Constants.SuccAppCreate;
+                TempData[Constants.TempDataMsg] = Constants.AppCreateSucc;
 
                 return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
             }
@@ -135,7 +135,7 @@ namespace EMS.WebProject.Controllers
         {
             _logger.LogError(ex.Message);
 
-            TempData[Constants.TempDataMsg] = Constants.ErrEmail;
+            TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
         }

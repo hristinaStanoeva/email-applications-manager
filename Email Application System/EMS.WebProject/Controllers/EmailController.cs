@@ -134,7 +134,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
                 _logger.LogInformation(string.Format(Constants.LogEmailInvalid, User.Identity.Name, id));
-                TempData[Constants.TempDataMsg] = Constants.SuccEmailInvalid;
+                TempData[Constants.TempDataMsg] = Constants.EmailInvalidSucc;
 
                 var allEmails = new List<EmailDto>();
                 allEmails = await _emailService.GetAllEmailsAsync();
@@ -160,7 +160,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(id, EmailStatus.NotReviewed);
 
                 _logger.LogInformation(string.Format(Constants.LogEmailNotReviewd, User.Identity.Name, id));
-                TempData[Constants.TempDataMsg] = Constants.SuccEmailNotReviewed;
+                TempData[Constants.TempDataMsg] = Constants.EmailNotReviewedSucc;
 
                 var allEmails = await _emailService.GetAllEmailsAsync();
                 var vm = new AllEmailsViewModel
@@ -185,7 +185,7 @@ namespace EMS.WebProject.Controllers
                 await _emailService.ChangeStatusAsync(id, EmailStatus.New);
 
                 _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, id));
-                TempData[Constants.TempDataMsg] = Constants.SuccEmailNew;
+                TempData[Constants.TempDataMsg] = Constants.EmailNewSucc;
 
                 var mailId = await _emailService.GetGmailId(id);
                 var body = await _emailService.GetBodyAsync(mailId);
@@ -261,7 +261,7 @@ namespace EMS.WebProject.Controllers
         {
             _logger.LogError(ex.Message);
 
-            TempData[Constants.TempDataMsg] = Constants.ErrEmail;
+            TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
         }

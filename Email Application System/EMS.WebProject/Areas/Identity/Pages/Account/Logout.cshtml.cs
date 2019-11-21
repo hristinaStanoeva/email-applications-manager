@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using EMS.Data;
 
 namespace EMS.WebProject.Areas.Identity.Pages.Account
 {
@@ -29,8 +30,13 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
+            var userName = User.Identity.Name;
+
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
+
+            _logger.LogInformation(string.Format(Constants.LogUserLogout, userName));
+
+            TempData[Constants.TempDataMsg] = Constants.UserSignOutSucc;
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);
