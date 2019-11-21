@@ -32,7 +32,7 @@ namespace EMS.Services
             if (!isPasswordCorrect)
             {
                 // To implement properly
-                throw new ArgumentException("Wrong password");
+                throw new ArgumentException(Constants.UserWrongPass);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace EMS.Services
                 if (!result.Succeeded)
                 {
                     // To implement properly
-                    throw new ArgumentException("You have not entered valid password");
+                    throw new ArgumentException(Constants.UserInvalidPass);
                 }
                 else
                 {
@@ -58,7 +58,7 @@ namespace EMS.Services
             if (_context.Users.Any(user => user.UserName == username))
             {
                 // To implement properly
-                throw new ArgumentException("This user already exists");
+                throw new ArgumentException(Constants.UserExists);
             }
             else
             {

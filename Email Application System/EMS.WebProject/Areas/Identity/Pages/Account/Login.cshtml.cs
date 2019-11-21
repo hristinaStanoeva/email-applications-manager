@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using EMS.Data;
 
 namespace EMS.WebProject.Areas.Identity.Pages.Account
 {
@@ -45,7 +46,7 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = Constants.LoginDisplayName)]
             public bool RememberMe { get; set; }
         }
 
@@ -77,7 +78,10 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
+                    _logger.LogInformation(string.Format(Constants.LogUserLogin, Input.Email));
+
+                    TempData[Constants.TempDataMsg] = Constants.UserSignInSucc;
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -86,12 +90,13 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning(string.Format(Constants.LogUserLockedOut, Input.Email));
+                    
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, Constants.UserInvalLogin);
                     return Page();
                 }
             }

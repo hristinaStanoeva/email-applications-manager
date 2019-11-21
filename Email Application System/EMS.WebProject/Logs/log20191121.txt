@@ -1,0 +1,94 @@
+2019-11-21 11:44:44.593 +02:00 [INF] Starting web host
+2019-11-21 11:45:02.865 +02:00 [INF] manager@ems.com has marked email 964a90a5-02f2-48d5-27ca-08d764f23ab3 as invalid
+2019-11-21 11:45:22.653 +02:00 [INF] manager@ems.com has marked email 6458948a-635e-4a33-27cb-08d764f23ab3 as invalid
+2019-11-21 12:56:01.827 +02:00 [INF] Starting web host
+2019-11-21 12:56:16.781 +02:00 [INF] manager@ems.com has marked email 870b1d21-3bb9-49c6-27cc-08d764f23ab3 as invalid
+2019-11-21 12:56:41.639 +02:00 [INF] manager@ems.com has marked email 347b4644-d4b0-4b9f-27cd-08d764f23ab3 as invalid
+2019-11-21 13:03:38.258 +02:00 [INF] Starting web host
+2019-11-21 13:19:57.879 +02:00 [INF] Starting web host
+2019-11-21 13:20:07.402 +02:00 [INF] manager@ems.com has marked email 0206a14d-7a7c-4d0b-27ce-08d764f23ab3 as invalid
+2019-11-21 13:39:27.721 +02:00 [INF] Starting web host
+2019-11-21 13:39:39.151 +02:00 [INF] manager@ems.com has marked email 0206a14d-7a7c-4d0b-27ce-08d764f23ab3 as not reviewed
+2019-11-21 13:39:41.298 +02:00 [INF] manager@ems.com has marked email 347b4644-d4b0-4b9f-27cd-08d764f23ab3 as not reviewed
+2019-11-21 13:39:43.670 +02:00 [INF] manager@ems.com has marked email 870b1d21-3bb9-49c6-27cc-08d764f23ab3 as not reviewed
+2019-11-21 13:39:44.954 +02:00 [INF] manager@ems.com has marked email 6458948a-635e-4a33-27cb-08d764f23ab3 as not reviewed
+2019-11-21 13:39:45.962 +02:00 [INF] manager@ems.com has marked email 6458948a-635e-4a33-27cb-08d764f23ab3 as invalid
+2019-11-21 13:43:46.025 +02:00 [INF] Starting web host
+2019-11-21 13:45:20.260 +02:00 [INF] Starting web host
+2019-11-21 13:47:05.085 +02:00 [INF] Starting web host
+2019-11-21 13:47:28.177 +02:00 [INF] Starting web host
+2019-11-21 13:49:51.065 +02:00 [INF] manager@ems.com has marked email 870b1d21-3bb9-49c6-27cc-08d764f23ab3 as new
+2019-11-21 13:50:46.703 +02:00 [INF] manager@ems.com has marked email 347b4644-d4b0-4b9f-27cd-08d764f23ab3 as new
+2019-11-21 13:54:30.642 +02:00 [INF] Starting web host
+2019-11-21 13:55:16.618 +02:00 [INF] manager@ems.com has marked email 0206a14d-7a7c-4d0b-27ce-08d764f23ab3 as new
+2019-11-21 13:56:23.080 +02:00 [INF] manager@ems.com has marked email 3eed4eaa-955d-4882-27cf-08d764f23ab3 as new
+2019-11-21 14:08:37.427 +02:00 [INF] Starting web host
+2019-11-21 14:08:49.535 +02:00 [INF] User logged out.
+2019-11-21 14:08:57.230 +02:00 [INF] User logged in.
+2019-11-21 14:09:10.153 +02:00 [INF] User logged out.
+2019-11-21 14:10:20.978 +02:00 [INF] Starting web host
+2019-11-21 14:10:33.620 +02:00 [INF] User logged in.
+2019-11-21 14:10:44.174 +02:00 [INF] User logged out.
+2019-11-21 15:12:31.629 +02:00 [INF] Starting web host
+2019-11-21 15:12:54.011 +02:00 [INF] User logged in.
+2019-11-21 15:15:11.153 +02:00 [INF] User logged out.
+2019-11-21 15:15:18.014 +02:00 [INF] User logged in.
+2019-11-21 16:00:09.222 +02:00 [INF] Starting web host
+2019-11-21 16:00:21.379 +02:00 [INF]  has logged in
+2019-11-21 16:01:06.532 +02:00 [INF] User logged out.
+2019-11-21 16:02:23.139 +02:00 [INF] Starting web host
+2019-11-21 16:03:10.109 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 16:04:42.598 +02:00 [INF] User logged out.
+2019-11-21 16:13:58.373 +02:00 [INF] Starting web host
+2019-11-21 16:14:14.907 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 16:14:20.836 +02:00 [INF] operator1@ems.com has logged out
+2019-11-21 16:23:47.330 +02:00 [INF] Starting web host
+2019-11-21 16:23:56.596 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 16:24:19.850 +02:00 [INF] operator1@ems.com has marked email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3 as invalid
+2019-11-21 16:24:21.986 +02:00 [INF] operator1@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as invalid
+2019-11-21 16:24:26.322 +02:00 [INF] operator1@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as invalid
+2019-11-21 16:24:50.664 +02:00 [INF] operator1@ems.com has logged out
+2019-11-21 16:24:54.781 +02:00 [INF] manager@ems.com has logged in
+2019-11-21 16:24:58.922 +02:00 [INF] manager@ems.com has marked email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3 as not reviewed
+2019-11-21 16:25:01.240 +02:00 [INF] manager@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as not reviewed
+2019-11-21 16:25:03.530 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as not reviewed
+2019-11-21 16:25:30.162 +02:00 [INF] manager@ems.com has marked email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3 as new
+2019-11-21 16:25:56.095 +02:00 [INF] manager@ems.com has created application for email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3
+2019-11-21 16:25:56.168 +02:00 [INF] manager@ems.com has marked email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3 as open
+2019-11-21 16:26:29.723 +02:00 [INF] manager@ems.com has approved application e870a67f-16a1-49be-5a62-08d76e8eb8bb
+2019-11-21 16:26:29.851 +02:00 [INF] manager@ems.com has marked email 6c6a7ebe-fb25-4114-27d0-08d764f23ab3 as closed
+2019-11-21 16:27:02.253 +02:00 [INF] manager@ems.com has deleted email e870a67f-16a1-49be-5a62-08d76e8eb8bb
+2019-11-21 16:27:02.322 +02:00 [INF] manager@ems.com has marked email e870a67f-16a1-49be-5a62-08d76e8eb8bb as new
+2019-11-21 16:28:11.302 +02:00 [INF] Starting web host
+2019-11-21 16:28:20.998 +02:00 [INF] manager@ems.com has logged in
+2019-11-21 16:28:28.499 +02:00 [INF] manager@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as new
+2019-11-21 16:28:34.967 +02:00 [INF] manager@ems.com has created application for email 0951846d-b2ec-422c-35be-08d76dbde8fc
+2019-11-21 16:28:35.038 +02:00 [INF] manager@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as open
+2019-11-21 16:28:47.844 +02:00 [INF] manager@ems.com has approved application 1496927e-5fb5-40a9-f038-08d76e8f1771
+2019-11-21 16:28:47.962 +02:00 [INF] manager@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as closed
+2019-11-21 16:28:56.264 +02:00 [INF] manager@ems.com has deleted email 1496927e-5fb5-40a9-f038-08d76e8f1771
+2019-11-21 16:28:56.342 +02:00 [INF] manager@ems.com has marked email 0951846d-b2ec-422c-35be-08d76dbde8fc as new
+2019-11-21 16:32:46.659 +02:00 [INF] Starting web host
+2019-11-21 16:32:59.020 +02:00 [INF] manager@ems.com has logged in
+2019-11-21 16:33:09.211 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as invalid
+2019-11-21 16:33:15.937 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as not reviewed
+2019-11-21 16:34:12.692 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as new
+2019-11-21 16:34:26.377 +02:00 [INF] manager@ems.com has created application for email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc
+2019-11-21 16:34:26.515 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as open
+2019-11-21 16:35:56.965 +02:00 [INF] manager@ems.com has rejected application bf09d4fc-d70f-4578-ccb9-08d76e8fe8d2
+2019-11-21 16:35:57.138 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as closed
+2019-11-21 16:36:41.983 +02:00 [INF] manager@ems.com has deleted application bf09d4fc-d70f-4578-ccb9-08d76e8fe8d2
+2019-11-21 16:36:42.104 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as new
+2019-11-21 16:37:02.924 +02:00 [INF] manager@ems.com has marked email 310ef9ee-e7de-4ae4-35bf-08d76dbde8fc as not reviewed
+2019-11-21 17:09:37.746 +02:00 [INF] Starting web host
+2019-11-21 17:09:50.763 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 17:10:17.554 +02:00 [INF] Starting web host
+2019-11-21 17:10:26.753 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 17:11:33.272 +02:00 [INF] Starting web host
+2019-11-21 17:11:44.534 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 17:13:15.991 +02:00 [INF] Starting web host
+2019-11-21 17:13:28.771 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 17:15:06.414 +02:00 [INF] operator1@ems.com has logged out
+2019-11-21 17:15:12.927 +02:00 [INF] operator1@ems.com has logged in
+2019-11-21 17:20:52.941 +02:00 [INF] Starting web host
+2019-11-21 17:21:05.307 +02:00 [INF] operator1@ems.com has logged in
