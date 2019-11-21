@@ -11,13 +11,14 @@
         internal const string DefaultPassword = "Password-123";
 
         // Messages
-        public const string SuccAppCreate = "You have successfully created an application";
-        public const string SuccStatusInvalid = "You have marked an email as Invalid";
-        public const string SuccStatusNotReviewed = "You have marked an email as Not Reviewed";
-        public const string SuccStatusNew = "You have marked an email as New";
+        public const string SuccAppCreate = "You have successfully created an application";        
         public const string SuccAppValid = "You have approved the application";
         public const string SuccAppInvalid = "You have rejected the application";
         public const string SuccAppNew = "You have marked an appication as New";
+
+        public const string SuccEmailInvalid = "You have marked an email as Invalid";
+        public const string SuccEmailNew = "You have marked an email as New";
+
 
         public const string PassValidErrMsg = "The {0} must be at least {2} and at max {1} characters long.";
         public const string PassDisplayName = "Password";
@@ -60,5 +61,10 @@
         public const string TimeParserMin = " min.";
         public const string TimeParserHrsMin = " hrs. and";
         public const string TimeParserDays = " days, ";
+
+        // Logger
+        public const string LogEmailInvalid = "{0} has marked email {1} as invalid";
+        public const string LogEmailNew = "{0} has marked email {1} as new";
+
     }
 }

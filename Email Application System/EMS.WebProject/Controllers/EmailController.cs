@@ -1,11 +1,13 @@
 ﻿using EMS.Data;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
+using EMS.Services.dto_Models;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +20,7 @@ namespace EMS.WebProject.Controllers
         private readonly IApplicationService _appService;
         private readonly IEmailService _emailService;
         private readonly ILogger<EmailController> _logger;
-        
+
         public EmailController(IEmailService emailService, IApplicationService appService, ILogger<EmailController> logger)
         {
             _emailService = emailService;
@@ -97,11 +99,29 @@ namespace EMS.WebProject.Controllers
         [HttpGet]
         public async Task<IActionResult> MarkInvalid(string id)
         {
-            await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
+            try
+            {
+                await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
 
-            _logger.LogInformation($"{User.Identity.Name} has marked email {id} as invalid");            
+                _logger.LogInformation(string.Format(Constants.LogEmailInvalid,User.Identity.Name,id));               
+                TempData[Constants.TempDataMsg] = Constants.SuccEmailInvalid;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
 
-            var allEmails = await _emailService.GetAllEmailsAsync();
+            var allEmails = new List<EmailDto>();
+            try
+            {
+                allEmails = await _emailService.GetAllEmailsAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
+
+             
             var vm = new AllEmailsViewModel
             {
                 AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
@@ -138,7 +158,17 @@ namespace EMS.WebProject.Controllers
         [HttpGet]
         public async Task<IActionResult> MarkNew(string id)
         {
-            await _emailService.ChangeStatusAsync(id, EmailStatus.New);
+            try
+            {
+                await _emailService.ChangeStatusAsync(id, EmailStatus.New);
+
+                _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, id));
+                TempData[Constants.TempDataMsg] = Constants.SuccEmailNew;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+            }
 
             var mailId = await _emailService.GetGmailId(id);
             var body = await _emailService.GetBodyAsync(mailId);
