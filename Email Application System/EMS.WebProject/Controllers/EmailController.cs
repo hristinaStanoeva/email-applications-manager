@@ -5,6 +5,7 @@ using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,11 +17,13 @@ namespace EMS.WebProject.Controllers
     {
         private readonly IApplicationService _appService;
         private readonly IEmailService _emailService;
-
-        public EmailController(IEmailService emailService, IApplicationService appService)
+        private readonly ILogger<EmailController> _logger;
+        
+        public EmailController(IEmailService emailService, IApplicationService appService, ILogger<EmailController> logger)
         {
             _emailService = emailService;
             _appService = appService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -95,6 +98,8 @@ namespace EMS.WebProject.Controllers
         public async Task<IActionResult> MarkInvalid(string id)
         {
             await _emailService.ChangeStatusAsync(id, EmailStatus.Invalid);
+
+            _logger.LogInformation($"{User.Identity.Name} has marked email {id} as invalid");            
 
             var allEmails = await _emailService.GetAllEmailsAsync();
             var vm = new AllEmailsViewModel
