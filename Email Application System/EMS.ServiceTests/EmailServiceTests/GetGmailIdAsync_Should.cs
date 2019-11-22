@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EMS.ServiceTests.EmailServiceTests
 {
     [TestClass]
-    public class GetGmailIdAsync
+    public class GetGmailIdAsync_Should
     {
         [TestMethod]
         public async Task GetGmailId()

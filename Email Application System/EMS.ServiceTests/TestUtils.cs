@@ -88,6 +88,34 @@ namespace EMS.Services.Tests
                 }
             }
         };
+
+        public static List<ApplicationDomain> Applications = new List<ApplicationDomain>()
+        {
+            new ApplicationDomain()
+            {
+                Id = Guid.NewGuid(),
+                EGN = "1111111111",
+                Name = "TestName_1",
+                PhoneNumber = "+111111111111",
+                Status = ApplicationStatus.NotReviewed
+            },
+             new ApplicationDomain()
+            {
+                Id = Guid.NewGuid(),
+                EGN = "2222222222",
+                Name = "TestName_2",
+                PhoneNumber = "+222222222222",
+                Status = ApplicationStatus.Approved
+            },
+            new ApplicationDomain()
+            {
+                Id = Guid.NewGuid(),
+                EGN = "3333333333",
+                Name = "TestName_3",
+                PhoneNumber = "+333333333333",
+                Status = ApplicationStatus.Rejected
+            }           
+        };
         public static DbContextOptions<SystemDataContext> GetOptions(string databaseName)
         {
             return new DbContextOptionsBuilder<SystemDataContext>()
@@ -101,6 +129,17 @@ namespace EMS.Services.Tests
             var context = new SystemDataContext(options);
 
             context.Emails.AddRange(Emails);            
+            context.SaveChanges();
+
+            return context;
+        }
+
+        public static SystemDataContext GetContextWithApplications(string databaseName)
+        {
+            var options = GetOptions(databaseName);
+            var context = new SystemDataContext(options);
+
+            context.Applications.AddRange(Applications);
             context.SaveChanges();
 
             return context;

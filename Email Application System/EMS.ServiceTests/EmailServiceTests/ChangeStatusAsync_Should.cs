@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace EMS.ServiceTests.EmailServiceTests
 {
     [TestClass]
-    public class ChangeStatusAsync
+    public class ChangeStatusAsync_Should
     {
         [TestMethod]
         public async Task ChangeStatus()

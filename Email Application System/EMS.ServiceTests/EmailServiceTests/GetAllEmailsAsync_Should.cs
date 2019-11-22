@@ -55,10 +55,8 @@ namespace EMS.Services.Tests.EmailServiceTests
         [TestMethod]
         public async Task MapsCorrectly_EmailId()
         {
-            //Prepare database
             TestUtils.GetContextWithEmails(nameof(MapsCorrectly_EmailId));
 
-            //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
             using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(MapsCorrectly_EmailId))))
