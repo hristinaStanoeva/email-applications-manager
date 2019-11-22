@@ -38,54 +38,6 @@ namespace EMS.Services
 
             return emailsDto;
         }
-        public async Task<List<EmailDto>> GetOpenEmailsAsync()
-        {
-            var emailsDomain = await _context.Emails
-                .Where(mail => mail.Status == EmailStatus.Open)
-                .Include(mail => mail.Attachments)                
-                .ToListAsync()
-                .ConfigureAwait(false);
-
-            var emailsDto = new List<EmailDto>();
-            foreach (var email in emailsDomain)
-            {
-                emailsDto.Add(email.MapToDtoModel());
-            }
-
-            return emailsDto;
-        }
-        public async Task<List<EmailDto>> GetNewEmailsAsync()
-        {
-            var emailsDomain = await _context.Emails
-                .Where(mail => mail.Status == EmailStatus.New)
-                .Include(mail => mail.Attachments)
-                .ToListAsync()
-                .ConfigureAwait(false);
-
-            var emailsDto = new List<EmailDto>();
-            foreach (var email in emailsDomain)
-            {
-                emailsDto.Add(email.MapToDtoModel());
-            }
-
-            return emailsDto;
-        }
-        public async Task<List<EmailDto>> GetClosedEmailsAsync()
-        {
-            var emailsDomain = await _context.Emails
-                .Where(mail => mail.Status == EmailStatus.Closed)
-                .Include(mail => mail.Attachments)
-                .ToListAsync()
-                .ConfigureAwait(false);
-
-            var emailsDto = new List<EmailDto>();
-            foreach (var email in emailsDomain)
-            {
-                emailsDto.Add(email.MapToDtoModel());
-            }
-
-            return emailsDto;
-        }
         public async Task<EmailDto> GetSingleEmailAsync(string mailId)
         {
             var emailDomain = await _context.Emails
@@ -103,7 +55,54 @@ namespace EMS.Services
 
             return mail.GmailMessageId;
         }
-        
+        public async Task<List<EmailDto>> GetNewEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.New)
+                .Include(mail => mail.Attachments)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }
+        public async Task<List<EmailDto>> GetOpenEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.Open)
+                .Include(mail => mail.Attachments)                
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }      
+        public async Task<List<EmailDto>> GetClosedEmailsAsync()
+        {
+            var emailsDomain = await _context.Emails
+                .Where(mail => mail.Status == EmailStatus.Closed)
+                .Include(mail => mail.Attachments)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            var emailsDto = new List<EmailDto>();
+            foreach (var email in emailsDomain)
+            {
+                emailsDto.Add(email.MapToDtoModel());
+            }
+
+            return emailsDto;
+        }        
         public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
             var email = await _context.Emails

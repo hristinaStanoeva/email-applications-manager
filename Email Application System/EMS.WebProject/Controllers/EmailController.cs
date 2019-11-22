@@ -77,12 +77,12 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                var allEmails = await _emailService.GetOpenEmailsAsync();
+                var openEmails = await _emailService.GetOpenEmailsAsync();
                 var apps = await _appService.GetOpenAppsAsync();
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
+                    AllEmails = openEmails.Select(mail => mail.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabOpen
                 };
 
