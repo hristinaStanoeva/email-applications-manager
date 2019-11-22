@@ -1,0 +1,8 @@
+2019-11-22 10:56:56.260 +02:00 [INF] Starting web host
+2019-11-22 14:07:12.293 +02:00 [INF] Starting web host
+2019-11-22 14:19:17.052 +02:00 [INF] Starting web host
+2019-11-22 14:20:14.108 +02:00 [INF] operator1@ems.com has created application for email 26bb39c8-6f0b-4284-fe04-08d764910ab8
+2019-11-22 14:20:14.178 +02:00 [INF] operator1@ems.com has marked email 26bb39c8-6f0b-4284-fe04-08d764910ab8 as open
+2019-11-22 14:21:40.982 +02:00 [INF] Starting web host
+2019-11-22 14:22:10.146 +02:00 [INF] operator1@ems.com has created application for email 0d8dd449-857e-4f15-7663-08d76c744feb
+2019-11-22 14:22:10.210 +02:00 [INF] operator1@ems.com has marked email 0d8dd449-857e-4f15-7663-08d76c744feb as open

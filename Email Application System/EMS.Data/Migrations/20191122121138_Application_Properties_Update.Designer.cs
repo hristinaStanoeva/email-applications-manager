@@ -4,14 +4,16 @@ using EMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EMS.Data.Migrations
 {
     [DbContext(typeof(SystemDataContext))]
-    partial class SystemDataContextModelSnapshot : ModelSnapshot
+    [Migration("20191122121138_Application_Properties_Update")]
+    partial class Application_Properties_Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

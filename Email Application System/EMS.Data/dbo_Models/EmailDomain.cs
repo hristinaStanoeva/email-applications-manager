@@ -35,6 +35,5 @@ namespace EMS.Data.dbo_Models
 
         public ApplicationDomain Application { get; set; }
         public List<AttachmentDomain> Attachments { get; set; }
-        public List<LogDomain> Logs { get; set; }
     }
 }
