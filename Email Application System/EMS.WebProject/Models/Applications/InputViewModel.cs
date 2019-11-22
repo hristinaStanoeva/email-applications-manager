@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EMS.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace EMS.WebProject.Models.Applications
 {
@@ -6,16 +7,16 @@ namespace EMS.WebProject.Models.Applications
     {
         public string EmailId { get; set; }
 
-        [Required(ErrorMessage = "You have to enter a name")]
-        [StringLength(50, ErrorMessage = "Name you have entered is too long")]
+        [Required(ErrorMessage = Constants.EnterName)]
+        [StringLength(50, ErrorMessage = Constants.NameTooLong)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "You have to enter personal ID")]
-        [StringLength(10, ErrorMessage = "EGN you have entered is not valid", MinimumLength = 10)]
+        [Required(ErrorMessage = Constants.EnterEGN)]
+        [StringLength(10, ErrorMessage = Constants.EGNTooLong, MinimumLength = 10)]
         public string EGN { get; set; }
 
-        [Required(ErrorMessage = "You have to enter phone number")]
-        [StringLength(25, ErrorMessage = "Phone number you have entered is too long")]
+        [Required(ErrorMessage = Constants.EnterPhoneNumber)]
+        [StringLength(25, ErrorMessage = Constants.PhoneNumberTooLong)]
         public string Phone { get; set; }
     }
 }

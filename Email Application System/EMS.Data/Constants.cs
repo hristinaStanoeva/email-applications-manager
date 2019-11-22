@@ -95,5 +95,14 @@
         public const string LogUserLogin = "{0} has logged in";
         public const string LogUserLogout = "{0} has logged out";
         public const string LogUserLockedOut = "{0} account locked out";
+
+        // Validations
+        public const string EnterName = "You have to enter a name";
+        public const string NameTooLong = "Name you have entered is too long";
+        public const string EnterEGN = "You have to enter a personal ID/EGN";
+        public const string EGNTooLong = "ID/EGN you have entered is not valid";
+        public const string EnterPhoneNumber = "You have to enter a phone number";
+        public const string PhoneNumberTooLong = "Phone number you have entered is too long";
+
     }
 }

@@ -86,3 +86,4 @@ System.InvalidOperationException: The view 'Index' was not found. The following 
    at Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore.DatabaseErrorPageMiddleware.Invoke(HttpContext httpContext)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2019-11-22 14:54:14.262 +02:00 [INF] Starting web host
+2019-11-22 14:57:14.408 +02:00 [INF] Starting web host
