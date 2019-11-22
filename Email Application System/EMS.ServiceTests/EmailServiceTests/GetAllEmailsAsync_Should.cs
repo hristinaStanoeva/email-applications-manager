@@ -13,10 +13,8 @@ namespace EMS.Services.Tests.EmailServiceTests
         [TestMethod]
         public async Task GetAllEmails()
         {
-            //Prepare database
             TestUtils.GetContextWithEmails(nameof(GetAllEmails));
 
-            //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
             using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(GetAllEmails))))
@@ -32,10 +30,8 @@ namespace EMS.Services.Tests.EmailServiceTests
         [TestMethod]
         public async Task GetAllAttachments()
         {
-            //Prepare database
             TestUtils.GetContextWithEmails(nameof(GetAllAttachments));
 
-            //Prepare dependencies
             var gmailServiceMock = new Mock<IGmailAPIService>();
 
             using (var assertContext = new SystemDataContext(TestUtils.GetOptions(nameof(GetAllAttachments))))
