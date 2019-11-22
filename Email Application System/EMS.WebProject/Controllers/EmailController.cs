@@ -188,7 +188,7 @@ namespace EMS.WebProject.Controllers
                 _logger.LogInformation(string.Format(Constants.LogEmailNew, User.Identity.Name, id));
                 TempData[Constants.TempDataMsg] = Constants.EmailNewSucc;
 
-                var mailId = await _emailService.GetGmailId(id);
+                var mailId = await _emailService.GetGmailIdAsync(id);
                 var body = await _emailService.GetBodyAsync(mailId);
 
                 var email = await _emailService.GetSingleEmailAsync(id);
@@ -219,7 +219,7 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                var mailId = await _emailService.GetGmailId(id);
+                var mailId = await _emailService.GetGmailIdAsync(id);
                 var body = await _emailService.GetBodyAsync(mailId);
 
                 var email = await _emailService.GetSingleEmailAsync(id);

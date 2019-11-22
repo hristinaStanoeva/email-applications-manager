@@ -9,10 +9,9 @@ namespace EMS.Services.Contracts
     {
         Task ChangeStatusAsync(string id, EmailStatus newStatus);
         Task<List<EmailDto>> GetAllEmailsAsync();       
-        Task<string> GetGmailId(string id);
+        Task<string> GetGmailIdAsync(string id);
         Task<EmailDto> GetSingleEmailAsync(string mailId);
-        Task<string> GetBodyAsync(string messageId);
-        Task AddBodyAsync(string emailId, string body);
+        Task<string> GetBodyAsync(string messageId);    
         Task<List<EmailDto>> GetOpenEmailsAsync();
         Task<List<EmailDto>> GetNewEmailsAsync();
         Task<List<EmailDto>> GetClosedEmailsAsync();

@@ -37,7 +37,7 @@ namespace EMS.Services.Tests
                         Name = "Attachment_1.1",
                         SizeMb = 10.11
                     }
-                }
+                }                
             },
             new EmailDomain()
             {
@@ -51,7 +51,7 @@ namespace EMS.Services.Tests
                 Status = EmailStatus.Open,
                 ToCurrentStatus = DateTime.UtcNow.AddDays(2),
                 Body = "Body_2",
-                Attachments = new List<AttachmentDomain>()
+                Attachments = new List<AttachmentDomain>()                             
             },
             new EmailDomain()
             {
@@ -84,11 +84,10 @@ namespace EMS.Services.Tests
                         Id = Guid.NewGuid(),
                         Name = "Attachment_3.2",
                         SizeMb = 30.12
-                    }
+                    }                    
                 }
             }
         };
-
         public static DbContextOptions<SystemDataContext> GetOptions(string databaseName)
         {
             return new DbContextOptionsBuilder<SystemDataContext>()
@@ -101,7 +100,7 @@ namespace EMS.Services.Tests
             var options = GetOptions(databaseName);
             var context = new SystemDataContext(options);
 
-            context.Emails.AddRange(Emails);
+            context.Emails.AddRange(Emails);            
             context.SaveChanges();
 
             return context;

@@ -1,0 +1,6 @@
+2019-11-22 10:54:18.877 +02:00 [INF] Starting web host
+2019-11-22 10:54:30.371 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 12:56:19.890 +02:00 [INF] Starting web host
+2019-11-22 12:56:28.539 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 13:54:10.374 +02:00 [INF] Starting web host
+2019-11-22 13:54:23.318 +02:00 [INF] operator1@ems.com has logged in
