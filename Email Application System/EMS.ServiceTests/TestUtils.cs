@@ -94,10 +94,16 @@ namespace EMS.Services.Tests
             new ApplicationDomain()
             {
                 Id = Guid.NewGuid(),
+                EmailId = Guid.NewGuid(),
+                UserId = Guid.NewGuid().ToString(),
                 EGN = "1111111111",
                 Name = "TestName_1",
                 PhoneNumber = "+111111111111",
-                Status = ApplicationStatus.NotReviewed
+                Status = ApplicationStatus.NotReviewed,
+                User = new UserDomain()
+                {
+                    UserName = "TestUserName_1"
+                }
             },
              new ApplicationDomain()
             {
