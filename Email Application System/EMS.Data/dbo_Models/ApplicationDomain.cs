@@ -26,7 +26,7 @@ namespace EMS.Data.dbo_Models
         public string Name { get; set; }
 
         [Required]
-        [StringLength(15)]
+        [StringLength(25)]
         public string PhoneNumber { get; set; }
 
         [Required]

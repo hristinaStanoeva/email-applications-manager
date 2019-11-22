@@ -20,6 +20,11 @@ namespace EMS.Data.Configurations
                .WithMany(user => user.Applications)
                .HasForeignKey(app => app.UserId);
 
+            builder
+                .Property(p => p.EGN)
+                .HasMaxLength(10)
+                .IsFixedLength();
+
             builder.ToTable("Applications");
         }
     }

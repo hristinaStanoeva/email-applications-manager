@@ -10,7 +10,7 @@ namespace EMS.Data.Configurations
         {
             builder
                 .HasKey(email => email.Id);
-
+                
             builder
                 .HasOne(email => email.Application)
                 .WithOne(app => app.Email);
@@ -18,10 +18,6 @@ namespace EMS.Data.Configurations
             builder
                 .HasMany(email => email.Attachments)
                 .WithOne(att => att.Email);
-
-            builder
-                .HasMany(email => email.Logs)
-                .WithOne(log => log.Email);
 
             builder.ToTable("Emails");
         }
