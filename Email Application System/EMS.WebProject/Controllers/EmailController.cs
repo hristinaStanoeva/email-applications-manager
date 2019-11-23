@@ -31,15 +31,30 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             try
             {
-                var emailsIndex = await _emailService.GetAllEmailsAsync();
+                var emailsDesc = await _emailService.GetAllEmailsAsync();                
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        emailsDesc = emailsDesc = emailsDesc.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        emailsDesc = emailsDesc = emailsDesc.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        emailsDesc = emailsDesc = emailsDesc.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
+
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                    AllEmails = emailsDesc.Select(x => x.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabAll
                 };
 

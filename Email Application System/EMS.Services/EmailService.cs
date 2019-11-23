@@ -26,8 +26,7 @@ namespace EMS.Services
         public async Task<List<EmailDto>> GetAllEmailsAsync()
         {
             var emailsDomain = await _context.Emails
-                .Include(email => email.Attachments)
-                .OrderByDescending(email => email.Received)
+                .Include(email => email.Attachments)                
                 .ToListAsync()
                 .ConfigureAwait(false);
 

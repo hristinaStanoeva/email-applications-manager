@@ -131,3 +131,21 @@ System.InvalidOperationException: No route matches the supplied values.
 2019-11-23 18:42:42.227 +02:00 [INF] operator1@ems.com has logged in
 2019-11-23 18:43:00.857 +02:00 [INF] Starting web host
 2019-11-23 18:43:19.193 +02:00 [INF] operator1@ems.com has logged out
+2019-11-23 18:46:10.573 +02:00 [INF] Starting web host
+2019-11-23 18:46:21.839 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 18:46:24.855 +02:00 [INF] operator1@ems.com has logged out
+2019-11-23 18:46:26.904 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 18:50:32.277 +02:00 [INF] Starting web host
+2019-11-23 18:50:42.127 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 18:51:49.300 +02:00 [INF] Starting web host
+2019-11-23 18:51:58.006 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 18:53:38.561 +02:00 [INF] Starting web host
+2019-11-23 18:53:47.493 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 18:54:16.152 +02:00 [INF] Starting web host
+2019-11-23 18:54:25.221 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 19:03:49.761 +02:00 [INF] Starting web host
+2019-11-23 19:04:00.233 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 19:05:04.835 +02:00 [INF] Starting web host
+2019-11-23 19:06:18.642 +02:00 [INF] operator1@ems.com has logged in
+2019-11-23 19:07:26.741 +02:00 [INF] Starting web host
+2019-11-23 19:07:35.715 +02:00 [INF] operator1@ems.com has logged in
