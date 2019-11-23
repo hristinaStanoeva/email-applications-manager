@@ -5,6 +5,12 @@
 
 <h1>Register account</h1>
 
+<div class="text-danger">
+    @if (Model.Error != null)
+    {
+        @Model.Error
+    }
+</div>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="RegisterUser" asp-controller="User" method="post">

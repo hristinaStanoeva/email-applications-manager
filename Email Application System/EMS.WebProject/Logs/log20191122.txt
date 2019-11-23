@@ -87,3 +87,8 @@ System.InvalidOperationException: The view 'Index' was not found. The following 
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2019-11-22 14:54:14.262 +02:00 [INF] Starting web host
 2019-11-22 14:57:14.408 +02:00 [INF] Starting web host
+2019-11-22 18:47:26.159 +02:00 [INF] Starting web host
+2019-11-22 18:48:00.693 +02:00 [INF] manager@ems.com has deleted application 5ae1dc98-07c3-4b7d-44e6-08d76946ded5
+2019-11-22 18:48:00.797 +02:00 [INF] manager@ems.com has marked email 38508b62-8800-4271-fe03-08d764910ab8 as new
+2019-11-22 23:53:49.149 +02:00 [INF] Starting web host
+2019-11-22 23:55:58.186 +02:00 [INF] Starting web host

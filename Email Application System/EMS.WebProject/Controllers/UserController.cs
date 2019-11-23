@@ -12,8 +12,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
-{    
-    [Authorize(Roles = "manager, operator")]    
+{
+    [Authorize(Roles = "manager, operator")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
@@ -28,7 +28,7 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(string error = null)
         {
             try
             {
@@ -39,7 +39,8 @@ namespace EMS.WebProject.Controllers
 
                 var viewModel = new RegisterUserViewModel
                 {
-                    Roles = listRoles
+                    Roles = listRoles,
+                    Error = error
                 };
 
                 return View(viewModel);
@@ -55,21 +56,21 @@ namespace EMS.WebProject.Controllers
 
         }
 
-        [BindProperty]
-        public RegisterUserViewModel Input { get; set; }
-
         [HttpPost]
         public async Task<IActionResult> RegisterUser(RegisterUserViewModel vm)
         {
             try
             {
-                //TODO : Do we need this if
                 if (ModelState.IsValid)
                 {
                     await _userService.CreateAsync(vm.Email, vm.Password, vm.Role);
                     _logger.LogInformation(string.Format(Constants.LogUserCreate, User.Identity.Name, vm.Role, vm.Email));
 
                     TempData[Constants.TempDataMsg] = Constants.UserCreateSucc;
+                }
+                else
+                {
+                    return RedirectToAction("Register", "User", new { error = Constants.InvalidData });
                 }
             }
             catch (Exception ex)
@@ -80,12 +81,12 @@ namespace EMS.WebProject.Controllers
             }
 
             return RedirectToAction(Constants.PageIndex, Constants.PageHome);
-
         }
 
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult ChangePassword(string error = null)
         {
+            TempData["error"] = Constants.InvalidData;
             return View();
         }
 
@@ -94,16 +95,20 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                await _userService.ChangePasswordAsync(vm.Username, vm.CurrentPassword, vm.Password);
-                _logger.LogInformation(string.Format(Constants.LogUserPassChange, User.Identity.Name));
+                if (ModelState.IsValid)
+                {
+                    await _userService.ChangePasswordAsync(vm.Username, vm.CurrentPassword, vm.Password);
+                    _logger.LogInformation(string.Format(Constants.LogUserPassChange, User.Identity.Name));
 
-                TempData[Constants.TempDataMsg] = Constants.UserPassChangeSucc;
+                    TempData[Constants.TempDataMsg] = Constants.UserPassChangeSucc;
 
-                var userName = User.Identity.Name;
-                await _signInManager.SignOutAsync();
-                _logger.LogInformation(string.Format(Constants.LogUserSignOut, userName));
+                    var userName = User.Identity.Name;
+                    await _signInManager.SignOutAsync();
+                    _logger.LogInformation(string.Format(Constants.LogUserSignOut, userName));
 
-                TempData[Constants.TempDataMsg] = Constants.UserSignOutSucc;
+                    TempData[Constants.TempDataMsg] = Constants.UserSignOutSucc;
+                }
+                else return RedirectToAction("ChangePassword", "User", new { error = Constants.InvalidData });
             }
             catch (Exception ex)
             {
