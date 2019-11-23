@@ -107,6 +107,7 @@
         public const string PassMatchMsg = "The password and confirmation password do not match";
         public const string RegexExpression = @"^(?=.{1,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$";
         public const string InvalidData = "Data is not valid";
+        public const string UnknownPass = "Unknown password";
 
     }
 }
