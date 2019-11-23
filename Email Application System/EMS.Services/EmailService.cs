@@ -136,7 +136,7 @@ namespace EMS.Services
 
             if (email.Body is null)
             {
-                return "No body";
+                return Constants.NoBody;
             }
             else return _gmailService.Decrypt(email.Body);
         }

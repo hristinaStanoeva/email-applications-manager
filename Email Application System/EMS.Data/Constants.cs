@@ -31,6 +31,9 @@
         public const string UserInvalLogin = "Invalid login attempt.";
 
         public const string ErrorCatch = "Something went wrong";
+        public const string NoBody = "No body";
+
+
 
        
 

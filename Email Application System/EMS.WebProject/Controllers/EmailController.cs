@@ -16,7 +16,7 @@ namespace EMS.WebProject.Controllers
 {
     [Authorize(Policy = Constants.AuthPolicy)]
     [Authorize(Roles = "manager, operator")]
-    
+
     public class EmailController : Controller
     {
         private readonly IApplicationService _appService;
@@ -218,8 +218,7 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                var mailId = await _emailService.GetGmailIdAsync(id);
-                var body = await _emailService.GetBodyByGmailAsync(mailId);
+                var body = await _emailService.GetBodyByDbAsync(id);
 
                 var email = await _emailService.GetSingleEmailAsync(id);
 
@@ -242,14 +241,21 @@ namespace EMS.WebProject.Controllers
             {
                 return ErrorHandle(ex);
             }
-        }      
-                
+        }
+
         [HttpGet]
         public async Task<IActionResult> EmailBody(string id)
         {
             try
             {
-                var body = await _emailService.GetBodyByGmailAsync(id);
+                var body = await _emailService.GetBodyByDbAsync(id);
+
+                if (body == Constants.NoBody)
+                {
+                    var gmailId = await _emailService.GetGmailIdAsync(id);
+                    body = await _emailService.GetBodyByGmailAsync(gmailId);
+                }
+                
                 return Json(body);
             }
             catch (Exception ex)
