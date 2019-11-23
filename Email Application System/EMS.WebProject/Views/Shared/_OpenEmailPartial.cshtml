@@ -8,6 +8,7 @@
         <td>@Model.Subject</td>
 
         <td>@Model.TimeSinceCurrentStatus</td>
+
         @if (User.IsInRole("manager"))
         {
             <td>@Model.OperatorUsername</td>

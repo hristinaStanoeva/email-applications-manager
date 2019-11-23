@@ -58,7 +58,32 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Received</th>
+
+            @if (Model.ActiveTab == Constants.TabAll)
+            {
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabNew)
+            {
+                <th scope="col">
+                    <a asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabOpen)
+            {
+                <th scope="col">
+                    <a asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabClosed)
+            {
+                <th scope="col">
+                    <a asp-action="GetClosedEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
+
             <th scope="col">Email</th>
             <th scope="col">Name</th>
             <th scope="col">Subject</th>
@@ -74,17 +99,24 @@
 
             @if (Model.ActiveTab == Constants.TabNew)
             {
-                <th scope="col">New since</th>
+                <th scope="col">
+                    <a asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">New since</a>
+                </th>
+
                 <th scope="col">Preview</th>
             }
 
             @if (Model.ActiveTab == Constants.TabOpen)
             {
-                <th scope="col">Open since</th>
+                <th scope="col">
+                    <a asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">Open since</a>
+                </th>
+
                 @if (User.IsInRole(Constants.Manager))
                 {
                     <th scope="col">Open by</th>
                 }
+
                 <th scope="col">Preview</th>
             }
 

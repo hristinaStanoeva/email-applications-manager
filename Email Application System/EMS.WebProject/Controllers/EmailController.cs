@@ -31,15 +31,30 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
             try
             {
-                var emailsIndex = await _emailService.GetAllEmailsAsync();
+                var allEmails = await _emailService.GetAllEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        allEmails = allEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        allEmails = allEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        allEmails = allEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
+
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = emailsIndex.Select(x => x.MapToViewModel()).ToList(),
+                    AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabAll
                 };
 
@@ -52,15 +67,36 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNewEmails()
+        public async Task<IActionResult> GetNewEmails(string sortOrder)
         {
             try
             {
-                var allEmails = await _emailService.GetNewEmailsAsync();
+                var newEmails = await _emailService.GetNewEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                ViewData["SinceStatus"] = sortOrder == "SinceStatus_Date" ? "sinceStatus_desc" : "SinceStatus_Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        newEmails = newEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    case "SinceStatus_Date":
+                        newEmails = newEmails.OrderBy(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    case "sinceStatus_desc":
+                        newEmails = newEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    default:
+                        newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
+                    AllEmails = newEmails.Select(mail => mail.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabNew
                 };
 
@@ -73,11 +109,33 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOpenEmails()
+        public async Task<IActionResult> GetOpenEmails(string sortOrder)
         {
             try
             {
                 var openEmails = await _emailService.GetOpenEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                ViewData["SinceStatus"] = sortOrder == "SinceStatus_Date" ? "sinceStatus_date_desc" : "SinceStatus_Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        openEmails = openEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    case "SinceStatus_Date":
+                        openEmails = openEmails.OrderBy(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    case "sinceStatus_date_desc":
+                        openEmails = openEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    default:
+                        openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
+
                 var apps = await _appService.GetOpenAppsAsync();
 
                 var vm = new AllEmailsViewModel
@@ -101,15 +159,29 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClosedEmails()
+        public async Task<IActionResult> GetClosedEmails(string sortOrder)
         {
             try
             {
-                var emails = await _emailService.GetClosedEmailsAsync();
+                var closedEmails = await _emailService.GetClosedEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        closedEmails = closedEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        closedEmails = closedEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        closedEmails = closedEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = emails.Select(mail => mail.MapToViewModel()).ToList(),
+                    AllEmails = closedEmails.Select(mail => mail.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabClosed
                 };
 

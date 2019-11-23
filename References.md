@@ -20,9 +20,8 @@ password: `sashohrisi1`
 
 ## **Logging**
 
-1. Logging (log4net) - https://stackify.com/log4net-guide-dotnet-logging/
-                  - https://www.youtube.com/watch?v=2lAdQ_QwNww
-
+1. Logging (Serilog) - https://github.com/serilog/serilog/wiki/Configuration-Basics?fbclid=IwAR27sUWydw6w_j-zW_6QDfELceBmb9Gqolxv-ibdyuu3nkiao5YDYaihYrg
+                 
 
 ---
 Git Commands
