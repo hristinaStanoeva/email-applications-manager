@@ -58,7 +58,19 @@
     <thead class="thead-light">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col"><a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a></th>
+
+            @if (Model.ActiveTab == Constants.TabAll)
+            {
+                <th scope="col">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabNew)
+            {
+                <th scope="col">
+                    <a asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">Received</a>
+                </th>
+            }
             <th scope="col">Email</th>
             <th scope="col">Name</th>
             <th scope="col">Subject</th>

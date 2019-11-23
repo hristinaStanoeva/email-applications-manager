@@ -16,7 +16,7 @@ namespace EMS.WebProject.Controllers
 {
     [Authorize(Policy = Constants.AuthPolicy)]
     [Authorize(Roles = "manager, operator")]
-    
+
     public class EmailController : Controller
     {
         private readonly IApplicationService _appService;
@@ -35,26 +35,26 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                var emailsDesc = await _emailService.GetAllEmailsAsync();                
+                var allEmails = await _emailService.GetAllEmailsAsync();
 
                 ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
                 switch (sortOrder)
                 {
                     case "Date":
-                        emailsDesc = emailsDesc = emailsDesc.OrderBy(mail => mail.Received).ToList();
+                        allEmails = allEmails.OrderBy(mail => mail.Received).ToList();
                         break;
                     case "date_desc":
-                        emailsDesc = emailsDesc = emailsDesc.OrderByDescending(mail => mail.Received).ToList();
+                        allEmails = allEmails.OrderByDescending(mail => mail.Received).ToList();
                         break;
                     default:
-                        emailsDesc = emailsDesc = emailsDesc.OrderByDescending(mail => mail.Received).ToList();
+                        allEmails = allEmails.OrderByDescending(mail => mail.Received).ToList();
                         break;
                 }
 
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = emailsDesc.Select(x => x.MapToViewModel()).ToList(),
+                    AllEmails = allEmails.Select(x => x.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabAll
                 };
 
@@ -67,15 +67,29 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetNewEmails()
+        public async Task<IActionResult> GetNewEmails(string sortOrder)
         {
             try
             {
-                var allEmails = await _emailService.GetNewEmailsAsync();
+                var newEmails = await _emailService.GetNewEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        newEmails = newEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = allEmails.Select(mail => mail.MapToViewModel()).ToList(),
+                    AllEmails = newEmails.Select(mail => mail.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabNew
                 };
 
@@ -258,8 +272,8 @@ namespace EMS.WebProject.Controllers
             {
                 return ErrorHandle(ex);
             }
-        }      
-                
+        }
+
         [HttpGet]
         public async Task<IActionResult> EmailBody(string id)
         {
