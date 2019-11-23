@@ -108,8 +108,8 @@
                 </button>
                 @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
                 {
-                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="Email" asp-action="ApplicationPreview" asp-route-id="@Model.Id">
-                        See application
+                    <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">
+                        View application
                     </a>
                 }
             </div>
