@@ -92,3 +92,17 @@ System.InvalidOperationException: The view 'Index' was not found. The following 
 2019-11-22 18:48:00.797 +02:00 [INF] manager@ems.com has marked email 38508b62-8800-4271-fe03-08d764910ab8 as new
 2019-11-22 23:53:49.149 +02:00 [INF] Starting web host
 2019-11-22 23:55:58.186 +02:00 [INF] Starting web host
+2019-11-22 10:54:18.877 +02:00 [INF] Starting web host
+2019-11-22 10:54:30.371 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 12:56:19.890 +02:00 [INF] Starting web host
+2019-11-22 12:56:28.539 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 13:54:10.374 +02:00 [INF] Starting web host
+2019-11-22 13:54:23.318 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 18:04:58.814 +02:00 [INF] Starting web host
+2019-11-22 18:05:11.310 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 18:07:12.038 +02:00 [INF] Starting web host
+2019-11-22 18:07:20.297 +02:00 [INF] operator1@ems.com has logged in
+2019-11-22 18:09:36.004 +02:00 [INF] Starting web host
+2019-11-22 18:10:10.121 +02:00 [INF] Starting web host
+2019-11-22 18:54:36.272 +02:00 [INF] Starting web host
+

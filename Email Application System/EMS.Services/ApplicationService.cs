@@ -27,7 +27,8 @@ namespace EMS.Services
 
         public async Task Delete(string appId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId)
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.Id.ToString() == appId)
                 .ConfigureAwait(false);
 
             _context.Applications.Remove(application);
@@ -56,10 +57,9 @@ namespace EMS.Services
         public async Task<List<ApplicationDto>> GetOpenAppsAsync()
         {
             var appsDomain = await _context.Applications
-                .Where(app => app.Status == ApplicationStatus.NotReviewed)
-                .Include(app => app.Email)
-                .Include(app => app.User)
-                .ToListAsync().ConfigureAwait(false);
+                .Where(app => app.Status == ApplicationStatus.NotReviewed)                
+                .ToListAsync()
+                .ConfigureAwait(false);
 
             var appsDto = new List<ApplicationDto>();
             foreach (var app in appsDomain)
@@ -92,18 +92,27 @@ namespace EMS.Services
             {
                 return application.User.UserName;
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<string> GetEmailId(string appId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId).ConfigureAwait(false);
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.Id.ToString() == appId)
+                .ConfigureAwait(false);
+
             return application.EmailId.ToString();
         }
 
         public async Task<string> GetAppStatus(string mailId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.EmailId.ToString() == mailId).ConfigureAwait(false);
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.EmailId.ToString() == mailId)
+                .ConfigureAwait(false);
+
             return application.Status.ToString();
         }
     }
