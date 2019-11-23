@@ -32,7 +32,7 @@ namespace EMS.Services.Mappers
                 Body = email.Body,
                 ToCurrentStatus = email.ToCurrentStatus,
                 GmailMessageId = email.GmailMessageId,
-                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()
+                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()                             
             };
         }
 
