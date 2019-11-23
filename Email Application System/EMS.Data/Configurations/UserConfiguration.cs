@@ -15,10 +15,6 @@ namespace EMS.Data.Configurations
                .HasMany(user => user.Applications)
                .WithOne(app => app.User);
 
-            builder
-              .HasMany(user => user.Logs)
-              .WithOne(log => log.User);
-
             builder.ToTable("Users");
         }
     }
