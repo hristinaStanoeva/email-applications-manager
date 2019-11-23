@@ -18,15 +18,12 @@ namespace EMS.Data.dbo_Models
         public string UserId { get; set; }
 
         [Required]
-        [StringLength(10)]
         public string EGN { get; set; }
 
         [Required]
-        [StringLength(50)]
         public string Name { get; set; }
 
         [Required]
-        [StringLength(25)]
         public string PhoneNumber { get; set; }
 
         [Required]
