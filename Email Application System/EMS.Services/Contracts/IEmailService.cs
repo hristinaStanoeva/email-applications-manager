@@ -11,9 +11,10 @@ namespace EMS.Services.Contracts
         Task<List<EmailDto>> GetAllEmailsAsync();       
         Task<string> GetGmailIdAsync(string id);
         Task<EmailDto> GetSingleEmailAsync(string mailId);
-        Task<string> GetBodyAsync(string messageId);    
+        Task<string> GetBodyByGmailAsync(string messageId);    
         Task<List<EmailDto>> GetOpenEmailsAsync();
         Task<List<EmailDto>> GetNewEmailsAsync();
         Task<List<EmailDto>> GetClosedEmailsAsync();
+        Task<string> GetBodyByDbAsync(string emailId);
     }
 }

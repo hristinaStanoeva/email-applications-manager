@@ -126,11 +126,20 @@ namespace EMS.Services
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-        public async Task<string> GetBodyAsync(string messageId)
+        public async Task<string> GetBodyByGmailAsync(string messageId)
         {
             return await _gmailService.GetEmailBodyAsync(messageId);
         }
+        public async Task<string> GetBodyByDbAsync(string emailId)
+        {
+            var email = await _context.Emails.FirstOrDefaultAsync(e => e.Id.ToString() == emailId);
 
+            if (email.Body is null)
+            {
+                return "No body";
+            }
+            else return _gmailService.Decrypt(email.Body);
+        }
         private async Task AddBodyAsync(Guid emailId)
         {
             var email = await _context.Emails
