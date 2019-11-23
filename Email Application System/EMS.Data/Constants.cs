@@ -32,10 +32,7 @@
 
         public const string ErrorCatch = "Something went wrong";
 
-        public const string PassValidErrMsg = "The {0} must be at least {2} and at max {1} characters long.";
-        public const string PassDisplayName = "Password";
-        public const string PassConfirm = "Confirm password";
-        public const string PassMatchMsg = "The password and confirmation password do not match.";
+       
 
         public const string EmailDisplayName = "Email";
 
@@ -95,5 +92,22 @@
         public const string LogUserLogin = "{0} has logged in";
         public const string LogUserLogout = "{0} has logged out";
         public const string LogUserLockedOut = "{0} account locked out";
+
+        // Validations
+        public const string EnterName = "You have to enter a name";
+        public const string NameTooLong = "Name you have entered is too long";
+        public const string EnterEGN = "You have to enter a personal ID/EGN";
+        public const string EGNTooLong = "ID/EGN you have entered is not valid";
+        public const string EnterPhoneNumber = "You have to enter a phone number";
+        public const string PhoneNumberTooLong = "Phone number you have entered is too long";
+        public const string PassValidLengthErrMsg = "The {0} must be at least {2} and at max {1} characters long";
+        public const string PassValidStateErrMsg = "Passsword must consists of at least one of these: lower case letter, upper case letter, a digit and a symbol";
+        public const string Password = "Password";
+        public const string ConfurmPassword = "Confirm password";
+        public const string PassMatchMsg = "The password and confirmation password do not match";
+        public const string RegexExpression = @"^(?=.{1,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$";
+        public const string InvalidData = "Data is not valid";
+        public const string UnknownPass = "Unknown password";
+
     }
 }

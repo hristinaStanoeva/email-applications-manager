@@ -341,3 +341,6 @@ healthchecksdb
 
 # Gmail service token
 token.json/
+
+# Logs
+Logs/

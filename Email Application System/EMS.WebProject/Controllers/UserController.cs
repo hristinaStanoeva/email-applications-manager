@@ -12,23 +12,25 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
-{    
-    [Authorize(Roles = "manager, operator")]    
+{
+    [Authorize(Roles = "manager, operator")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
         private readonly SignInManager<UserDomain> _signInManager;
         private readonly ILogger<EmailController> _logger;
+        private readonly UserManager<UserDomain> _userManager;
 
-        public UserController(IUserService userService, SignInManager<UserDomain> signInManager, ILogger<EmailController> logger)
+        public UserController(IUserService userService, SignInManager<UserDomain> signInManager, ILogger<EmailController> logger, UserManager<UserDomain> userManager)
         {
             _userService = userService;
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public IActionResult Register(string error = null)
         {
             try
             {
@@ -39,7 +41,8 @@ namespace EMS.WebProject.Controllers
 
                 var viewModel = new RegisterUserViewModel
                 {
-                    Roles = listRoles
+                    Roles = listRoles,
+                    Error = error
                 };
 
                 return View(viewModel);
@@ -48,22 +51,18 @@ namespace EMS.WebProject.Controllers
             {
                 _logger.LogError(ex.Message);
 
-                TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+                TempData["globalError"] = Constants.ErrorCatch;
 
                 return View();
             }
 
         }
 
-        [BindProperty]
-        public RegisterUserViewModel Input { get; set; }
-
         [HttpPost]
         public async Task<IActionResult> RegisterUser(RegisterUserViewModel vm)
         {
             try
             {
-                //TODO : Do we need this if
                 if (ModelState.IsValid)
                 {
                     await _userService.CreateAsync(vm.Email, vm.Password, vm.Role);
@@ -71,21 +70,25 @@ namespace EMS.WebProject.Controllers
 
                     TempData[Constants.TempDataMsg] = Constants.UserCreateSucc;
                 }
+                else
+                {
+                    return RedirectToAction("Register", "User", new { error = Constants.InvalidData });
+                }
             }
             catch (Exception ex)
             {
-                TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+                TempData["globalError"] = Constants.ErrorCatch;
 
                 _logger.LogError(ex.Message);
             }
 
             return RedirectToAction(Constants.PageIndex, Constants.PageHome);
-
         }
 
         [HttpGet]
-        public IActionResult ChangePassword()
+        public IActionResult ChangePassword(string error = null)
         {
+            TempData["error"] = error;
             return View();
         }
 
@@ -94,20 +97,32 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                await _userService.ChangePasswordAsync(vm.Username, vm.CurrentPassword, vm.Password);
-                _logger.LogInformation(string.Format(Constants.LogUserPassChange, User.Identity.Name));
+                if (ModelState.IsValid)
+                {
+                    var user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, vm.CurrentPassword);
 
-                TempData[Constants.TempDataMsg] = Constants.UserPassChangeSucc;
+                    if (isPasswordCorrect)
+                    {
+                        await _userService.ChangePasswordAsync(vm.Username, vm.CurrentPassword, vm.Password);
+                        _logger.LogInformation(string.Format(Constants.LogUserPassChange, User.Identity.Name));
 
-                var userName = User.Identity.Name;
-                await _signInManager.SignOutAsync();
-                _logger.LogInformation(string.Format(Constants.LogUserSignOut, userName));
+                        TempData[Constants.TempDataMsg] = Constants.UserPassChangeSucc;
 
-                TempData[Constants.TempDataMsg] = Constants.UserSignOutSucc;
+                        var userName = User.Identity.Name;
+                        await _signInManager.SignOutAsync();
+                        _logger.LogInformation(string.Format(Constants.LogUserSignOut, userName));
+                    }
+                    else
+                    {
+                        return RedirectToAction("ChangePassword", "User", new { error = Constants.UnknownPass });
+                    }
+                }
+                else return RedirectToAction("ChangePassword", "User", new { error = Constants.InvalidData });
             }
             catch (Exception ex)
             {
-                TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+                TempData["globalError"] = Constants.ErrorCatch;
 
                 _logger.LogError(ex.Message);
             }

@@ -5,18 +5,21 @@
     <div class="form-group">
         <b>Name:</b>
         <input asp-for="@Model.Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger">  </span>
     </div>
 
     <div class="form-group">
         <b>EGN:</b>
         <p></p>
         <input asp-for="@Model.EGN" />
+        <span asp-validation-for="EGN" class="text-danger">  </span>
     </div>
 
     <div class="form-group">
         <b>Phone Number:</b>
         <p></p>
-        <input asp-for="@Model.Phone"/>
+        <input asp-for="@Model.Phone" />
+        <span asp-validation-for="Phone" class="text-danger">  </span>
     </div>
 
     <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
