@@ -74,6 +74,7 @@ namespace EMS.WebProject.Controllers
                 var newEmails = await _emailService.GetNewEmailsAsync();
 
                 ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                ViewData["SinceStatus"] = sortOrder == "SinceStatus_Date" ? "sinceStatus_desc" : "SinceStatus_Date";
                 switch (sortOrder)
                 {
                     case "Date":
@@ -81,6 +82,12 @@ namespace EMS.WebProject.Controllers
                         break;
                     case "date_desc":
                         newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    case "SinceStatus_Date":
+                        newEmails = newEmails.OrderBy(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    case "sinceStatus_desc":
+                        newEmails = newEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                     default:
                         newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
@@ -109,6 +116,7 @@ namespace EMS.WebProject.Controllers
                 var openEmails = await _emailService.GetOpenEmailsAsync();
 
                 ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                ViewData["SinceStatus"] = sortOrder == "SinceStatus_Date" ? "sinceStatus_date_desc" : "SinceStatus_Date";
                 switch (sortOrder)
                 {
                     case "Date":
@@ -116,6 +124,12 @@ namespace EMS.WebProject.Controllers
                         break;
                     case "date_desc":
                         openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    case "SinceStatus_Date":
+                        openEmails = openEmails.OrderBy(mail => mail.ToCurrentStatus).ToList();
+                        break;
+                    case "sinceStatus_date_desc":
+                        openEmails = openEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                     default:
                         openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
