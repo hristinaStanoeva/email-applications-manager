@@ -51,7 +51,7 @@ namespace EMS.WebProject.Controllers
             {
                 _logger.LogError(ex.Message);
 
-                TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+                TempData["globalError"] = Constants.ErrorCatch;
 
                 return View();
             }
@@ -77,7 +77,7 @@ namespace EMS.WebProject.Controllers
             }
             catch (Exception ex)
             {
-                TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+                TempData["globalError"] = Constants.ErrorCatch;
 
                 _logger.LogError(ex.Message);
             }

@@ -262,7 +262,7 @@ namespace EMS.WebProject.Controllers
         {
             _logger.LogError(ex.Message);
 
-            TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+            TempData["globalError"] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
         }
