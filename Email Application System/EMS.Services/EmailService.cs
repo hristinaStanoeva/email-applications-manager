@@ -114,10 +114,10 @@ namespace EMS.Services
                 email.ToNewStatus = DateTime.UtcNow;
                 if (email.Status == EmailStatus.NotReviewed)
                 {
-                   await this.AddBodyAsync(email.Id);
+                    await this.AddBodyAsync(email.Id);
                 }
             }
-            if (newStatus == EmailStatus.Closed)
+            else if (newStatus == EmailStatus.Closed)
             {
                 email.ToTerminalStatus = DateTime.UtcNow;
             }
@@ -137,7 +137,7 @@ namespace EMS.Services
                 .FirstOrDefaultAsync(mail => mail.Id == emailId)
                 .ConfigureAwait(false);
 
-            var encryptedBody = await _gmailService.GetEmailBodyAsync(email.GmailMessageId);
+            var encryptedBody = await _gmailService.GetEncryptedBodyAsync(email.GmailMessageId);
 
             if (encryptedBody is null)
             {
@@ -146,7 +146,7 @@ namespace EMS.Services
             else
             {
                 email.Body = encryptedBody;
-                _context.SaveChangesAsync().ConfigureAwait(false);
+                await _context.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }
