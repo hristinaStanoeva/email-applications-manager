@@ -12,7 +12,7 @@
 
     <td>@Model.TimeSinceCurrentStatus</td>
 
-    <td><a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview</a></td>
+    <td><a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview</a></td>
     <td>
         <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
             <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
@@ -27,7 +27,7 @@
 </tr>
 
 @*Preview Email Modal*@
-<div class="modal fade" id="preview-all-email-modal-@Model.MessageId" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">
+<div class="modal fade" id="preview-all-email-modal-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #343A40; color: white;">
@@ -99,7 +99,7 @@
 
                 </div>
 
-                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.MessageId">
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.Id">
                 </div>
             </div>
 

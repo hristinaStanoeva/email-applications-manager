@@ -30,7 +30,44 @@ namespace GmailAPI
             _context = context;
         }
 
+        public async Task<string> GetEncryptedBodyAsync(string emailId)
+        {
+            // Create Gmail API service.
+            var service = await CreateGmailServiceAsync();
 
+            var emailFull = await GetEmailInfoAsync(service, emailId);
+            var email = emailFull.Payload;
+
+            string bodyHtmlTextEncrypted = string.Empty;
+
+            if (email.Parts != null)
+            {
+                var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
+
+                if (htmlPart is null)
+                {
+                    var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
+
+                    htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+
+                    if (htmlPart is null)
+                    {
+                        htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
+                    }
+                }
+                if (htmlPart != null)
+                {
+                    bodyHtmlTextEncrypted = htmlPart.Body.Data;
+                }
+                else return "No body";
+
+                return bodyHtmlTextEncrypted;
+            }
+            else
+            {
+                return email.Body.Data;
+            }
+        }
         public async Task<string> GetEmailBodyAsync(string emailId)
         {
             // Create Gmail API service.
@@ -70,8 +107,6 @@ namespace GmailAPI
                 return Decrypt(email.Body.Data);
             }
         }
-
-
         public async Task GmailSync()
         {
             // Create Gmail API service.
@@ -101,7 +136,6 @@ namespace GmailAPI
 
             await AddToContext(parsedEmails).ConfigureAwait(false);
         }
-
         private async Task AddToContext(List<EmailGmail> gmailEmails)
         {
             foreach (var email in gmailEmails)
@@ -125,8 +159,6 @@ namespace GmailAPI
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-
-
         private async Task<GmailService> CreateGmailServiceAsync()
         {
             UserCredential credential;
@@ -234,7 +266,7 @@ namespace GmailAPI
                 Attachments = attachmentsList
             };
         }
-        private string Decrypt(string encryptedText)
+        public string Decrypt(string encryptedText)
         {
             var tempText = encryptedText.Replace("-", "+");
             tempText = tempText.Replace("_", "/");

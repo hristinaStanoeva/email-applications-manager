@@ -28,7 +28,7 @@ namespace EMS.ServiceTests.EmailServiceTests
                 gmailServiceMock
                     .Setup(g => g.GetEmailBodyAsync("mockId"))
                     .ReturnsAsync("Test Body");
-                var emailBody = await sut.GetBodyAsync("mockId");
+                var emailBody = await sut.GetBodyByGmailAsync("mockId");
 
                 Assert.AreEqual("Test Body", emailBody);
             }

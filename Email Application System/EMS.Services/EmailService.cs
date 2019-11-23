@@ -88,7 +88,7 @@ namespace EMS.Services
             }
 
             return emailsDto;
-        }      
+        }
         public async Task<List<EmailDto>> GetClosedEmailsAsync()
         {
             var emailsDomain = await _context.Emails
@@ -104,30 +104,61 @@ namespace EMS.Services
             }
 
             return emailsDto;
-        }        
+        }
         public async Task ChangeStatusAsync(string id, EmailStatus newStatus)
         {
             var email = await _context.Emails
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == id)
                 .ConfigureAwait(false);
 
-            email.Status = newStatus;
-
             if (newStatus == EmailStatus.New)
             {
                 email.ToNewStatus = DateTime.UtcNow;
+                if (email.Status == EmailStatus.NotReviewed)
+                {
+                    await this.AddBodyAsync(email.Id);
+                }
             }
-            if (newStatus == EmailStatus.Closed)
+            else if (newStatus == EmailStatus.Closed)
             {
                 email.ToTerminalStatus = DateTime.UtcNow;
             }
             email.ToCurrentStatus = DateTime.UtcNow;
+            email.Status = newStatus;
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-        public async Task<string> GetBodyAsync(string messageId)
+        public async Task<string> GetBodyByGmailAsync(string messageId)
         {
             return await _gmailService.GetEmailBodyAsync(messageId);
+        }
+        public async Task<string> GetBodyByDbAsync(string emailId)
+        {
+            var email = await _context.Emails.FirstOrDefaultAsync(e => e.Id.ToString() == emailId);
+
+            if (email.Body is null)
+            {
+                return Constants.NoBody;
+            }
+            else return _gmailService.Decrypt(email.Body);
+        }
+        private async Task AddBodyAsync(Guid emailId)
+        {
+            var email = await _context.Emails
+                .FirstOrDefaultAsync(mail => mail.Id == emailId)
+                .ConfigureAwait(false);
+
+            var encryptedBody = await _gmailService.GetEncryptedBodyAsync(email.GmailMessageId);
+
+            if (encryptedBody is null)
+            {
+                throw new ArgumentNullException("Error occured - email body is not foung");
+            }
+            else
+            {
+                email.Body = encryptedBody;
+                await _context.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }
