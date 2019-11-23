@@ -27,6 +27,7 @@ namespace EMS.Services
         {
             var emailsDomain = await _context.Emails
                 .Include(email => email.Attachments)
+                .OrderByDescending(email => email.Received)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
@@ -60,6 +61,7 @@ namespace EMS.Services
             var emailsDomain = await _context.Emails
                 .Where(mail => mail.Status == EmailStatus.New)
                 .Include(mail => mail.Attachments)
+                .OrderByDescending(mail => mail.ToNewStatus)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
@@ -76,6 +78,7 @@ namespace EMS.Services
             var emailsDomain = await _context.Emails
                 .Where(mail => mail.Status == EmailStatus.Open)
                 .Include(mail => mail.Attachments)
+                .OrderByDescending(mail => mail.ToCurrentStatus)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
