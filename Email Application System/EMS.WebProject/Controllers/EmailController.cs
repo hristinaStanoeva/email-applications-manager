@@ -102,11 +102,26 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOpenEmails()
+        public async Task<IActionResult> GetOpenEmails(string sortOrder)
         {
             try
             {
                 var openEmails = await _emailService.GetOpenEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        openEmails = openEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
+
                 var apps = await _appService.GetOpenAppsAsync();
 
                 var vm = new AllEmailsViewModel
@@ -130,15 +145,29 @@ namespace EMS.WebProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClosedEmails()
+        public async Task<IActionResult> GetClosedEmails(string sortOrder)
         {
             try
             {
-                var emails = await _emailService.GetClosedEmailsAsync();
+                var closedEmails = await _emailService.GetClosedEmailsAsync();
+
+                ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+                switch (sortOrder)
+                {
+                    case "Date":
+                        closedEmails = closedEmails.OrderBy(mail => mail.Received).ToList();
+                        break;
+                    case "date_desc":
+                        closedEmails = closedEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                    default:
+                        closedEmails = closedEmails.OrderByDescending(mail => mail.Received).ToList();
+                        break;
+                }
 
                 var vm = new AllEmailsViewModel
                 {
-                    AllEmails = emails.Select(mail => mail.MapToViewModel()).ToList(),
+                    AllEmails = closedEmails.Select(mail => mail.MapToViewModel()).ToList(),
                     ActiveTab = Constants.TabClosed
                 };
 
