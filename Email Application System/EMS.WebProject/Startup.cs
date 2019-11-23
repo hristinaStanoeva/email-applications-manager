@@ -89,7 +89,7 @@ namespace EMS.WebProject
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Email}/{action=Index}/{id?}");
             });
 
             // Initial seeding

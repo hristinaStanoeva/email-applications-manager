@@ -39,7 +39,7 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
             TempData[Constants.TempDataMsg] = Constants.UserSignOutSucc;
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return LocalRedirect("~/Identity/Account/Login/");
             }
             else
             {
