@@ -1,5 +1,6 @@
 ﻿using EMS.Data.dbo_Models;
 using EMS.Services.dto_Models;
+using EMS.Services.Security;
 using System.Linq;
 
 namespace EMS.Services.Mappers
@@ -32,7 +33,7 @@ namespace EMS.Services.Mappers
                 Body = email.Body,
                 ToCurrentStatus = email.ToCurrentStatus,
                 GmailMessageId = email.GmailMessageId,
-                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()                             
+                Attachments = email.Attachments.Select(e => e.MapToDtoModel()).ToList()
             };
         }
 
@@ -40,11 +41,11 @@ namespace EMS.Services.Mappers
         {
             return new ApplicationDto
             {
-                Id = app.Id,               
-                EGN = app.EGN,
-                Name = app.Name,
+                Id = app.Id,
+                EGN = Encrypt.DecryptData(app.EGN),
+                Name = Encrypt.DecryptData(app.Name),
                 Status = app.Status,
-                PhoneNumber = app.PhoneNumber,
+                PhoneNumber = Encrypt.DecryptData(app.PhoneNumber),
                 UserId = app.UserId
             };
         }
