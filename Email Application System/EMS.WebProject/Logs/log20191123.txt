@@ -1,0 +1,6 @@
+2019-11-23 15:38:23.116 +02:00 [INF] Starting web host
+2019-11-23 17:59:37.679 +02:00 [INF] Starting web host
+2019-11-23 18:07:09.199 +02:00 [INF] Starting web host
+2019-11-23 18:07:42.738 +02:00 [INF] Starting web host
+2019-11-23 18:09:19.179 +02:00 [INF] Starting web host
+2019-11-23 18:11:07.550 +02:00 [INF] Starting web host
