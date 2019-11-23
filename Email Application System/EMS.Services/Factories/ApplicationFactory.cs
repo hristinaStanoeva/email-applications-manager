@@ -1,6 +1,7 @@
 ﻿using EMS.Data.dbo_Models;
 using EMS.Data.Enums;
 using EMS.Services.Factories.Contracts;
+using EMS.Services.Security;
 using System;
 
 namespace EMS.Services.Factories
@@ -13,9 +14,9 @@ namespace EMS.Services.Factories
             {
                 EmailId = Guid.Parse(emailId),
                 UserId = userId,
-                EGN = EGN,
-                Name = name,
-                PhoneNumber = phoneNum,
+                EGN = Encrypt.EncryptData(EGN),
+                Name = Encrypt.EncryptData(name),
+                PhoneNumber = Encrypt.EncryptData(phoneNum),
                 Status = ApplicationStatus.NotReviewed
             };
         }
