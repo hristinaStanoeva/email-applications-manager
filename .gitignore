@@ -344,3 +344,6 @@ token.json/
 
 # Logs
 Logs/
+
+# Credentials storage
+EMS.Credentials/
