@@ -2,6 +2,7 @@
 using EMS.GmailAPI.gmail_Models;
 using EMS.GmailAPI.Mappers;
 using EMS.GmailAPI.Parsers;
+using Ganss.XSS;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
@@ -205,11 +206,29 @@ namespace GmailAPI
 
             return emailInfoResponse;
         }
+
+        private string SanitizeContent(string content)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            if (sanitizedContent == "")
+            {
+                return Constants.BlockedContent;
+            }
+            else return sanitizedContent;
+        }
         private EmailGmail CreateEmail(MessagePart emailInfo, long internalDate)
         {
             var senderEmail = DataParser.ParseSenderEmail(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
             var senderName = DataParser.ParseSenderName(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
-            var subject = emailInfo.Headers.FirstOrDefault(header => header.Name == "Subject").Value;
+
+            string subject = String.Empty;
+            if (emailInfo.Headers.Any(header => header.Name == "Subject"))
+            {
+                subject = this.SanitizeContent(emailInfo.Headers.FirstOrDefault(header => header.Name == "Subject").Value);
+            }
+
             var dateReceived = DataParser.ParseDate(internalDate);
             var attachmentsList = new List<AttachmentGmail>();
 

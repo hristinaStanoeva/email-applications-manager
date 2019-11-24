@@ -2,6 +2,7 @@
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
 using EMS.WebProject.Parsers;
+using Ganss.XSS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,8 @@ namespace EMS.WebProject.Mappers
 
         public static GenericEmailViewModel MapToViewModel(this EmailDto email)
         {
+            var sanitizer = new HtmlSanitizer();
+
             return new GenericEmailViewModel
             {
                 Id = email.Id.ToString(),
@@ -46,7 +49,7 @@ namespace EMS.WebProject.Mappers
                 SenderEmail = email.SenderEmail,
                 SenderName = email.SenderName,
                 Status = email.Status.ToString(),
-                Subject = email.Subject,
+                Subject = sanitizer.Sanitize(email.Subject),
                 TimeSinceCurrentStatus = TimeSpanParser.StatusParser(email),
                 ToCurrentStatus = email.ToCurrentStatus,
                 MessageId = email.GmailMessageId,
