@@ -82,7 +82,7 @@ namespace EMS.WebProject.Controllers
                 _logger.LogError(ex.Message);
             }
 
-            return RedirectToAction(Constants.PageIndex, Constants.PageHome);
+            return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
         }
 
         [HttpGet]
