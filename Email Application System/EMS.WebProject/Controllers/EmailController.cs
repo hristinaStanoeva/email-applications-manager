@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
 {
-    //[Authorize(Policy = Constants.AuthPolicy)]
+    [Authorize(Policy = Constants.AuthPolicy)]
     [Authorize(Roles = "manager, operator")]
 
     public class EmailController : Controller
