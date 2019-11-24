@@ -79,10 +79,10 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(string.Format(Constants.LogUserLogin, Input.Email));
-
                     TempData[Constants.TempDataMsg] = Constants.UserSignInSucc;
 
-                    return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Home");
+                    // return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -91,7 +91,7 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning(string.Format(Constants.LogUserLockedOut, Input.Email));
-                    
+
                     return RedirectToPage("./Lockout");
                 }
                 else

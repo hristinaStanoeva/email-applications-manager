@@ -43,4 +43,10 @@
     <ProjectReference Include="..\EMS.Services\EMS.Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\AppPartials\" />
+    <Folder Include="Views\Shared\EmailPartials\" />
+  </ItemGroup>
+
 </Project>
