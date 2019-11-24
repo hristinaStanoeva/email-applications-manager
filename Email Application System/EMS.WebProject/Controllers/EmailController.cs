@@ -4,6 +4,7 @@ using EMS.Services.Contracts;
 using EMS.Services.dto_Models;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Emails;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -327,8 +328,10 @@ namespace EMS.WebProject.Controllers
                     var gmailId = await _emailService.GetGmailIdAsync(id);
                     body = await _emailService.GetBodyByGmailAsync(gmailId);
                 }
-                
-                return Json(body);
+
+                var sanitizer = new HtmlSanitizer();
+
+                return Json(sanitizer.Sanitize(body));
             }
             catch (Exception ex)
             {
