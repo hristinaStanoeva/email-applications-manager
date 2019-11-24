@@ -112,5 +112,9 @@
         public const string InvalidData = "Data is not valid";
         public const string UnknownPass = "Unknown password";
 
+
+        // Default records in db
+        public const string BlockedContent = "Blocked content";
+
     }
 }

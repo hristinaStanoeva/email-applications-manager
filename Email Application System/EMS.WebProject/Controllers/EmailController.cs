@@ -329,15 +329,25 @@ namespace EMS.WebProject.Controllers
                     body = await _emailService.GetBodyByGmailAsync(gmailId);
                 }
 
-                var sanitizer = new HtmlSanitizer();
-
-                return Json(sanitizer.Sanitize(body));
+               return Json(this.SanitizeContent(body));
             }
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
             }
         }
+        private string SanitizeContent(string content)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            if (sanitizedContent == "")
+            {
+                return Constants.BlockedContent;
+            }
+            else return sanitizedContent;
+        }
+
         private IActionResult ErrorHandle(Exception ex)
         {
             _logger.LogError(ex.Message);
