@@ -10,6 +10,11 @@
         internal const string DefaultOperator2Username = "operator2@ems.com";
         internal const string DefaultPassword = "Password-123";
 
+        // Connections
+        public const string LocalDBConnection = "LocalConnection";
+        public const string AzureDBConnection = "AzureConnection";
+
+
         // Messages
         public const string AppCreateSucc = "You have successfully created an application";        
         public const string AppValidSucc = "You have approved the application";
