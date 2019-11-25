@@ -2,7 +2,7 @@
 
 @if (Model.Status == EmailStatus.Invalid.ToString())
 {
-    <tr class="alert-dark">
+    <tr class="alert-light" style="color:darkgrey;">
         <td>@Model.Id</td>
         <td>@Model.DateReceived</td>
         <td>@Model.SenderEmail</td>
@@ -10,23 +10,24 @@
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
 
-        @if (Model.HasAttachments)
-        {
-            <td><i class="fa fa-paperclip" aria-hidden="true"></i></td>
-        }
-        else
-        {
-            <td><i class="fa fa-times" aria-hidden="true"></i></td>
-        }
+        <td class="float-right mr-4">
+            <div class="row mt-2">
+                @if (Model.HasAttachments)
+                {
+                    <span class="fa fa-paperclip" aria-hidden="true"></span>
+                    <span class="ml-1">@Model.Attachments.Count</span>
+                }
 
-        <td>
-            <a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview</a>
-        </td>
-        <td>
-            @if (User.IsInRole(Constants.Manager))
-            {
-                <a class="text-info ml-1" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id"><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Change Status to Not Reviewed"></i></a>
-            }
+            <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+
+                @if (User.IsInRole(Constants.Manager))
+                {
+                    @*<a class="btn btn-secondary" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Not reviewed</a>*@
+                }
+
+                <a class="fas fa-ellipsis-v ml-3"></a>
+
+            </div>
         </td>
     </tr>
 }
@@ -40,24 +41,24 @@ else
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
 
-          @if (Model.HasAttachments)
-    {
-        <td><i class="fa fa-paperclip" aria-hidden="true"></i></td>
-    }
-    else
-    {
-        <td><i class="fa fa-times" aria-hidden="true"></i></td>
-    }
-        <td>
-            <a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview</a>
-        </td>
-        <td>
-            @if (Model.Status == EmailStatus.NotReviewed.ToString())
-            {
-                <a class="text-danger ml-1" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">
-                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Invalid"></i>
-                </a>
-            }
+        <td class="float-right mr-4">
+            <div class="row mt-2">
+                @if (Model.HasAttachments)
+                {
+                    <span class="fa fa-paperclip" aria-hidden="true"></span>
+                    <span class="ml-1">@Model.Attachments.Count</span>
+                }
+
+                <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+
+                @if (Model.Status == EmailStatus.NotReviewed.ToString())
+                {
+                    @*<a class="btn btn-dark" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Invalid</a>*@
+                }
+
+                <a class="fas fa-ellipsis-v ml-3"></a>
+
+            </div>
         </td>
     </tr>
 }

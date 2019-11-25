@@ -58,11 +58,11 @@
 <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
-            <th scope="col">ID</th>
+            <th scope="col" style="width: 185px;">ID</th>
 
             @if (Model.ActiveTab == Constants.TabAll)
             {
-                <th scope="col">
+                <th scope="col" style="width: 105px;">
                     <div class="row">
                         Received
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
@@ -71,7 +71,7 @@
             }
             else if (Model.ActiveTab == Constants.TabNew)
             {
-                <th scope="col">
+                <th scope="col" style="width: 105px;">
                     <div class="row">
                         Received
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
@@ -80,7 +80,7 @@
             }
             else if (Model.ActiveTab == Constants.TabOpen)
             {
-                <th scope="col">
+                <th scope="col" style="width: 105px;">
                     <div class="row">
                         Received
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
@@ -89,7 +89,7 @@
             }
             else if (Model.ActiveTab == Constants.TabClosed)
             {
-                <th scope="col">
+                <th scope="col" style="width: 105px;">
                     <div class="row">
                         Received
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetClosedEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
@@ -97,14 +97,14 @@
                 </th>
             }
 
-            <th scope="col">Email</th>
-            <th scope="col">Name</th>
-            <th scope="col">Subject</th>
+            <th scope="col" style="width: 260px;">Email</th>
+            <th scope="col" style="width: 200px;">Name</th>
+            <th scope="col" style="width: 385px;">Subject</th>
 
             @if (Model.ActiveTab == Constants.TabAll)
             {
-                <th scope="col">Status</th>
-                <th scope="col"></th>
+                <th scope="col" style="width: 100px;">Status</th>
+                <th scope="col" style="width: 120px;"></th>
 
             }
 
@@ -117,7 +117,7 @@
                     </div>
                 </th>
 
-                <th scope="col"></th>
+                <th scope="col" style="width: 200px;"></th>
             }
 
             @if (Model.ActiveTab == Constants.TabOpen)
@@ -134,7 +134,7 @@
                     <th scope="col">Open by</th>
                 }
 
-                <th scope="col"></th>
+                <th scope="col" style="width: 200px;"></th>
             }
 
             @if (Model.ActiveTab == Constants.TabClosed)
@@ -145,7 +145,7 @@
                 {
                     <th scope="col">Closed by</th>
                 }
-                <th scope="col"></th>
+                <th scope="col" style="width: 200px;"></th>
             }
         </tr>
     </thead>
