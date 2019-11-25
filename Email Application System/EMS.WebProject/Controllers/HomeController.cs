@@ -14,7 +14,7 @@ namespace EMS.WebProject.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 if (User.FindFirst("IsPasswordChanged").Value == "False")
-                    return View();
+                    return RedirectToAction("ChangePassword", "User");
                 else
                     return RedirectToAction("Index", "Email");
             }
