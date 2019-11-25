@@ -21,14 +21,6 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @if (TempData["message"] != null)
-    {
-        <div class="alert alert-success">@TempData["message"]</div>
-    }
-    @if (TempData["globalError"] != null)
-    {
-        <div class="alert alert-danger">@TempData["globalError"]</div>
-    }
     @if (User.Identity.IsAuthenticated)
     {
         <header>
@@ -39,7 +31,7 @@
                             max-width: 1540px;
                         }
                     </style>
-
+                    <a class="navbar-brand">SouthWest Email Management System</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -51,6 +43,10 @@
                             {
                                 @if (User.FindFirst("IsPasswordChanged").Value == "True")
                                 {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
+                                    </li>
+
                                     if (User.IsInRole("manager"))
                                     {
                                         <li class="nav-item">
@@ -69,6 +65,14 @@
         <div class="container">
             <partial name="_CookieConsentPartial" />
             <main role="main" class="pb-3">
+                @if (TempData["message"] != null)
+                {
+                    <div class="alert alert-success">@TempData["message"]</div>
+                }
+                @if (TempData["globalError"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["globalError"]</div>
+                }
                 @RenderBody()
             </main>
         </div>
