@@ -75,9 +75,9 @@
         public const string TempDataMsg = "message";
         public const string AuthPolicy = "IsPasswordChanged";
 
-        public const string TimeParser0Min = "0 min.";
-        public const string TimeParserMin = " min.";
-        public const string TimeParserHrsMin = " hrs. and";
+        public const string TimeParser0Min = "0 min";
+        public const string TimeParserMin = " min";
+        public const string TimeParserHrsMin = " hr, ";
         public const string TimeParserDays = " days, ";
 
         // Logger

@@ -111,5 +111,12 @@ tbody tr td:first-child .id-column {
 
     .nav-tabs .nav-item .nav-link .active {
         color: #343A40;
-        
     }
+
+.preview-btn {
+    color: #D06118;
+}
+
+.fa-ellipsis-v {
+    color: #D06118 !important;
+}
