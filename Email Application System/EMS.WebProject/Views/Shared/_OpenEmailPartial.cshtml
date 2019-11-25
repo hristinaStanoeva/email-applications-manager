@@ -1,28 +1,32 @@
 ﻿@model GenericEmailViewModel
 
-    <tr>
-        <td>@Model.Id</td>
-        <td>@Model.DateReceived</td>
-        <td>@Model.SenderEmail</td>
-        <td>@Model.SenderName</td>
-        <td>@Model.Subject</td>
+<tr>
+    <td>@Model.Id</td>
+    <td>@Model.DateReceived</td>
+    <td>@Model.SenderEmail</td>
+    <td>@Model.SenderName</td>
+    <td>@Model.Subject</td>
 
-        <td>@Model.TimeSinceCurrentStatus</td>
+    <td>@Model.TimeSinceCurrentStatus</td>
 
-        @if (User.IsInRole("manager"))
-        {
-            <td>@Model.OperatorUsername</td>
-        }
+    @if (User.IsInRole("manager"))
+    {
+        <td>@Model.OperatorUsername</td>
+    }
 
-        <td>
-            <a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview mail</a>
+    <td class="float-right mr-4">
+        <div class="row mt-2">
+            <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
 
-            @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
-            {
-                <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
-            }
-        </td>
-    </tr>
+
+            @*@if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
+                {
+                    <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
+                }*@
+
+            <a class="fas fa-ellipsis-v ml-3"></a>
+        </div>
+</tr>
 
 @*Preview Email Modal*@
 <div class="modal fade" id="preview-all-email-modal-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">

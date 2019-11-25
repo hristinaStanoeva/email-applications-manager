@@ -12,18 +12,23 @@
 
     <td>@Model.TimeSinceCurrentStatus</td>
 
-    <td><a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview</a></td>
-    <td>
-        <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
-            <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
-        </a>
+    <td class="float-right mr-4">
+        <div class="row mt-2">
+            <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
 
-        @if (User.IsInRole("manager"))
-        {
-            <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
-        }
+
+            @*<a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
+                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
+                </a>
+
+                @if (User.IsInRole("manager"))
+                {
+                    <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
+                }*@
+
+            <a class="fas fa-ellipsis-v ml-3"></a>
+        </div>
     </td>
-
 </tr>
 
 @*Preview Email Modal*@

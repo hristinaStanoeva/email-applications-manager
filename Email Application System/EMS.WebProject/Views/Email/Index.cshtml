@@ -65,7 +65,7 @@
                 <th scope="col" style="width: 105px;">
                     <div class="row">
                         Received
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
+                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" style="color:white; font-size:15px;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
                     </div>
                 </th>
             }
@@ -110,7 +110,7 @@
 
             @if (Model.ActiveTab == Constants.TabNew)
             {
-                <th scope="col">
+                <th scope="col" style="width: 100px;">
                     <div class="row">
                         New since
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["SinceStatus"]"></a>
@@ -122,9 +122,9 @@
 
             @if (Model.ActiveTab == Constants.TabOpen)
             {
-                <th scope="col">
+                <th scope="col" style="width: 100px;">
                     <div class="row">
-                        New since
+                        Open since
                         <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["SinceStatus"]"></a>
                     </div>
                 </th>
