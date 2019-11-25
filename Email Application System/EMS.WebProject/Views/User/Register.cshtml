@@ -3,8 +3,6 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register account</h1>
-
 <div class="text-danger">
     @if (Model.Error != null)
     {
@@ -12,35 +10,81 @@
     }
 </div>
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="RegisterUser" asp-controller="User" method="post">
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="@Model.Email"></label>
-                <input asp-for="@Model.Email" class="form-control" />
-                <span asp-validation-for="@Model.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.Password"></label>
-                <input asp-for="@Model.Password" class="form-control" />
-                <span asp-validation-for="@Model.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="@Model.ConfirmPassword"></label>
-                <input asp-for="@Model.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Register as</label>
-                <select asp-for="@Model.Role" asp-items="@Model.Roles" class="form-control">
-                </select>
-            </div>
+    <div class="col-3"></div>
 
-            <button type="submit" class="btn btn-info">Register</button>
-        </form>
+    <div class="mt-5 mb-5 ml-5 mr-5 col-5" style="background-color: #f8f9fa; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+        <div class="container pt-4 pb-4 pl-4 pr-4">
+            <div class="ml-4 mr-4">
+                <h3 class="text-center mb-4" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Create account</h3>
+                <form asp-action="RegisterUser" asp-controller="User" method="post">
+                    <div class="mt-5">
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 170px;
+                             border-top-left-radius: 10px;
+                             border-bottom-left-radius: 10px;
+                             background-color: #dee2e6;">Email</span>
+                            </div>
+                            <input asp-for="@Model.Email" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                            <span asp-validation-for="Email" class="text-danger">  </span>
+                        </div>
+
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 170px;
+                             border-top-left-radius: 10px;
+                             border-bottom-left-radius: 10px;
+                            background-color: #dee2e6;">Password</span>
+                            </div>
+                            <input asp-for="@Model.Password type=" text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                            <span asp-validation-for="Password" class="text-danger">  </span>
+                        </div>
+
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 170px;
+                             border-top-left-radius: 10px;
+                             border-bottom-left-radius: 10px;
+                             background-color: #dee2e6;">Confirm password</span>
+                            </div>
+                            <input asp-for="@Model.ConfirmPassword type=" text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger">  </span>
+
+                        </div>
+
+                        <div class="md-form input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 170px;
+                             border-top-left-radius: 10px;
+                             border-bottom-left-radius: 10px;
+                             background-color: #dee2e6;">Register as</span>
+                            </div>
+                            <select asp-for="@Model.Role" asp-items="@Model.Roles" class="form-control"> </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-5 pb-3">
+                        <button type="submit" class="btn"
+                                style="width: 100%;
+                     height: 50px;
+                     font-size: 1rem;
+                     letter-spacing: 0.05rem;
+                     padding: 0.75rem 1rem;
+                     border-radius: 2rem;
+                     background-color: #E67122;
+                     border-color: #E67122;
+                     color: white;">
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+
+    <div class="col-3"></div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
