@@ -65,9 +65,9 @@ html {
     border-bottom: 0;
 }
 
-.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-    border-bottom: 0;
-}
+    .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+        border-bottom: 0;
+    }
 
 .create-application-btn {
     width: 100%;
@@ -86,3 +86,30 @@ html {
     border-bottom-left-radius: 10px;
     background-color: #dee2e6;
 }
+
+tbody tr td:last-child .d-flex > * {
+    cursor: pointer;
+}
+
+tbody tr td:first-child .id-column {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90px;
+}
+
+.nav-tabs .nav-item {
+    border: 1px solid #343A40;
+    border-bottom: 1px solid #343A40;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+    .nav-tabs .nav-item .nav-link:not(.active) {
+        color: #343A40;
+    }
+
+    .nav-tabs .nav-item .nav-link .active {
+        color: #343A40;
+        
+    }

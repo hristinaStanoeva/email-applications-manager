@@ -3,33 +3,53 @@
     ViewData["Title"] = "_NewEmailPartial";
 }
 
-<tr>
-    <td>@Model.Id</td>
-    <td>@Model.DateReceived</td>
-    <td>@Model.SenderEmail</td>
-    <td>@Model.SenderName</td>
-    <td>@Model.Subject</td>
+    <tr>
+        <td><div class="id-column">@Model.Id</div></td>
+        <td>@Model.DateReceived</td>
+        <td>@Model.SenderEmail</td>
+        <td>@Model.SenderName</td>
+        <td>@Model.Subject</td>
 
-    <td>@Model.TimeSinceCurrentStatus</td>
+        <td>@Model.TimeSinceCurrentStatus</td>
 
-    <td class="float-right mr-4">
-        <div class="row mt-2">
-            <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+        @*<td class="float-right mr-4">
+
+            <div class="row mt-2">
+                <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
 
 
-            @*<a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
-                    <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
-                </a>
+                <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
+                        <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
+                    </a>
 
-                @if (User.IsInRole("manager"))
-                {
-                    <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
-                }*@
+                    @if (User.IsInRole("manager"))
+                    {
+                        <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
+                    }
 
-            <a class="fas fa-ellipsis-v ml-3"></a>
-        </div>
-    </td>
-</tr>
+                <a class="fas fa-ellipsis-v ml-3"></a>
+            </div>
+        </td>*@
+        <td style="vertical-align: middle">
+            <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
+
+                <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+
+                <div class="dropdown ml-3">
+                    <a class="btn fas fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </td>
+    </tr>
 
 @*Preview Email Modal*@
 <div class="modal fade" id="preview-all-email-modal-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">

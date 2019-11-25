@@ -2,63 +2,87 @@
 
 @if (Model.Status == EmailStatus.Invalid.ToString())
 {
-    <tr class="alert-light" style="color:darkgrey;">
-        <td>@Model.Id</td>
+    <tr class="alert-light" style="color:darkgrey; background-color: #f4f4f4;">
+        <td><div class="id-column">@Model.Id</div></td>
         <td>@Model.DateReceived</td>
         <td>@Model.SenderEmail</td>
         <td>@Model.SenderName</td>
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
 
-        <td class="float-right mr-4">
-            <div class="row mt-2">
+        <td style="vertical-align: middle">
+            <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
                 @if (Model.HasAttachments)
                 {
-                    <span class="fa fa-paperclip" aria-hidden="true"></span>
-                    <span class="ml-1">@Model.Attachments.Count</span>
+                    <div class="d-flex  align-items-center">
+                        <span class="fa fa-paperclip" aria-hidden="true"></span>
+                        <span class="ml-1">@Model.Attachments.Count</span>
+                    </div>
                 }
 
-            <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+                <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
 
                 @if (User.IsInRole(Constants.Manager))
                 {
                     @*<a class="btn btn-secondary" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Not reviewed</a>*@
                 }
 
-                <a class="fas fa-ellipsis-v ml-3"></a>
+                <div class="dropdown">
+                    <a class="btn fas fa-ellipsis-v ml-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
             </div>
+
+
         </td>
     </tr>
 }
 else
 {
     <tr>
-        <td>@Model.Id</td>
+        <td><div class="id-column">@Model.Id</div></td>
         <td>@Model.DateReceived</td>
         <td>@Model.SenderEmail</td>
         <td>@Model.SenderName</td>
         <td>@Model.Subject</td>
         <td>@Model.Status</td>
 
-        <td class="float-right mr-4">
-            <div class="row mt-2">
+        <td style="vertical-align: middle">
+            <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
                 @if (Model.HasAttachments)
                 {
-                    <span class="fa fa-paperclip" aria-hidden="true"></span>
-                    <span class="ml-1">@Model.Attachments.Count</span>
+                    <div class="d-flex  align-items-center">
+                        <span class="fa fa-paperclip" aria-hidden="true"></span>
+                        <span class="ml-1">@Model.Attachments.Count</span>
+                    </div>
                 }
 
-                <span class="fas fa-search ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+                <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
 
                 @if (Model.Status == EmailStatus.NotReviewed.ToString())
                 {
                     @*<a class="btn btn-dark" asp-controller="Email" asp-action="MarkInvalid" asp-route-id="@Model.Id">Invalid</a>*@
                 }
 
-                <a class="fas fa-ellipsis-v ml-3"></a>
+                <div class="dropdown ml-3">
+                    <a class="btn fas fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
 
             </div>
+
         </td>
     </tr>
 }

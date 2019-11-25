@@ -12,3 +12,27 @@
         $('#modal-body-' + id).html(data);
     });
 });
+
+$('#show-only-mine-checkbox').change(function (ev) {
+    const isChecked = ev.target.checked;
+    const currentUser = $('#show-only-mine-checkbox').data('for-user');
+
+    $('tbody tr').each((i, tr) => {
+        if ($(tr).data('user') !== currentUser && isChecked) {
+            $(tr).hide();
+        } else {
+            $(tr).show();
+        }
+    });
+});
+
+$('#search-user').on('input', function (ev) {
+
+    $('tbody tr .operator').each((i, tr) => {
+        if ($(tr).text().includes(ev.target.value)) {
+            $(tr).parent().show();
+        } else {
+            $(tr).parent().hide();
+        }
+    })
+});
