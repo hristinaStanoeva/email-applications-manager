@@ -1,31 +1,4 @@
-﻿@model AppPreviewViewModel
-
-<div class="form-group">
-    <label for="exampleFormControlInput1"><b>Name:</b></label>
-    <p>@Model.Name</p>
-</div>
-
-<div class="form-group">
-    <label for="exampleFormControlInput1"><b>EGN:</b></label>
-    <p>@Model.EGN</p>
-</div>
-
-<div class="form-group">
-    <label for="exampleFormControlInput1"><b>Phone:</b></label>
-    <p>@Model.Phone</p>
-</div>
-
-
-@if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Status == ApplicationStatus.NotReviewed)
-{
-    <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
-    <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
-}
-else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
-{
-    <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
-}
-
+﻿@model PreviewViewModel
 
 @{var referrer = this.Context.Request.Headers[Constants.HeaderReferer]; }
 
@@ -33,4 +6,184 @@ else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constant
 {
     <a href="@referrer.ToString()" class="btn btn-outline-dark">Back</a>
 }
+
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="mt-5 mb-5 ml-5 mr-5" style="background-color: #cfd1d4; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+            <div class="container pt-4 pb-4 pl-4 pr-4">
+                <h3 class="text-center mb-5" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Email preview</h3>
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
+                    <div class="row">
+                        <div class="font-weight-bolder col-2" style="color: #525252">
+                            Email ID
+                        </div>
+                        <div class="col-8" style="color: #525252">
+                            @Model.Id
+                        </div>
+                    </div>
+                    <hr style="color: #939393" />
+                    <div class="row">
+                        <div class="font-weight-bolder col-2" style="color: #525252">
+                            Status
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            @Model.Status
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-4 mr-4 mt-4">
+                    <div class="row">
+                        <div class="col-2 text-right" style="color: #525252">
+                            From:
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            <span class="font-weight-bolder">@Model.SenderName</span>
+                            <span class="font-italic">&lt;@Model.SenderEmail&gt;</span>
+                            <p>@Model.DateReceived</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2 text-right" style="color: #525252">
+                            Subject:
+                        </div>
+                        <div class="col-8" style="color: #525252;">
+                            <span class="font-weight-bolder">@Model.Subject</span>
+                            @if (Model.Attachments.Count == 0)
+                            {
+                                <p class="font-italic">No attachments</p>
+                            }
+                        </div>
+                    </div>
+                    @if (Model.Attachments.Count != 0)
+                    {
+                        <div class="row pt-2">
+                            <div class="col-2 text-right pl-0" style="color: #525252">
+                                Attachments:
+                            </div>
+                            <div class="col-8 pb-3" style="color: #525252;">
+                                @foreach (var att in Model.Attachments)
+                                {
+                                    <div>
+                                        <span class="font-weight-normal btn-link">@att.Name</span>
+                                        <span class="font-italic font-weight-lighter"> @att.Size MB</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.Id">
+                    @Html.Raw(Model.EmailBody)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="mt-5 mb-5 ml-5 mr-5" style="background-color: #cfd1d4; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+            <div class="container pt-4 pb-4 pl-4 pr-4">
+                <div class="ml-4 mr-4">
+                    <h3 class="text-center mb-4" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Application preview</h3>
+                    <div class="mt-5">
+                        <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
+                            <div class="row">
+                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                    Applicant
+                                </div>
+                                <div class="col-8" style="color: #525252">
+                                    @Model.Appliction.Name
+                                </div>
+                            </div>
+                            <hr style="color: #939393" />
+                            <div class="row">
+                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                    Personal ID/EGN
+                                </div>
+                                <div class="col-8" style="color: #525252;">
+                                    @Model.Appliction.EGN
+                                </div>
+                            </div>
+                            <hr style="color: #939393" />
+                            <div class="row">
+                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                    Phone number
+                                </div>
+                                <div class="col-8" style="color: #525252;">
+                                    @Model.Appliction.Phone
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ml-4 mr-4 mt-4">
+                            <div class="row">
+                                <div class="col-2 text-right" style="color: #525252">
+                                    Operator
+                                </div>
+                                <div class="col-8" style="color: #525252;">
+                                    <span class="font-weight-bolder">@Model.Appliction.OperatorName</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 text-right" style="color: #525252">
+                                    Status
+                                </div>
+                                <div class="col-8" style="color: #525252;">
+                                    <span class="font-weight-bolder">@Model.Appliction.Status</span>
+                                </div>
+                            </div>
+                        </div>
+                        @if ((Model.Appliction.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Appliction.Status == ApplicationStatus.NotReviewed)
+                        {
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-3">
+                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+                                </div>
+                                <div class="col-3">
+                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
+                                </div>
+                                <div class="col-3"></div>
+                            </div>
+                        }
+                        else if (Model.Appliction.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
+                        {
+                            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<div class="form-group">
+        <label for="exampleFormControlInput1"><b>Name:</b></label>
+        <p>@Model.Name</p>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1"><b>EGN:</b></label>
+        <p>@Model.EGN</p>
+    </div>
+
+    <div class="form-group">
+        <label for="exampleFormControlInput1"><b>Phone:</b></label>
+        <p>@Model.Phone</p>
+    </div>
+
+
+    @if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Status == ApplicationStatus.NotReviewed)
+    {
+        <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+        <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
+    }
+    else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
+    {
+        <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
+    }*@
+
+
+
 

@@ -3,10 +3,12 @@ using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
+using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
@@ -56,9 +58,23 @@ namespace EMS.WebProject.Controllers
             try
             {
                 var application = await _appService.GetByMailIdAsync(id);
+                var email = await _emailService.GetSingleEmailAsync(id);
 
-                var vm = application.MapToViewModelPreview();
-                vm.OperatorName = await _appService.GetOperatorUsernameAsync(id);
+                var app = application.MapToViewModelPreview();
+                app.OperatorName = await _appService.GetOperatorUsernameAsync(id);
+
+                var attachmentsVM = new List<AttachmentViewModel>();
+
+                if (email.Attachments.Count != 0)
+                {
+                    foreach (var att in email.Attachments)
+                    {
+                        attachmentsVM.Add(att.MapToViewModel());
+                    }
+                }
+                var vm = email.MapToViewModelPreview(email.Body, attachmentsVM);
+
+                vm.Appliction = app;
 
                 return View(vm);
             }
