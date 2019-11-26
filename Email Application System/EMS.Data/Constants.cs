@@ -49,6 +49,11 @@
         public const string PageOpen = "Open";
         public const string PageEmail = "Email";
         public const string PageHome = "Home";
+
+        public const string PageGetClosedEmails = "GetClosedEmails";
+        public const string PageGetOpenEmails = "GetOpenEmails";
+        public const string PageGetNewEmails = "GetNewEmails";
+
         public const string ChangePassRedirect = "/Identity/Account/Login";
 
         public const string HeaderReferer = "Referer";

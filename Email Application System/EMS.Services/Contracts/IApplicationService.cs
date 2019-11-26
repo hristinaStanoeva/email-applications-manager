@@ -15,5 +15,6 @@ namespace EMS.Services.Contracts
         Task<string> GetOperatorUsernameAsync(string emailId);
         Task<string> GetEmailId(string appId);
         Task<string> GetAppStatus(string mailId);
+        Task<string> GetAppIdByMailIdAsync(string emailId);
     }
 }

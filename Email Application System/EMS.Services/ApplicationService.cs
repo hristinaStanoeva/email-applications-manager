@@ -44,6 +44,15 @@ namespace EMS.Services
             return appDomain.MapToDtoModel();
         }
 
+        public async Task<string> GetAppIdByMailIdAsync(string emailId)
+        {
+            var appDomain = await _context.Applications
+                .FirstOrDefaultAsync(app => app.EmailId.ToString() == emailId)
+                .ConfigureAwait(false);
+
+            return appDomain.Id.ToString();
+        }
+
         public async Task CreateAsync(string emailId, string username, string EGN, string name, string phoneNum)
         {
             var userId = await _userService.GetUserIdAsync(username);
