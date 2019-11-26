@@ -212,7 +212,7 @@ namespace GmailAPI
             var sanitizer = new HtmlSanitizer();
             var sanitizedContent = sanitizer.Sanitize(content);
 
-            if (sanitizedContent == "")
+            if (sanitizedContent == "" && content != "")
             {
                 return Constants.BlockedContent;
             }

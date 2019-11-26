@@ -292,6 +292,7 @@ namespace EMS.WebProject.Controllers
             try
             {
                 var body = await _emailService.GetBodyByDbAsync(id);
+                var sanitizedBody = this.SanitizeContent(body);
 
                 var email = await _emailService.GetSingleEmailAsync(id);
 
@@ -305,7 +306,7 @@ namespace EMS.WebProject.Controllers
                     }
                 }
 
-                var vm = email.MapToViewModelPreview(body, attachmentsVM);
+                var vm = email.MapToViewModelPreview(sanitizedBody, attachmentsVM);
                 vm.InputViewModel.EmailId = id;
 
                 return View(Constants.PageOpen, vm);

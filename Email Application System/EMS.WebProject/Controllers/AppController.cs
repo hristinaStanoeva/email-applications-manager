@@ -72,7 +72,7 @@ namespace EMS.WebProject.Controllers
                         attachmentsVM.Add(att.MapToViewModel());
                     }
                 }
-                var vm = email.MapToViewModelPreview(email.Body, attachmentsVM);
+                var vm = email.MapToViewModelPreview(this.SanitizeContent(email.Body), attachmentsVM);
 
                 vm.Appliction = app;
 
@@ -155,6 +155,18 @@ namespace EMS.WebProject.Controllers
             TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
+        }
+
+        private string SanitizeContent(string content)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            if (sanitizedContent == "")
+            {
+                return Constants.BlockedContent;
+            }
+            else return sanitizedContent;
         }
     }
 }
