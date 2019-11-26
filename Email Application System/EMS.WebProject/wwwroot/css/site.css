@@ -99,7 +99,7 @@ tbody tr td:first-child .id-column {
 }
 
 .nav-tabs .nav-item {
-    border: 1px solid #343A40;
+    border: 1px solid #adb5bd;
     border-bottom: 1px solid #343A40;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
@@ -114,9 +114,29 @@ tbody tr td:first-child .id-column {
     }
 
 .preview-btn {
-    color: #D06118;
+    color: #eb7422;
 }
 
 .fa-ellipsis-v {
-    color: #D06118 !important;
+    color: #eb7422 !important;
+}
+
+.roboto-font {
+    font-family: 'Roboto', sans-serif;
+}
+
+.fas.fa-chevron-left.text-dark:hover{
+    text-decoration: none;
+}
+
+.btn {
+    border-radius: 2rem;
+}
+
+.btn-dark {
+    border-color: transparent;
+}
+
+.default-pointer, .default-pointer *{
+   cursor: default !important;
 }

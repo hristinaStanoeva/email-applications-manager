@@ -1,7 +1,7 @@
 ﻿@model AllEmailsViewModel
 
 
-<div class="row justify-content-between" style="margin:0;">
+<div class="row justify-content-between" style="margin: 0;">
     <ul class="nav nav-tabs">
         @if (Model.ActiveTab == Constants.TabAll)
         {
@@ -64,10 +64,7 @@
                     Filter by account:
                 </label>
                 <input id="search-user" class="form-control" style="display: inline-block; width: unset;" />
-
             </span>
-
-
         }
         else
         {
@@ -82,9 +79,6 @@
     }
 </div>
 
-
-
-
 <table class="table table-hover" style="background-color: white;">
     <thead class="thead-dark">
         <tr>
@@ -94,8 +88,10 @@
             {
                 <th scope="col" style="width: 105px;">
                     <div class="row">
-                        Received
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" style="color:white; font-size:15px;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
+                        <a style="color:white;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
             }
@@ -103,8 +99,10 @@
             {
                 <th scope="col" style="width: 105px;">
                     <div class="row">
-                        Received
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
+                        <a style="color:white;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
             }
@@ -112,8 +110,10 @@
             {
                 <th scope="col" style="width: 105px;">
                     <div class="row">
-                        Received
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
+                        <a style="color:white;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
             }
@@ -121,8 +121,10 @@
             {
                 <th scope="col" style="width: 105px;">
                     <div class="row">
-                        Received
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetClosedEmails" asp-route-sortOrder="@ViewData["DateSortParm"]"></a>
+                        <a style="color:white;" asp-action="GetClosedEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
             }
@@ -142,8 +144,10 @@
             {
                 <th scope="col" style="width: 100px;">
                     <div class="row">
-                        New since
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["SinceStatus"]"></a>
+                        <a style="color:white;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">
+                            New since
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
 
@@ -154,8 +158,10 @@
             {
                 <th scope="col" style="width: 100px;">
                     <div class="row">
-                        Open since
-                        <a class="fas fa-sort ml-2 mt-1" style="color:white; font-size:15px;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["SinceStatus"]"></a>
+                        <a style="color:white;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">
+                            Open since
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
                     </div>
                 </th>
 
