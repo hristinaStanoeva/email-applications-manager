@@ -44,7 +44,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppNewSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetNewEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppValidSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetClosedEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppInvalidSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetClosedEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -141,7 +141,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppCreateSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetOpenEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {

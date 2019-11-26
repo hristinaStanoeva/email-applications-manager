@@ -124,7 +124,7 @@
                 </button>
                 @if (User.IsInRole(Constants.Manager))
                 {
-                    <a type="button" class="btn btn-dark" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">
+                    <a type="button" class="btn btn-dark" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.ApplicationId">
                         Mark new
                     </a>
                 }

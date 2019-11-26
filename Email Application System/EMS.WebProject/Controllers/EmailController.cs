@@ -148,6 +148,7 @@ namespace EMS.WebProject.Controllers
                 foreach (var emailVM in vm.AllEmails)
                 {
                     emailVM.OperatorUsername = await _appService.GetOperatorUsernameAsync(emailVM.Id);
+                    emailVM.ApplicationId = await _appService.GetAppIdByMailIdAsync(emailVM.Id);
                 }
 
                 return View(Constants.PageIndex, vm);
@@ -190,6 +191,7 @@ namespace EMS.WebProject.Controllers
                 {
                     email.OperatorUsername = await _appService.GetOperatorUsernameAsync(email.Id);
                     email.ApplicationStatus = await _appService.GetAppStatus(email.Id);
+                    email.ApplicationId = await _appService.GetAppIdByMailIdAsync(email.Id);
                 }
 
                 return View(Constants.PageIndex, vm);

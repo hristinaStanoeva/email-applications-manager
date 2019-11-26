@@ -136,17 +136,17 @@
                             <div class="row">
                                 <div class="col-3"></div>
                                 <div class="col-3">
-                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
+                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Appliction.Id">Approve</a>
                                 </div>
                                 <div class="col-3">
-                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
+                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Appliction.Id">Reject</a>
                                 </div>
                                 <div class="col-3"></div>
                             </div>
                         }
                         else if (Model.Appliction.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
                         {
-                            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
+                            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Appliction.Id">Mark new</a>
                         }
                     </div>
                 </div>
