@@ -77,7 +77,6 @@ namespace EMS.WebProject.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(string.Format(Constants.LogUserLogin, Input.Email));
-                    TempData[Constants.TempDataMsg] = Constants.UserSignInSucc;
 
                     return RedirectToAction("Index", "Home");
                 }

@@ -148,6 +148,7 @@ namespace EMS.WebProject.Controllers
                 foreach (var emailVM in vm.AllEmails)
                 {
                     emailVM.OperatorUsername = await _appService.GetOperatorUsernameAsync(emailVM.Id);
+                    emailVM.ApplicationId = await _appService.GetAppIdByMailIdAsync(emailVM.Id);
                 }
 
                 return View(Constants.PageIndex, vm);
@@ -190,6 +191,7 @@ namespace EMS.WebProject.Controllers
                 {
                     email.OperatorUsername = await _appService.GetOperatorUsernameAsync(email.Id);
                     email.ApplicationStatus = await _appService.GetAppStatus(email.Id);
+                    email.ApplicationId = await _appService.GetAppIdByMailIdAsync(email.Id);
                 }
 
                 return View(Constants.PageIndex, vm);
@@ -292,6 +294,7 @@ namespace EMS.WebProject.Controllers
             try
             {
                 var body = await _emailService.GetBodyByDbAsync(id);
+                var sanitizedBody = this.SanitizeContent(body);
 
                 var email = await _emailService.GetSingleEmailAsync(id);
 
@@ -305,7 +308,7 @@ namespace EMS.WebProject.Controllers
                     }
                 }
 
-                var vm = email.MapToViewModelPreview(body, attachmentsVM);
+                var vm = email.MapToViewModelPreview(sanitizedBody, attachmentsVM);
                 vm.InputViewModel.EmailId = id;
 
                 return View(Constants.PageOpen, vm);

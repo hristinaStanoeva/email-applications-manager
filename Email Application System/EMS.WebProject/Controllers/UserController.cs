@@ -104,7 +104,7 @@ namespace EMS.WebProject.Controllers
 
                     if (isPasswordCorrect)
                     {
-                        await _userService.ChangePasswordAsync(vm.Username, vm.CurrentPassword, vm.Password);
+                        await _userService.ChangePasswordAsync(user.UserName, vm.CurrentPassword, vm.Password);
                         _logger.LogInformation(string.Format(Constants.LogUserPassChange, User.Identity.Name));
 
                         TempData[Constants.TempDataMsg] = Constants.UserPassChangeSucc;

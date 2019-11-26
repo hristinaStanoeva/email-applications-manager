@@ -49,6 +49,11 @@
         public const string PageOpen = "Open";
         public const string PageEmail = "Email";
         public const string PageHome = "Home";
+
+        public const string PageGetClosedEmails = "GetClosedEmails";
+        public const string PageGetOpenEmails = "GetOpenEmails";
+        public const string PageGetNewEmails = "GetNewEmails";
+
         public const string ChangePassRedirect = "/Identity/Account/Login";
 
         public const string HeaderReferer = "Referer";
@@ -75,9 +80,9 @@
         public const string TempDataMsg = "message";
         public const string AuthPolicy = "IsPasswordChanged";
 
-        public const string TimeParser0Min = "0 min.";
-        public const string TimeParserMin = " min.";
-        public const string TimeParserHrsMin = " hrs. and";
+        public const string TimeParser0Min = "0 min";
+        public const string TimeParserMin = " min";
+        public const string TimeParserHrsMin = " hr, ";
         public const string TimeParserDays = " days, ";
 
         // Logger

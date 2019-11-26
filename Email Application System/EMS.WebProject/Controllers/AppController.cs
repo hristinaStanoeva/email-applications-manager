@@ -3,10 +3,12 @@ using EMS.Data.Enums;
 using EMS.Services.Contracts;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
+using EMS.WebProject.Models.Emails;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EMS.WebProject.Controllers
@@ -42,7 +44,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppNewSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetNewEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -56,9 +58,23 @@ namespace EMS.WebProject.Controllers
             try
             {
                 var application = await _appService.GetByMailIdAsync(id);
+                var email = await _emailService.GetSingleEmailAsync(id);
 
-                var vm = application.MapToViewModelPreview();
-                vm.OperatorName = await _appService.GetOperatorUsernameAsync(id);
+                var app = application.MapToViewModelPreview();
+                app.OperatorName = await _appService.GetOperatorUsernameAsync(id);
+
+                var attachmentsVM = new List<AttachmentViewModel>();
+
+                if (email.Attachments.Count != 0)
+                {
+                    foreach (var att in email.Attachments)
+                    {
+                        attachmentsVM.Add(att.MapToViewModel());
+                    }
+                }
+                var vm = email.MapToViewModelPreview(this.SanitizeContent(email.Body), attachmentsVM);
+
+                vm.Appliction = app;
 
                 return View(vm);
             }
@@ -82,7 +98,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppValidSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetClosedEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -104,7 +120,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppInvalidSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetClosedEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -125,7 +141,7 @@ namespace EMS.WebProject.Controllers
 
                 TempData[Constants.TempDataMsg] = Constants.AppCreateSucc;
 
-                return RedirectToAction(Constants.PageIndex, Constants.PageEmail);
+                return RedirectToAction(Constants.PageGetOpenEmails, Constants.PageEmail);
             }
             catch (Exception ex)
             {
@@ -139,6 +155,18 @@ namespace EMS.WebProject.Controllers
             TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
+        }
+
+        private string SanitizeContent(string content)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            if (sanitizedContent == "")
+            {
+                return Constants.BlockedContent;
+            }
+            else return sanitizedContent;
         }
     }
 }

@@ -3,8 +3,8 @@
     ViewData["Title"] = "_ClosedEmailPartial";
 }
 
-<tr>
-    <td>@Model.Id</td>
+<tr data-user="@Model.OperatorUsername">
+    <td><div class="id-column">@Model.Id</div></td>
     <td>@Model.DateReceived</td>
     <td>@Model.SenderEmail</td>
     <td>@Model.SenderName</td>
@@ -12,16 +12,32 @@
     <td>@Model.ApplicationStatus</td>
     @if (User.IsInRole("manager"))
     {
-        <td>@Model.OperatorUsername</td>
+        <td class="operator">@Model.OperatorUsername</td>
     }
 
-    <td>
-        <a class="btn btn-link preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview mail</a>
+    <td style="vertical-align: middle">
+        <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
 
-        @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
-        {
-            <a class="btn btn-info" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">View Application</a>
-        }
+            <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+
+            <div class="dropdown ml-3">
+                <a class="btn fas fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    @if (Model.OperatorUsername == User.Identity.Name || User.IsInRole(Constants.Manager))
+                    {
+                        <a class="dropdown-item" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">Preview application</a>
+                    }
+                    @if (User.IsInRole(Constants.Manager))
+                    {
+                        <a class="dropdown-item" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Mark new</a>
+                    }
+                    <a class="dropdown-item preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview email</a>
+                </div>
+            </div>
+
+        </div>
     </td>
 </tr>
 
@@ -106,7 +122,13 @@
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal" style="color: #525252;">
                     Cancel
                 </button>
-                @if (User.IsInRole("manager") || Model.OperatorUsername == User.Identity.Name)
+                @if (User.IsInRole(Constants.Manager))
+                {
+                    <a type="button" class="btn btn-dark" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.ApplicationId">
+                        Mark new
+                    </a>
+                }
+                @if (Model.OperatorUsername == User.Identity.Name || User.IsInRole(Constants.Manager))
                 {
                     <a type="button" class="btn" style="background-color: #EC7424; color: white" asp-controller="App" asp-action="Preview" asp-route-id="@Model.Id">
                         View application
