@@ -30,7 +30,7 @@
                     }
                     @if (User.IsInRole(Constants.Manager))
                     {
-                        <a class="dropdown-item" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.Id">Mark new</a>
+                        <a class="dropdown-item" asp-controller="Email" asp-action="MarkNew" asp-route-id="@Model.ApplicationId">Mark new</a>
                     }
                     <a class="dropdown-item preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview email</a>
                 </div>
