@@ -1,9 +1,11 @@
 ﻿using EMS.Data;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
+using EMS.Services.Security;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
+using Ganss.XSS;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,7 +16,7 @@ using System.Threading.Tasks;
 namespace EMS.WebProject.Controllers
 {
     [Authorize(Policy = Constants.AuthPolicy)]
-    [Authorize(Roles = "manager, operator")]    
+    [Authorize(Roles = "manager, operator")]
     public class AppController : Controller
     {
         private readonly IApplicationService _appService;
@@ -26,7 +28,7 @@ namespace EMS.WebProject.Controllers
             _appService = appService;
             _emailService = emailService;
             _logger = logger;
-        }      
+        }
 
         [HttpGet]
         [Authorize(Roles = "manager")]
@@ -49,7 +51,7 @@ namespace EMS.WebProject.Controllers
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
-            }           
+            }
         }
 
         [HttpGet]
@@ -72,16 +74,20 @@ namespace EMS.WebProject.Controllers
                         attachmentsVM.Add(att.MapToViewModel());
                     }
                 }
-                var vm = email.MapToViewModelPreview(this.SanitizeContent(email.Body), attachmentsVM);
+
+                var sanitizedBody = this.SanitizeContent(email.Body);
+
+                var vm = email.MapToViewModelPreview(sanitizedBody, attachmentsVM);
 
                 vm.Appliction = app;
 
                 return View(vm);
             }
+
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
-            }            
+            }
         }
 
         [HttpGet]
@@ -103,7 +109,7 @@ namespace EMS.WebProject.Controllers
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
-            }            
+            }
         }
 
         [HttpGet]
@@ -125,7 +131,7 @@ namespace EMS.WebProject.Controllers
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
-            }            
+            }
         }
 
         [HttpPost]
@@ -146,7 +152,7 @@ namespace EMS.WebProject.Controllers
             catch (Exception ex)
             {
                 return ErrorHandle(ex);
-            }            
+            }
         }
         private IActionResult ErrorHandle(Exception ex)
         {

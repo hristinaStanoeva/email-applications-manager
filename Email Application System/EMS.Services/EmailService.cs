@@ -45,7 +45,10 @@ namespace EMS.Services
                 .FirstOrDefaultAsync(mail => mail.Id.ToString() == mailId)
                 .ConfigureAwait(false);
 
-            return emailDomain.MapToDtoModel();
+            var emailDto = emailDomain.MapToDtoModel();
+            emailDto.Body = await _gmailService.GetEmailBodyAsync(emailDomain.GmailMessageId);
+
+            return emailDto;
         }
         public async Task<string> GetGmailIdAsync(string id)
         {
