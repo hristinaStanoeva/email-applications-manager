@@ -14,18 +14,13 @@
             <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
                 @if (Model.HasAttachments)
                 {
-                    <div class="d-flex  align-items-center">
+                    <div class="d-flex  align-items-center default-pointer">
                         <span class="fa fa-paperclip" aria-hidden="true"></span>
                         <span class="ml-1">@Model.Attachments.Count</span>
                     </div>
                 }
 
                 <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
-
-                @if (User.IsInRole(Constants.Manager))
-                {
-                    @*<a class="btn btn-secondary" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Not reviewed</a>*@
-                }
 
                 <div class="dropdown">
                     <a class="btn fas fa-ellipsis-v ml-3" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,7 +52,7 @@ else
             <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
                 @if (Model.HasAttachments)
                 {
-                    <div class="d-flex  align-items-center">
+                    <div class="d-flex  align-items-center default-pointer">
                         <span class="fa fa-paperclip" aria-hidden="true"></span>
                         <span class="ml-1">@Model.Attachments.Count</span>
                     </div>

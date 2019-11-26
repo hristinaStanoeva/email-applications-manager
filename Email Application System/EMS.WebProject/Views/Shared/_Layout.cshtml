@@ -6,22 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="~/css/all.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-@*<body style="background-image: url('../images/background_3.jpg');">*@
-<body style="background-image: linear-gradient(to bottom, #f8f9fa, #495057);">
+
+
+<body style="background-image: linear-gradient(to bottom, #f8f9fa, #38434f);">
     @if (User.Identity.IsAuthenticated)
     {
         <header>
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-image: linear-gradient(to right, #cd5708 , #f8f9fa);">
-                <div class="container">
+            @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" style="background-image: linear-gradient(to right, #f8f9fa , #EB7422);">*@
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light pb-4 mt-2 mb-3 roboto-font">
+                <div class="container align-items-baseline">
                     <style>
                         .container {
                             max-width: 1540px;
                         }
                     </style>
-                    <a class="navbar-brand">SouthWest Email Management System</a>
+
+                    <div class="pr-5">
+                        <span class="font-weight-bolder" style="color: #EB7422; font-size:30px">TBI</span>
+                        <span class="font-weight-normal" style="color: #4A4A49; font-size:30px">Bank</span>
+                        @*<span class="ml-1" style="color: #343A40;">Email Management System</span>*@
+                    </div>
+
+
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -33,14 +44,20 @@
                             {
                                 @if (User.FindFirst("IsPasswordChanged").Value == "True")
                                 {
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-controller="Email" asp-action="Index">Emails</a>
+                                    <li class="nav-item align-self-end">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-envelope" style="color: #48525D;"></i>
+                                            <a class="nav-link pb-0 pl-1 font-weight-bold" style="color: #48525D;" asp-area="" asp-controller="Email" asp-action="Index">EMAILS</a>
+                                        </div>
                                     </li>
 
                                     if (User.IsInRole("manager"))
                                     {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Create account</a>
+                                        <li class="nav-item align-self-end pl-3">
+                                            <div class="d-flex align-items-center pl-3">
+                                                <i class="fas fa-user-plus" style="color: #48525D;"></i>
+                                                <a class="nav-link pb-0 pl-1 font-weight-bold" style="color: #48525D;" asp-area="" asp-controller="User" asp-action="Register">CREATE ACCOUNT</a>
+                                            </div>
                                         </li>
                                     }
                                 }

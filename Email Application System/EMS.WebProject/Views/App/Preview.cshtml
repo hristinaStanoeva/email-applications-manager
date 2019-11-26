@@ -2,16 +2,18 @@
 
 @{var referrer = this.Context.Request.Headers[Constants.HeaderReferer]; }
 
-@if (referrer != default(StringValues))
-{
-    <a href="@referrer.ToString()" class="btn btn-outline-dark">Back</a>
-}
 
 
 <div class="row">
+    @if (referrer != default(StringValues))
+    {
+        <div class="col-md-1" style="font-size: 50px;">
+            <a class="fas fa-chevron-left text-dark ml-5" href="@referrer.ToString()"></a>
+        </div>
+    }
     <div class="col-md-5">
-        <div class="mt-5 mb-5 ml-5 mr-5" style="background-color: #cfd1d4; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
-            <div class="container pt-4 pb-4 pl-4 pr-4">
+        <div class="mb-5 mr-5" style="background-color: #e4e6ea; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+            <div class="container pt-4 pb-5 pl-4 pr-4">
                 <h3 class="text-center mb-5" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Email preview</h3>
                 <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
                     <div class="row">
@@ -79,15 +81,15 @@
             </div>
         </div>
     </div>
-    <div class="col-md-7">
-        <div class="mt-5 mb-5 ml-5 mr-5" style="background-color: #cfd1d4; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
-            <div class="container pt-4 pb-4 pl-4 pr-4">
+    <div class="col-md-5">
+        <div class="mb-5 mr-5" style="background-color: #e4e6ea; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+            <div class="container pt-4 pb-5 pl-4 pr-4">
                 <div class="ml-4 mr-4">
                     <h3 class="text-center mb-4" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Application preview</h3>
                     <div class="mt-5">
                         <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
                             <div class="row">
-                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                <div class="font-weight-bolder col-4" style="color: #525252">
                                     Applicant
                                 </div>
                                 <div class="col-8" style="color: #525252">
@@ -96,7 +98,7 @@
                             </div>
                             <hr style="color: #939393" />
                             <div class="row">
-                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                <div class="font-weight-bolder col-4" style="color: #525252">
                                     Personal ID/EGN
                                 </div>
                                 <div class="col-8" style="color: #525252;">
@@ -105,7 +107,7 @@
                             </div>
                             <hr style="color: #939393" />
                             <div class="row">
-                                <div class="font-weight-bolder col-2" style="color: #525252">
+                                <div class="font-weight-bolder col-4" style="color: #525252">
                                     Phone number
                                 </div>
                                 <div class="col-8" style="color: #525252;">
@@ -115,16 +117,16 @@
                         </div>
                         <div class="ml-4 mr-4 mt-4">
                             <div class="row">
-                                <div class="col-2 text-right" style="color: #525252">
-                                    Operator
+                                <div class="col-4 text-right" style="color: #525252">
+                                    Operator:
                                 </div>
                                 <div class="col-8" style="color: #525252;">
                                     <span class="font-weight-bolder">@Model.Appliction.OperatorName</span>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-2 text-right" style="color: #525252">
-                                    Status
+                            <div class="row mt-3">
+                                <div class="col-4 text-right" style="color: #525252">
+                                    Status:
                                 </div>
                                 <div class="col-8" style="color: #525252;">
                                     <span class="font-weight-bolder">@Model.Appliction.Status</span>
@@ -133,20 +135,53 @@
                         </div>
                         @if ((Model.Appliction.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Appliction.Status == ApplicationStatus.NotReviewed)
                         {
-                            <div class="row">
-                                <div class="col-3"></div>
-                                <div class="col-3">
-                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Appliction.Id">Approve</a>
+                            <div class="row mt-5">
+                                <div class="col-2"></div>
+                                <div class="col-4">
+                                    <a class="btn btn-dark" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Appliction.Id"
+                                       style="width: 100%;
+                                       height: 50px;
+                                       font-size: 1rem;
+                                       letter-spacing: 0.05rem;
+                                       padding: 0.75rem 1rem;
+                                       border-radius: 2rem;
+                                       background-color: #52a063;
+                                       border-color: #52a063;
+                                       color: white;">
+                                        Approve
+                                    </a>
                                 </div>
-                                <div class="col-3">
-                                    <a class="btn btn-info" style="width: 100%;" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Appliction.Id">Reject</a>
+                                <div class="col-4">
+                                    <a class="btn btn-dark" 100%;" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Appliction.Id"
+                                       style="width: 100%;
+                                      height: 50px;
+                                      font-size: 1rem;
+                                      letter-spacing: 0.05rem;
+                                      padding: 0.75rem 1rem;
+                                      border-radius: 2rem;
+                                      background-color: #bb1323;
+                                      border-color: #bb1323;
+                                      color: white;">
+                                        Reject
+                                    </a>
                                 </div>
-                                <div class="col-3"></div>
+                                <div class="col-2"></div>
                             </div>
                         }
                         else if (Model.Appliction.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
                         {
-                            <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Appliction.Id">Mark new</a>
+                            <div class="row mt-5 justify-content-center">
+                                <a class="btn btn-dark" 100%;" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Appliction.Id"
+                                   style="width: 50%;
+                                       align-content: center;
+                                      height: 45px;
+                                      font-size: 1rem;
+                                      letter-spacing: 0.05rem;
+                                      padding: 0.75rem 1rem;
+                                      border-radius: 2rem;">
+                                    Mark new
+                                </a>
+                            </div>
                         }
                     </div>
                 </div>
@@ -154,36 +189,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-@*<div class="form-group">
-        <label for="exampleFormControlInput1"><b>Name:</b></label>
-        <p>@Model.Name</p>
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlInput1"><b>EGN:</b></label>
-        <p>@Model.EGN</p>
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlInput1"><b>Phone:</b></label>
-        <p>@Model.Phone</p>
-    </div>
-
-
-    @if ((Model.OperatorName == User.Identity.Name || User.IsInRole(Constants.Manager)) && Model.Status == ApplicationStatus.NotReviewed)
-    {
-        <a class="btn btn-info" asp-controller="App" asp-action="Approve" asp-route-id="@Model.Id">Approve</a>
-        <a class="btn btn-info" asp-controller="App" asp-action="Reject" asp-route-id="@Model.Id">Reject</a>
-    }
-    else if (Model.Status != ApplicationStatus.NotReviewed && User.IsInRole(Constants.Manager))
-    {
-        <a class="btn btn-info" asp-controller="App" asp-action="MarkAppNew" asp-route-id="@Model.Id">Mark new</a>
-    }*@
-
-
-
-

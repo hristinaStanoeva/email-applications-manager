@@ -1,10 +1,19 @@
 ﻿@model PreviewViewModel
 
+@{var referrer = this.Context.Request.Headers[Constants.HeaderReferer]; }
+
+@if (referrer != default(StringValues))
+{
+    <div style="font-size: 50px;">
+        <a class="fas fa-chevron-left text-dark ml-5" href="@referrer.ToString()"></a>
+    </div>
+}
+
 <div class="row">
     <div class="col-md-6">
         <partial name="_EmailDataPartial" />
     </div>
     <div class="col-md-6">
-        <partial name="_AppDataPartial" model="Model.InputViewModel"/>
+        <partial name="_AppDataPartial" model="Model.InputViewModel" />
     </div>
 </div>
