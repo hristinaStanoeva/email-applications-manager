@@ -4,7 +4,7 @@
 }
 
 <tr>
-    <td>@Model.Id</td>
+    <td><div class="id-column">@Model.Id</div></td>
     <td>@Model.DateReceived</td>
     <td>@Model.SenderEmail</td>
     <td>@Model.SenderName</td>
@@ -12,22 +12,32 @@
 
     <td>@Model.TimeSinceCurrentStatus</td>
 
-    <td><a class="btn btn-link preview-btn" id="preview-email-@Model.MessageId" data-toggle="modal" data-model-id="@Model.MessageId">Preview</a></td>
-    <td>
-        <a class="text-danger ml-1" asp-controller="" asp-action="" asp-route-id="">
-            <i class="fa fa-trash fa-lg icon-action" data-toggle="tooltip" data-placement="bottom" title="Mark Open"></i>
-        </a>
+    <td style="vertical-align: middle">
+        <div class="d-flex mr-4 justify-content-end align-items-center" style="color: black;">
 
-        @if (User.IsInRole("manager"))
-        {
-            <a class="text-info ml-1" asp-controller="" asp-action="" asp-route-id=""><i class="fa fa-check-square" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Mark Not Reviewed"></i></a>
-        }
+            <span class="fas fa-eye ml-3 preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id"></span>
+
+            <div class="dropdown ml-3">
+                <a class="btn fas fa-ellipsis-v" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 38px, 0px); top: 0px; left: 0px; will-change: transform;">
+
+                    <a class="dropdown-item" asp-controller="Email" asp-action="MarkOpen" asp-route-id="@Model.Id">Mark open</a>
+                    @if (User.IsInRole(Constants.Manager))
+                    {
+                        <a class="dropdown-item" asp-controller="Email" asp-action="MarkNotReviewed" asp-route-id="@Model.Id">Mark not reviewed</a>
+                    }
+                    <a class="dropdown-item preview-btn" id="preview-email-@Model.Id" data-toggle="modal" data-model-id="@Model.Id">Preview email</a>
+                </div>
+            </div>
+
+        </div>
+
     </td>
-
 </tr>
 
 @*Preview Email Modal*@
-<div class="modal fade" id="preview-all-email-modal-@Model.MessageId" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">
+<div class="modal fade" id="preview-all-email-modal-@Model.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color: #343A40; color: white;">
@@ -99,7 +109,7 @@
 
                 </div>
 
-                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.MessageId">
+                <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; width: 100%; border-radius: 5px;" id="modal-body-@Model.Id">
                 </div>
             </div>
 

@@ -29,6 +29,9 @@ namespace EMS.WebProject.Models.Emails
 
         public string OperatorUsername { get; set; }
 
+        public string ApplicationId { get; set; }
+
+
         public string ApplicationStatus { get; set; }
     }
 }

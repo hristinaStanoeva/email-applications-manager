@@ -2,6 +2,7 @@
 using EMS.GmailAPI.gmail_Models;
 using EMS.GmailAPI.Mappers;
 using EMS.GmailAPI.Parsers;
+using Ganss.XSS;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
@@ -30,7 +31,44 @@ namespace GmailAPI
             _context = context;
         }
 
+        public async Task<string> GetEncryptedBodyAsync(string emailId)
+        {
+            // Create Gmail API service.
+            var service = await CreateGmailServiceAsync();
 
+            var emailFull = await GetEmailInfoAsync(service, emailId);
+            var email = emailFull.Payload;
+
+            string bodyHtmlTextEncrypted = string.Empty;
+
+            if (email.Parts != null)
+            {
+                var htmlPart = email.Parts.FirstOrDefault(part => part.MimeType == "text/html");
+
+                if (htmlPart is null)
+                {
+                    var nestedPart = email.Parts[0].Parts ?? email.Parts[1].Parts;
+
+                    htmlPart = nestedPart.FirstOrDefault(part => part.MimeType == "text/html");
+
+                    if (htmlPart is null)
+                    {
+                        htmlPart = email.Parts[1].Parts.FirstOrDefault(part => part.MimeType == "text/html");
+                    }
+                }
+                if (htmlPart != null)
+                {
+                    bodyHtmlTextEncrypted = htmlPart.Body.Data;
+                }
+                else return "No body";
+
+                return bodyHtmlTextEncrypted;
+            }
+            else
+            {
+                return email.Body.Data;
+            }
+        }
         public async Task<string> GetEmailBodyAsync(string emailId)
         {
             // Create Gmail API service.
@@ -70,8 +108,6 @@ namespace GmailAPI
                 return Decrypt(email.Body.Data);
             }
         }
-
-
         public async Task GmailSync()
         {
             // Create Gmail API service.
@@ -101,7 +137,6 @@ namespace GmailAPI
 
             await AddToContext(parsedEmails).ConfigureAwait(false);
         }
-
         private async Task AddToContext(List<EmailGmail> gmailEmails)
         {
             foreach (var email in gmailEmails)
@@ -125,8 +160,6 @@ namespace GmailAPI
 
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
-
-
         private async Task<GmailService> CreateGmailServiceAsync()
         {
             UserCredential credential;
@@ -173,11 +206,29 @@ namespace GmailAPI
 
             return emailInfoResponse;
         }
+
+        private string SanitizeContent(string content)
+        {
+            var sanitizer = new HtmlSanitizer();
+            var sanitizedContent = sanitizer.Sanitize(content);
+
+            if (sanitizedContent == "" && content != "")
+            {
+                return Constants.BlockedContent;
+            }
+            else return sanitizedContent;
+        }
         private EmailGmail CreateEmail(MessagePart emailInfo, long internalDate)
         {
             var senderEmail = DataParser.ParseSenderEmail(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
             var senderName = DataParser.ParseSenderName(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
-            var subject = emailInfo.Headers.FirstOrDefault(header => header.Name == "Subject").Value;
+
+            string subject = String.Empty;
+            if (emailInfo.Headers.Any(header => header.Name == "Subject"))
+            {
+                subject = this.SanitizeContent(emailInfo.Headers.FirstOrDefault(header => header.Name == "Subject").Value);
+            }
+
             var dateReceived = DataParser.ParseDate(internalDate);
             var attachmentsList = new List<AttachmentGmail>();
 
@@ -234,7 +285,7 @@ namespace GmailAPI
                 Attachments = attachmentsList
             };
         }
-        private string Decrypt(string encryptedText)
+        public string Decrypt(string encryptedText)
         {
             var tempText = encryptedText.Replace("-", "+");
             tempText = tempText.Replace("_", "/");

@@ -1,4 +1,5 @@
-﻿using EMS.Data.dbo_Models;
+﻿using EMS.Data;
+using EMS.Data.dbo_Models;
 using EMS.Services.dto_Models;
 using System;
 using System.Collections.Generic;
@@ -23,21 +24,21 @@ namespace EMS.WebProject.Parsers
                 {
                     if (statusChangeMinutes <= 0)
                     {
-                        currStatusTemp = "0 min.";
+                        currStatusTemp = Constants.TimeParser0Min;
                     }
                     else
                     {
-                        currStatusTemp = statusChangeMinutes.ToString() + " min.";
+                        currStatusTemp = statusChangeMinutes.ToString() + Constants.TimeParserMin;
                     }
                 }
                 else
                 {
-                    currStatusTemp = statusChangeHours.ToString() + " hrs. and " + statusChangeMinutes.ToString() + "min.";
+                    currStatusTemp = statusChangeHours.ToString() + Constants.TimeParserHrsMin + statusChangeMinutes.ToString() + Constants.TimeParserMin;
                 }
             }
             else
             {
-                currStatusTemp = statusChangeDays.ToString() + " days, " + statusChangeHours.ToString() + " hrs. and " + statusChangeMinutes.ToString() + " min.";
+                currStatusTemp = statusChangeDays.ToString() + Constants.TimeParserDays + statusChangeHours.ToString() + Constants.TimeParserHrsMin + " " + statusChangeMinutes.ToString() + Constants.TimeParserMin;
             }
 
             return currStatusTemp;

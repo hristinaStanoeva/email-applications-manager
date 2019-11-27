@@ -27,7 +27,8 @@ namespace EMS.Services
 
         public async Task Delete(string appId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId)
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.Id.ToString() == appId)
                 .ConfigureAwait(false);
 
             _context.Applications.Remove(application);
@@ -43,6 +44,15 @@ namespace EMS.Services
             return appDomain.MapToDtoModel();
         }
 
+        public async Task<string> GetAppIdByMailIdAsync(string emailId)
+        {
+            var appDomain = await _context.Applications
+                .FirstOrDefaultAsync(app => app.EmailId.ToString() == emailId)
+                .ConfigureAwait(false);
+
+            return appDomain.Id.ToString();
+        }
+
         public async Task CreateAsync(string emailId, string username, string EGN, string name, string phoneNum)
         {
             var userId = await _userService.GetUserIdAsync(username);
@@ -56,10 +66,9 @@ namespace EMS.Services
         public async Task<List<ApplicationDto>> GetOpenAppsAsync()
         {
             var appsDomain = await _context.Applications
-                .Where(app => app.Status == ApplicationStatus.NotReviewed)
-                .Include(app => app.Email)
-                .Include(app => app.User)
-                .ToListAsync().ConfigureAwait(false);
+                .Where(app => app.Status == ApplicationStatus.NotReviewed)                
+                .ToListAsync()
+                .ConfigureAwait(false);
 
             var appsDto = new List<ApplicationDto>();
             foreach (var app in appsDomain)
@@ -70,11 +79,27 @@ namespace EMS.Services
             return appsDto;
         }
 
-        public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
+        public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus, string operatorUsername)
         {
             var application = await _context.Applications
                 .FirstOrDefaultAsync(ap => ap.Id.ToString() == applictionId)
                 .ConfigureAwait(false);
+
+            var userId = await _userService.GetUserIdAsync(operatorUsername);
+            var user = await _userService.FindUserAsync(operatorUsername);
+
+            bool currentStatus = application.Status == ApplicationStatus.Rejected || application.Status == ApplicationStatus.Approved;
+            bool wantedStatus = newStatus == ApplicationStatus.Rejected || newStatus == ApplicationStatus.Approved;
+
+            if (currentStatus && wantedStatus)
+            {
+                throw new ArgumentException("Someone did it before you do");
+            }
+
+            if (application.UserId != userId)
+            {
+                application.UserId = userId;
+            }
 
             application.Status = newStatus;
 
@@ -92,18 +117,27 @@ namespace EMS.Services
             {
                 return application.User.UserName;
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<string> GetEmailId(string appId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.Id.ToString() == appId).ConfigureAwait(false);
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.Id.ToString() == appId)
+                .ConfigureAwait(false);
+
             return application.EmailId.ToString();
         }
 
         public async Task<string> GetAppStatus(string mailId)
         {
-            var application = await _context.Applications.FirstOrDefaultAsync(app => app.EmailId.ToString() == mailId).ConfigureAwait(false);
+            var application = await _context.Applications
+                .FirstOrDefaultAsync(app => app.EmailId.ToString() == mailId)
+                .ConfigureAwait(false);
+
             return application.Status.ToString();
         }
     }

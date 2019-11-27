@@ -25,18 +25,15 @@ namespace EMS.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("EGN")
-                        .IsRequired()
-                        .HasMaxLength(10);
+                        .IsRequired();
 
                     b.Property<Guid>("EmailId");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                        .IsRequired();
 
                     b.Property<int>("Status");
 
@@ -107,31 +104,6 @@ namespace EMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Emails");
-                });
-
-            modelBuilder.Entity("EMS.Data.dbo_Models.LogDomain", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("EmailId");
-
-                    b.Property<DateTime>("LastStatusChange");
-
-                    b.Property<int>("NewStatus");
-
-                    b.Property<int>("OldStatus");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmailId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Logs");
                 });
 
             modelBuilder.Entity("EMS.Data.dbo_Models.UserDomain", b =>
@@ -321,19 +293,6 @@ namespace EMS.Data.Migrations
                     b.HasOne("EMS.Data.dbo_Models.EmailDomain", "Email")
                         .WithMany("Attachments")
                         .HasForeignKey("EmailId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("EMS.Data.dbo_Models.LogDomain", b =>
-                {
-                    b.HasOne("EMS.Data.dbo_Models.EmailDomain", "Email")
-                        .WithMany("Logs")
-                        .HasForeignKey("EmailId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EMS.Data.dbo_Models.UserDomain", "User")
-                        .WithMany("Logs")
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

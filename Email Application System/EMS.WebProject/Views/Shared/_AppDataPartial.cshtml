@@ -1,28 +1,64 @@
 ﻿@model InputViewModel
 
-<form asp-action="CreateApplication" asp-controller="App" method="post">
+<div class="mb-5 mr-5" style="background-color: #f8f9fa; box-shadow: 0 6px 10px 2px grey; border-radius: 10px">
+    <div class="container pt-4 pb-4 pl-4 pr-4">
+        <div class="ml-4 mr-4">
+            <h3 class="text-center mb-4" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Application form</h3>
+            <form  asp-controller="App" asp-action="CreateApplication" method="post">
+                <div class="mt-5">
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 150px;
+                      border-top-left-radius: 10px;
+                      border-bottom-left-radius: 10px;
+                      background-color: #dee2e6;">Applicant name</span>
+                        </div>
+                        <input asp-for="@Model.Name" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                        <span asp-validation-for="Name" class="text-danger">  </span>
+                    </div>
 
-    <div class="form-group">
-        <b>Name:</b>
-        <input asp-for="@Model.Name" class="form-control" />
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 150px;
+                      border-top-left-radius: 10px;
+                      border-bottom-left-radius: 10px;
+                      background-color: #dee2e6;">Personal ID/EGN</span>
+                        </div>
+                        <input asp-for="@Model.EGN type=" text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                            <span asp-validation-for="EGN" class="text-danger">  </span>
+                    </div>
+
+                    <div class="md-form input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text md-addon font-weight-bold text-center" id="inputGroupMaterial-sizing-default" style="width: 150px;
+                      border-top-left-radius: 10px;
+                      border-bottom-left-radius: 10px;
+                      background-color: #dee2e6;">Phone number</span>
+                        </div>
+                        <input asp-for="@Model.Phone type=" text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                        <span asp-validation-for="Phone" class="text-danger">  </span>
+                    </div>
+                </div>
+
+                <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
+
+                <div class="pt-5 pb-3">
+                    <button type="submit" class="btn" asp-controller="App" asp-action="CreateApplication" asp-route-id="@Model.EmailId"
+                     style="width: 100%;    
+                     height: 50px;    
+                     font-size: 1rem;    
+                     letter-spacing: 0.05rem;    
+                     padding: 0.75rem 1rem;    
+                     border-radius: 2rem;    
+                     background-color: #E67122;    
+                     border-color: #E67122;
+                     color: white;">
+                     Create application
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <b>EGN:</b>
-        <p></p>
-        <input asp-for="@Model.EGN" />
-    </div>
 
-    <div class="form-group">
-        <b>Phone Number:</b>
-        <p></p>
-        <input asp-for="@Model.Phone"/>
-    </div>
-
-    <input type="hidden" asp-for="EmailId" value="@Model.EmailId" />
-
-    <button type="submit" class="btn btn-info">Create application</button> 
-    <p></p>
-</form>
-
-<a class="btn btn-info" asp-controller="Email" asp-action="Index">Back</a>

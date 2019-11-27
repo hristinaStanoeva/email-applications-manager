@@ -38,7 +38,7 @@ namespace EMS.WebProject
             });
 
             services.AddDbContext<SystemDataContext>(options =>
-                options.UseSqlServer(this.Configuration.GetConnectionString("LocalConnection")));
+                options.UseSqlServer(this.Configuration.GetConnectionString(Constants.AzureDBConnection)));
 
             services.AddIdentity<UserDomain, IdentityRole>(options =>
                  options.Stores.MaxLengthForKeys = 128)
@@ -75,6 +75,7 @@ namespace EMS.WebProject
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -89,7 +90,7 @@ namespace EMS.WebProject
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Email}/{action=Index}/{id?}");
             });
 
             // Initial seeding

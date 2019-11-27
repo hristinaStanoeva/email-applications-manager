@@ -1,123 +1,206 @@
 ﻿@model AllEmailsViewModel
-@{
-    ViewData["Title"] = "Index";
-}
 
-<ul class="nav nav-tabs">
-    @if (Model.ActiveTab == "all")
-    {
-        <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="Index">All Emails</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="Index">All Emails</a>
-        </li>
-    }
 
-    @if (Model.ActiveTab == "new")
-    {
-        <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
-        </li>
-    }
+<div class="row justify-content-between" style="margin: 0;">
+    <ul class="nav nav-tabs">
+        @if (Model.ActiveTab == Constants.TabAll)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Email" asp-action="Index">All Emails</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Email" asp-action="Index">All Emails</a>
+            </li>
+        }
 
-    @if (Model.ActiveTab == "open")
-    {
-        <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Applications</a>
-        </li>
-    }
+        @if (Model.ActiveTab == Constants.TabNew)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Email" asp-action="GetNewEmails">New Emails</a>
+            </li>
+        }
 
-    @if (Model.ActiveTab == "closed")
-    {
-        <li class="nav-item">
-            <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Applications</a>
-        </li>
-    }
-</ul>
+        @if (Model.ActiveTab == Constants.TabOpen)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Email" asp-action="GetOpenEmails">Open Emails</a>
+            </li>
+        }
 
-<table class="table table-hover">
-    <thead class="thead-light">
+        @if (Model.ActiveTab == Constants.TabClosed)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Email" asp-action="GetClosedEmails">Closed Emails</a>
+            </li>
+        }
+    </ul>
+    @if (Model.ActiveTab == Constants.TabOpen || Model.ActiveTab == Constants.TabClosed)
+    {
+        @if (User.IsInRole(Constants.Manager))
+        {
+            <span>
+                <label class="form-check-label" for="search-user">
+                    Filter by account:
+                </label>
+                <input id="search-user" class="form-control" style="display: inline-block; width: unset;" />
+            </span>
+        }
+        else
+        {
+            <div class="form-check align-self-center">
+                <input class="form-check-input" type="checkbox" value="" id="show-only-mine-checkbox" data-for-user="@User.Identity.Name">
+                <label class="form-check-label" for="show-only-mine-checkbox">
+                    Show only mine
+                </label>
+            </div>
+        }
+
+    }
+</div>
+
+<table class="table table-hover" style="background-color: white;">
+    <thead class="thead-dark">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Received</th>
-            <th scope="col">Email</th>
-            <th scope="col">Name</th>
-            <th scope="col">Subject</th>
+            <th scope="col" style="width: 100px;">ID</th>
 
-            @if (Model.ActiveTab == "all")
+            @if (Model.ActiveTab == Constants.TabAll)
             {
-                <th scope="col">Status</th>
-                <th scope="col">Attachments</th>
-                <th scope="col">Preview</th>
-                <th scope="col">Change Status</th>
+                <th scope="col" style="width: 105px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabNew)
+            {
+                <th scope="col" style="width: 105px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabOpen)
+            {
+                <th scope="col" style="width: 105px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+            }
+            else if (Model.ActiveTab == Constants.TabClosed)
+            {
+                <th scope="col" style="width: 105px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="GetClosedEmails" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                            Received
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+            }
+
+            <th scope="col" style="width: 260px;">Email</th>
+            <th scope="col" style="width: 200px;">Name</th>
+            <th scope="col" style="width: 385px;">Subject</th>
+
+            @if (Model.ActiveTab == Constants.TabAll)
+            {
+                <th scope="col" style="width: 100px;">Status</th>
+                <th scope="col" style="width: 120px;"></th>
 
             }
 
-            @if (Model.ActiveTab == "new")
+            @if (Model.ActiveTab == Constants.TabNew)
             {
-                <th scope="col">New since</th>
-                <th scope="col">Preview</th>
+                <th scope="col" style="width: 100px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="GetNewEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">
+                            New since
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+
+                <th scope="col" style="width: 200px;"></th>
             }
 
-            @if (Model.ActiveTab == "open")
+            @if (Model.ActiveTab == Constants.TabOpen)
             {
-                <th scope="col">Open since</th>
-                @if (User.IsInRole("manager"))
+                <th scope="col" style="width: 100px;">
+                    <div class="row">
+                        <a style="color:white;" asp-action="GetOpenEmails" asp-route-sortOrder="@ViewData["SinceStatus"]">
+                            Open since
+                            <i class="fas fa-sort ml-2 mt-1" style="font-size: 15px;"></i>
+                        </a>
+                    </div>
+                </th>
+
+                @if (User.IsInRole(Constants.Manager))
                 {
                     <th scope="col">Open by</th>
                 }
-                <th scope="col">Preview</th>
+
+                <th scope="col"></th>
             }
 
-            @if (Model.ActiveTab == "closed")
+            @if (Model.ActiveTab == Constants.TabClosed)
             {
                 <th scope="col">Status</th>
-                @if (User.IsInRole("manager"))
+
+                @if (User.IsInRole(Constants.Manager))
                 {
                     <th scope="col">Closed by</th>
                 }
-                <th scope="col">Preview</th>
+                <th scope="col"></th>
             }
         </tr>
     </thead>
     <tbody>
         @foreach (var email in Model.AllEmails)
         {
-            if (Model.ActiveTab == "all")
+            if (Model.ActiveTab == Constants.TabAll)
             {
                 <partial name="_AllEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "new")
+            else if (Model.ActiveTab == Constants.TabNew)
             {
                 <partial name="_NewEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "open")
+            else if (Model.ActiveTab == Constants.TabOpen)
             {
                 <partial name="_OpenEmailPartial" model="email" />
             }
-            else if (Model.ActiveTab == "closed")
+            else if (Model.ActiveTab == Constants.TabClosed)
             {
                 <partial name="_ClosedEmailPartial" model="email" />
             }
@@ -125,4 +208,8 @@
 
     </tbody>
 </table>
+
+
+
+
 
