@@ -17,7 +17,7 @@
                 <h3 class="text-center mb-5" style="letter-spacing: 0.07rem; padding: 0.75rem 1rem; color: #383d41">Email preview</h3>
                 <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
                     <div class="row">
-                        <div class="font-weight-bolder col-2" style="color: #525252">
+                        <div class="font-weight-bolder col-3" style="color: #525252">
                             Email ID
                         </div>
                         <div class="col-8" style="color: #525252">
@@ -26,7 +26,7 @@
                     </div>
                     <hr style="color: #939393" />
                     <div class="row">
-                        <div class="font-weight-bolder col-2" style="color: #525252">
+                        <div class="font-weight-bolder col-3" style="color: #525252">
                             Status
                         </div>
                         <div class="col-8" style="color: #525252;">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="ml-4 mr-4 mt-4">
                     <div class="row">
-                        <div class="col-2 text-right" style="color: #525252">
+                        <div class="col-3 text-right" style="color: #525252">
                             From:
                         </div>
                         <div class="col-8" style="color: #525252;">
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-2 text-right" style="color: #525252">
+                        <div class="col-3 text-right" style="color: #525252">
                             Subject:
                         </div>
                         <div class="col-8" style="color: #525252;">
@@ -60,7 +60,7 @@
                     @if (Model.Attachments.Count != 0)
                     {
                         <div class="row pt-2">
-                            <div class="col-2 text-right pl-0" style="color: #525252">
+                            <div class="col-3 text-right pl-0" style="color: #525252">
                                 Attachments:
                             </div>
                             <div class="col-8 pb-3" style="color: #525252;">
@@ -89,47 +89,58 @@
                     <div class="mt-5">
                         <div class="pl-4 pr-4 pt-4 pb-4" style="background-color: white; box-shadow: 0 4px 2px -2px grey;">
                             <div class="row">
-                                <div class="font-weight-bolder col-4" style="color: #525252">
+                                <div class="font-weight-bolder col-5" style="color: #525252">
                                     Applicant
                                 </div>
-                                <div class="col-8" style="color: #525252">
+                                <div class="col-7" style="color: #525252">
                                     @Model.Appliction.Name
                                 </div>
                             </div>
                             <hr style="color: #939393" />
                             <div class="row">
-                                <div class="font-weight-bolder col-4" style="color: #525252">
+                                <div class="font-weight-bolder col-5" style="color: #525252">
                                     Personal ID/EGN
                                 </div>
-                                <div class="col-8" style="color: #525252;">
+                                <div class="col-7" style="color: #525252;">
                                     @Model.Appliction.EGN
                                 </div>
                             </div>
                             <hr style="color: #939393" />
                             <div class="row">
-                                <div class="font-weight-bolder col-4" style="color: #525252">
+                                <div class="font-weight-bolder col-5" style="color: #525252">
                                     Phone number
                                 </div>
-                                <div class="col-8" style="color: #525252;">
+                                <div class="col-7" style="color: #525252;">
                                     @Model.Appliction.Phone
                                 </div>
                             </div>
                         </div>
                         <div class="ml-4 mr-4 mt-4">
                             <div class="row">
-                                <div class="col-4 text-right" style="color: #525252">
+                                <div class="col-5 text-right" style="color: #525252">
                                     Operator:
                                 </div>
-                                <div class="col-8" style="color: #525252;">
+                                <div class="col-7" style="color: #525252;">
                                     <span class="font-weight-bolder">@Model.Appliction.OperatorName</span>
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-4 text-right" style="color: #525252">
+                                <div class="col-5 text-right" style="color: #525252">
                                     Status:
                                 </div>
-                                <div class="col-8" style="color: #525252;">
-                                    <span class="font-weight-bolder">@Model.Appliction.Status</span>
+                                <div class="col-7">
+                                    @if (Model.Appliction.Status == ApplicationStatus.Approved)
+                                    {
+                                        <span class="font-weight-bolder" style="color: #318845;">@Model.Appliction.Status</span>
+                                    }
+                                    @if (Model.Appliction.Status == ApplicationStatus.Rejected)
+                                    {
+                                        <span class="font-weight-bolder" style="color: #bb1323;">@Model.Appliction.Status</span>
+                                    }
+                                    @if (Model.Appliction.Status == ApplicationStatus.NotReviewed)
+                                    {
+                                        <span class="font-weight-bolder" style="color: #525252;">@Model.Appliction.Status</span>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -145,8 +156,8 @@
                                        letter-spacing: 0.05rem;
                                        padding: 0.75rem 1rem;
                                        border-radius: 2rem;
-                                       background-color: #52a063;
-                                       border-color: #52a063;
+                                       background-color: #318845;
+                                       border-color: #318845;
                                        color: white;">
                                         Approve
                                     </a>
