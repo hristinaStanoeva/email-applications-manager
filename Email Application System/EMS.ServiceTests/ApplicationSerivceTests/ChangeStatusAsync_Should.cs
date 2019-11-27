@@ -32,7 +32,7 @@ namespace EMS.ServiceTests.ApplicationSerivceTests
                 var sut = new ApplicationService(assertContext, appFactoryMock.Object, userSericeMock.Object);
 
                 var applicationId = TestUtils.Applications[0].Id;
-                await sut.ChangeStatusAsync(applicationId.ToString(), ApplicationStatus.Approved);
+                await sut.ChangeStatusAsync(applicationId.ToString(), ApplicationStatus.Approved, "username");
 
                 var application = assertContext.Applications.FirstOrDefault(mail => mail.Id == applicationId);
 

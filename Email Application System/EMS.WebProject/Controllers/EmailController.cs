@@ -91,7 +91,7 @@ namespace EMS.WebProject.Controllers
                         newEmails = newEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                     default:
-                        newEmails = newEmails.OrderByDescending(mail => mail.Received).ToList();
+                        newEmails = newEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                 }
 
@@ -133,7 +133,7 @@ namespace EMS.WebProject.Controllers
                         openEmails = openEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                     default:
-                        openEmails = openEmails.OrderByDescending(mail => mail.Received).ToList();
+                        openEmails = openEmails.OrderByDescending(mail => mail.ToCurrentStatus).ToList();
                         break;
                 }
 
@@ -220,7 +220,7 @@ namespace EMS.WebProject.Controllers
                     ActiveTab = Constants.TabAll
                 };
 
-                return View(Constants.PageIndex, vm);
+                return RedirectToAction("Index", "Email");
             }
             catch (Exception ex)
             {
@@ -245,7 +245,7 @@ namespace EMS.WebProject.Controllers
                     ActiveTab = Constants.TabAll
                 };
 
-                return View(Constants.PageIndex, vm);
+                return RedirectToAction("Index", "Email");
             }
             catch (Exception ex)
             {
