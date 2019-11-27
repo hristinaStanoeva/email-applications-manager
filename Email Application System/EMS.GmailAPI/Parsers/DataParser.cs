@@ -21,8 +21,15 @@ namespace EMS.GmailAPI.Parsers
         {
             var first = senderAsString.IndexOf('<');
 
+            if (first <= 1)
+            {
+                return senderAsString;
+            }
+            else
+            {
             var name = senderAsString.Substring(0, first - 1);
             return name;
+            }
         }
     }
 }
