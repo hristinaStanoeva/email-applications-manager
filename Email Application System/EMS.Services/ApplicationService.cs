@@ -86,6 +86,15 @@ namespace EMS.Services
                 .ConfigureAwait(false);
 
             var userId = await _userService.GetUserIdAsync(operatorUsername);
+            var user = await _userService.FindUserAsync(operatorUsername);
+
+            bool currentStatus = application.Status == ApplicationStatus.Rejected || application.Status == ApplicationStatus.Approved;
+            bool wantedStatus = newStatus == ApplicationStatus.Rejected || newStatus == ApplicationStatus.Approved;
+
+            if (currentStatus && wantedStatus)
+            {
+                throw new ArgumentException("Someone did it before you do");
+            }
 
             if (application.UserId != userId)
             {

@@ -1,7 +1,6 @@
 ﻿using EMS.Data;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
-using EMS.Services.Security;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
@@ -158,7 +157,7 @@ namespace EMS.WebProject.Controllers
         {
             _logger.LogError(ex.Message);
 
-            TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+            TempData["globalError"] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
         }
