@@ -221,7 +221,12 @@ namespace GmailAPI
         private EmailGmail CreateEmail(MessagePart emailInfo, long internalDate)
         {
             var senderEmail = DataParser.ParseSenderEmail(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
-            var senderName = DataParser.ParseSenderName(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
+
+            var senderName = String.Empty;
+            if (emailInfo.Headers.Any(header => header.Name == "From"))
+            {
+                senderName = DataParser.ParseSenderName(emailInfo.Headers.FirstOrDefault(header => header.Name == "From").Value);
+            }
 
             string subject = String.Empty;
             if (emailInfo.Headers.Any(header => header.Name == "Subject"))
