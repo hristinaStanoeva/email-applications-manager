@@ -1,7 +1,6 @@
 ﻿using EMS.Data;
 using EMS.Data.Enums;
 using EMS.Services.Contracts;
-using EMS.Services.Security;
 using EMS.WebProject.Mappers;
 using EMS.WebProject.Models.Applications;
 using EMS.WebProject.Models.Emails;
@@ -95,7 +94,7 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                await _appService.ChangeStatusAsync(id, ApplicationStatus.Approved);
+                await _appService.ChangeStatusAsync(id, ApplicationStatus.Approved, User.Identity.Name);
                 _logger.LogInformation(string.Format(Constants.LogAppApproved, User.Identity.Name, id));
 
                 var emailId = await _appService.GetEmailId(id);
@@ -117,7 +116,7 @@ namespace EMS.WebProject.Controllers
         {
             try
             {
-                await _appService.ChangeStatusAsync(id, ApplicationStatus.Rejected);
+                await _appService.ChangeStatusAsync(id, ApplicationStatus.Rejected, User.Identity.Name);
                 _logger.LogInformation(string.Format(Constants.LogAppReject, User.Identity.Name, id));
 
                 var emailId = await _appService.GetEmailId(id);
@@ -158,7 +157,7 @@ namespace EMS.WebProject.Controllers
         {
             _logger.LogError(ex.Message);
 
-            TempData[Constants.TempDataMsg] = Constants.ErrorCatch;
+            TempData["globalError"] = Constants.ErrorCatch;
 
             return View(Constants.PageIndex);
         }
