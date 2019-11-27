@@ -277,7 +277,7 @@ namespace EMS.WebProject.Controllers
                     }
                 }
 
-                var vm = email.MapToViewModelPreview(body, attachmentsVM);
+                var vm = email.MapToViewModelPreview(this.SanitizeContent(body), attachmentsVM);
                 vm.InputViewModel.EmailId = id;
 
                 return View(Constants.PageOpen, vm);
