@@ -79,11 +79,18 @@ namespace EMS.Services
             return appsDto;
         }
 
-        public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus)
+        public async Task ChangeStatusAsync(string applictionId, ApplicationStatus newStatus, string operatorUsername)
         {
             var application = await _context.Applications
                 .FirstOrDefaultAsync(ap => ap.Id.ToString() == applictionId)
                 .ConfigureAwait(false);
+
+            var userId = await _userService.GetUserIdAsync(operatorUsername);
+
+            if (application.UserId != userId)
+            {
+                application.UserId = userId;
+            }
 
             application.Status = newStatus;
 
